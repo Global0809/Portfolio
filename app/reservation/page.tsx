@@ -162,7 +162,7 @@ export default function ReservationPage() {
             </button>
           ))}
         <a className="reservation-home" href="/">
-          <ArrowLeft size={16} /> Back to the films
+          <ArrowLeft size={16} /> Back to music videos
         </a>
       </section>
     </main>

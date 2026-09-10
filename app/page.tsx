@@ -27,6 +27,7 @@ import { NeuralLinks } from './neural-links';
 import { useInterfaceSound } from './interface-sound';
 import { SlotInvitation } from './slot-invitation';
 import { FilmPlayer } from './film-player';
+import { ScrollSignal } from './scroll-signal';
 
 const time = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
@@ -40,18 +41,15 @@ export default function Home() {
   const [bookingOpen, setBookingOpen] = useState(false);
   const { availability, refresh } = useAvailability();
   const [reduced, setReduced] = useState(false);
-  const [motionPaused, setMotionPaused] = useState(false);
   const sound = useInterfaceSound(viewing !== null);
   const [origin, setOrigin] = useState({ x: 70, y: 45 });
   const returnFocus = useRef<HTMLElement | null>(null);
   useEffect(() => {
-    document.documentElement.dataset.effectsPaused = String(
-      reduced || motionPaused,
-    );
+    document.documentElement.dataset.effectsPaused = String(reduced);
     return () => {
       delete document.documentElement.dataset.effectsPaused;
     };
-  }, [reduced, motionPaused]);
+  }, [reduced]);
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setReduced(media.matches);
@@ -61,7 +59,7 @@ export default function Home() {
   }, []);
   useEffect(() => {
     const films = document.querySelector('.film-index');
-    const hero = document.querySelector('.hero-book');
+    const hero = document.querySelector('.hero-actions');
     const invitation = document.querySelector(
       '.invitation-glass .booking-submit',
     );
@@ -112,24 +110,25 @@ export default function Home() {
     });
   }
   return (
-    <main className="archive" data-effects-paused={reduced || motionPaused}>
+    <main id="top" className="archive" data-effects-paused={reduced}>
+      <ScrollSignal paused={viewing !== null || bookingOpen || about} />
       <div className="shader-background" aria-hidden="true">
         <ShaderAnimation
-          reducedMotion={reduced || motionPaused}
+          reducedMotion={reduced}
           paused={viewing !== null || bookingOpen || about}
         />
         <div className="shader-vignette" />
       </div>
       <NeuralLinks
         paused={viewing !== null || bookingOpen || about}
-        reduced={reduced || motionPaused}
+        reduced={reduced}
         signal={active}
       />
       <a className="skip-link" href="#film-index">
-        Skip to films
+        Skip to music videos
       </a>
       <header className="masthead">
-        <a className="wordmark" href="#" aria-label="AICANFEEL home">
+        <a className="wordmark" href="#top" aria-label="AICANFEEL home">
           AICANFEEL{studio.instagramVerified && <VerifiedMark />}
         </a>
         <span className="header-descriptor">CGI / VFX / MUSIC VIDEOS</span>
@@ -149,50 +148,30 @@ export default function Home() {
             {sound.enabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
             <span>Sound {sound.enabled ? 'on' : 'off'}</span>
           </button>
-          <button
-            data-press
-            data-scan="book"
-            data-scan-id="header-book"
-            className="nav-book"
-            onClick={() => setBookingOpen(true)}
-          >
-            Create my film
-            <ArrowUpRight size={15} />
-          </button>
+          <a className="nav-portfolio" href="#film-index">
+            Portfolio <ArrowUpRight size={15} />
+          </a>
         </nav>
       </header>
 
-      <section className="exhibition" aria-label="Explore the films">
+      <section className="exhibition" aria-label="Explore the music videos">
         <div className="editorial">
-          <h1>
-            <span className="sound-word title-word">Sound.</span>
-            <br />
-            <span className="title-word">Made</span>
-            <br />
-            <em className="title-word">visible.</em>
+          <h1 className="music-title" data-parallax="12">
+            <span className="title-word">CGI + VFX</span>{' '}
+            <em className="title-word">Music videos</em>
           </h1>
           <div className="hero-actions">
-            <button
-              data-press
-              data-scan="book"
-              data-scan-id="hero-book"
-              className="hero-book"
-              onClick={() => setBookingOpen(true)}
-            >
-              Create my film
-              <ArrowUpRight size={19} />
-            </button>
             <button
               data-scan="watch"
               data-scan-id="hero-watch"
               className="primary-watch"
-              aria-label="Watch a film"
+              aria-label="Watch a music video"
               onClick={(e) => openFilm(active, e.currentTarget)}
             >
               <span className="play-disc" data-scan-port>
                 <Play size={17} fill="currentColor" />
               </span>{' '}
-              Watch a film <ArrowUpRight size={18} />
+              Watch a music video <ArrowUpRight size={18} />
             </button>
           </div>
           <div className="social-proof">
@@ -215,11 +194,11 @@ export default function Home() {
           </div>
         </div>
         <div className="spatial-stage">
-          <div className="stage-halo" />
+          <div className="stage-halo" data-parallax="24" />
           <FilmSculpture
             active={active}
             paused={viewing !== null || about || bookingOpen}
-            reduced={reduced || motionPaused}
+            reduced={reduced}
             onSelect={openFilm}
             onPreview={setActive}
           />
@@ -232,7 +211,7 @@ export default function Home() {
                 data-press
                 data-scan="previous"
                 data-scan-id="previous-film"
-                aria-label="Preview previous film"
+                aria-label="Preview previous music video"
                 onClick={() => setActive((active + 4) % 5)}
               >
                 <ArrowLeft size={20} strokeWidth={1.6} />
@@ -241,7 +220,7 @@ export default function Home() {
                 data-press
                 data-scan="next"
                 data-scan-id="next-film"
-                aria-label="Preview next film"
+                aria-label="Preview next music video"
                 onClick={() => setActive((active + 1) % 5)}
               >
                 <ArrowRight size={20} strokeWidth={1.6} />
@@ -257,11 +236,11 @@ export default function Home() {
       <section
         className="film-index"
         id="film-index"
-        aria-label="All five films"
+        aria-label="All five music videos"
       >
-        <div className="index-heading" data-reveal>
-          <h2>Selected films</h2>
-          <span>Five ways to feel.</span>
+        <div className="index-heading" data-reveal data-parallax="8">
+          <h2>Music videos</h2>
+          <span>Portfolio</span>
         </div>
         <div className="film-list">
           {films.map((film, index) => (
@@ -325,9 +304,9 @@ export default function Home() {
           data-scan-id="dock-book"
           onClick={() => setBookingOpen(true)}
         >
-          {availability.enabled && availability.remaining !== 0
-            ? 'Hold my slot'
-            : 'Request my slot'}
+          {availability.enabled && availability.remaining === 0
+            ? 'Next intake'
+            : 'Book my slot'}
           <ArrowUpRight size={17} />
         </button>
       </div>
@@ -342,24 +321,25 @@ export default function Home() {
         onReserved={() => void refresh()}
         inspiration={films[active].title}
       />
-      <footer>
-        <span>AICANFEEL © {new Date().getFullYear()}</span>
-        <div className="footer-tools">
-          <button
-            className="effects-toggle"
-            aria-pressed={motionPaused || reduced}
-            disabled={reduced}
-            aria-label={
-              reduced
-                ? 'Motion reduced by device preference'
-                : motionPaused
-                  ? 'Resume visual effects'
-                  : 'Pause visual effects'
-            }
-            onClick={() => setMotionPaused((value) => !value)}
-          >
-            {motionPaused || reduced ? 'Motion paused' : 'Pause motion'}
-          </button>
+      <footer className="studio-footer">
+        <a
+          className="instagram-signature"
+          href={studio.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-press
+        >
+          <span className="instagram-caption">FIND US ON INSTAGRAM</span>
+          <span className="instagram-name">
+            @aicanfeel {studio.instagramVerified && <VerifiedMark />}{' '}
+            <ArrowUpRight size={22} />
+          </span>
+          <span className="instagram-followers">
+            <strong>{studio.instagramFollowers}</strong> followers
+          </span>
+        </a>
+        <div className="footer-baseline">
+          <span>AICANFEEL © {new Date().getFullYear()}</span>
           <button onClick={() => setAbout(true)}>About AICANFEEL</button>
         </div>
       </footer>
@@ -384,7 +364,7 @@ export default function Home() {
           >
             <FilmPlayer
               index={viewing}
-              reduced={reduced || motionPaused}
+              reduced={reduced}
               onBook={() => {
                 setViewing(null);
                 setBookingOpen(true);
@@ -421,7 +401,7 @@ export default function Home() {
             worlds that could only exist in imagination.
           </DialogDescription>
           <button className="studio-back" onClick={() => setAbout(false)}>
-            <ArrowLeft size={17} /> Back to the films
+            <ArrowLeft size={17} /> Back to music videos
           </button>
         </DialogContent>
       </Dialog>

@@ -155,7 +155,7 @@ export function BookingDialog({
     }
   }
   function saveBrief() {
-    const text = `AICANFEEL — A film for ${artist || 'your next release'}\n\nArtist: ${artist}\nSong: ${song}\nEmail: ${email}\nDirection: ${mood}\nInspiration: ${inspiration}\n\nThis is a creative brief, not a reservation.\n`;
+    const text = `AICANFEEL — A music video for ${artist || 'your next release'}\n\nArtist: ${artist}\nSong: ${song}\nEmail: ${email}\nDirection: ${mood}\nInspiration: ${inspiration}\n\nThis is a creative brief, not a reservation.\n`;
     const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
     const a = document.createElement('a');
     a.href = url;
@@ -166,7 +166,7 @@ export function BookingDialog({
   }
   function emailRequest() {
     const subject = `Music video slot request — ${artist.trim()} / ${song.trim()}`;
-    const body = `Hi AICANFEEL,\n\nI'd like to request a music-video slot.\n\nArtist: ${artist.trim()}\nTrack: ${song.trim()}\nReply email: ${email.trim()}\nDirection: ${mood}\nFilm inspiration: ${inspiration}\n\nPlease confirm availability and the next steps for my project.\n`;
+    const body = `Hi AICANFEEL,\n\nI'd like to request a music-video slot.\n\nArtist: ${artist.trim()}\nTrack: ${song.trim()}\nReply email: ${email.trim()}\nDirection: ${mood}\nMusic video inspiration: ${inspiration}\n\nPlease confirm availability and the next steps for my project.\n`;
     const anchor = document.createElement('a');
     anchor.href = `mailto:${studio.bookingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     anchor.click();
@@ -214,7 +214,7 @@ export function BookingDialog({
             <DialogDescription className="booking-description">
               {step === 0
                 ? 'Just three details. We’ll shape the rest together.'
-                : 'One starting point. We’ll shape the film together.'}
+                : 'One starting point. We’ll shape your music video together.'}
             </DialogDescription>
             {step === 1 && (
               <div className="personal-pass compact-pass artist-pass">
@@ -226,7 +226,9 @@ export function BookingDialog({
                 <span className="pass-overline">
                   AICANFEEL / ARTIST EDITION
                 </span>
-                <span className="pass-for">A film for {artist.trim()}.</span>
+                <span className="pass-for">
+                  A music video for {artist.trim()}.
+                </span>
                 <strong>{song.trim() || 'Your next release'}</strong>
                 <div className="pass-bottom">
                   <span key={mood}>
@@ -471,7 +473,7 @@ export function BookingDialog({
               className="booking-submit"
               onClick={() => onOpenChange(false)}
             >
-              Back to the films
+              Back to music videos
               <ArrowRight size={18} />
             </button>
           </div>

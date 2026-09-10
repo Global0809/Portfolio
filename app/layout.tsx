@@ -5,6 +5,7 @@ import './midnight.css';
 import './life.css';
 import './refinements.css';
 import './listening-room.css';
+import './release-polish.css';
 const sans = Manrope({
   variable: '--font-archive-sans',
   subsets: ['latin'],
@@ -18,9 +19,9 @@ const serif = Cormorant_Garamond({
   display: 'swap',
 });
 export const metadata: Metadata = {
-  title: 'AICANFEEL — Sound. Made visible.',
+  title: 'AICANFEEL — CGI + VFX Music videos',
   description:
-    'CGI and VFX music videos by AICANFEEL. Enter the light archive. Five films, five different feelings.',
+    'CGI + VFX music videos by AICANFEEL. Explore the portfolio and book a studio slot for your next release.',
   metadataBase: new URL(
     'https://aicanfeel-light-archive.globalgupta14.chatgpt.site',
   ),

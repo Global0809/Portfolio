@@ -102,7 +102,7 @@ export function FilmPlayer({
       await el.play();
       if (video.current === el) setNotice('');
     } catch {
-      if (video.current === el) setNotice('Tap play to start the film.');
+      if (video.current === el) setNotice('Tap play to start the music video.');
     }
   }
   function replay() {
@@ -191,7 +191,7 @@ export function FilmPlayer({
           }}
         >
           <ArrowLeft size={18} />
-          <span>All films</span>
+          <span>Music videos</span>
         </button>
         <span className="cinema-brand">
           AICANFEEL <VerifiedMark />
@@ -279,12 +279,12 @@ export function FilmPlayer({
                     {loading && !error && (
                       <div className="screen-state" role="status">
                         <span className="loading-ring" />
-                        <span>Loading your film…</span>
+                        <span>Loading your music video…</span>
                       </div>
                     )}
                     {error ? (
                       <div className="screen-state error-state" role="alert">
-                        <p>The film couldn’t load.</p>
+                        <p>The music video couldn’t load.</p>
                         <span>Check your connection and try again.</span>
                         <button
                           className="state-play"
@@ -314,7 +314,9 @@ export function FilmPlayer({
                           <button
                             className="big-play"
                             onClick={ended ? replay : () => void play()}
-                            aria-label={ended ? 'Replay film' : 'Play film'}
+                            aria-label={
+                              ended ? 'Replay music video' : 'Play music video'
+                            }
                           >
                             {ended ? (
                               <RotateCcw size={27} />
@@ -331,7 +333,7 @@ export function FilmPlayer({
                               className="ended-book"
                               onClick={onBook}
                             >
-                              Create my film
+                              Book my slot
                               <ArrowUpRight size={16} />
                             </button>
                           )}
@@ -416,14 +418,14 @@ export function FilmPlayer({
                 className="icon-button"
                 onClick={replay}
                 disabled={error}
-                aria-label="Replay film"
+                aria-label="Replay music video"
               >
                 <RotateCcw size={17} />
               </button>
             </div>
           </div>
           <label className="seek-label">
-            <span className="sr-only">Seek through film</span>
+            <span className="sr-only">Seek through music video</span>
             <Slider
               className="seek-bar"
               value={[elapsed]}
@@ -446,7 +448,7 @@ export function FilmPlayer({
               <button
                 className="icon-button"
                 onClick={() => select(index - 1)}
-                aria-label="Previous film"
+                aria-label="Previous music video"
               >
                 <SkipBack size={20} fill="currentColor" />
               </button>
@@ -455,7 +457,7 @@ export function FilmPlayer({
                 className="deck-play"
                 onClick={() => void play()}
                 disabled={error}
-                aria-label={playing ? 'Pause film' : 'Play film'}
+                aria-label={playing ? 'Pause music video' : 'Play music video'}
               >
                 {playing ? (
                   <Pause size={21} fill="currentColor" />
@@ -466,7 +468,7 @@ export function FilmPlayer({
               <button
                 className="icon-button"
                 onClick={() => select(index + 1)}
-                aria-label="Next film"
+                aria-label="Next music video"
               >
                 <SkipForward size={20} fill="currentColor" />
               </button>

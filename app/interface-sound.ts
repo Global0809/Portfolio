@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// Short synthesized accents: no audio files, autoplay, hover sounds, or loop.
+// Layered glass notes and a low tactile accent, synthesized only on interaction.
 // The audio context is created only by the visitor's explicit sound toggle.
 export function useInterfaceSound(filmOpen: boolean) {
   const [enabled, setEnabled] = useState(false);
@@ -40,25 +40,25 @@ export function useInterfaceSound(filmOpen: boolean) {
       const t = audio.currentTime;
       const notes =
         kind === 'enable'
-          ? [523.25, 783.99]
+          ? [523.25, 783.99, 1046.5]
           : kind === 'open'
-            ? [392, 587.33]
+            ? [392, 587.33, 783.99]
             : kind === 'step'
-              ? [660]
-              : [480];
+              ? [659.25, 880]
+              : [523.25];
       notes.forEach((frequency, i) => {
         const oscillator = audio.createOscillator();
         const gain = audio.createGain();
-        const start = t + i * 0.035;
+        const start = t + i * 0.045;
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(frequency, start);
         oscillator.frequency.exponentialRampToValueAtTime(
-          frequency * 0.78,
-          start + 0.12,
+          frequency * 0.96,
+          start + 0.22,
         );
         gain.gain.setValueAtTime(0, start);
-        gain.gain.linearRampToValueAtTime(0.035 / notes.length, start + 0.009);
-        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.15);
+        gain.gain.linearRampToValueAtTime(0.085 / notes.length, start + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.3);
         oscillator.connect(gain);
         gain.connect(audio.destination);
         voices.current.add(oscillator);
@@ -68,8 +68,27 @@ export function useInterfaceSound(filmOpen: boolean) {
           gain.disconnect();
         };
         oscillator.start(start);
-        oscillator.stop(start + 0.16);
+        oscillator.stop(start + 0.31);
       });
+      // A short body under the glass tone makes taps perceptible on phone speakers.
+      const body = audio.createOscillator();
+      const bodyGain = audio.createGain();
+      body.type = 'sine';
+      body.frequency.setValueAtTime(kind === 'open' ? 240 : 190, t);
+      body.frequency.exponentialRampToValueAtTime(90, t + 0.13);
+      bodyGain.gain.setValueAtTime(0, t);
+      bodyGain.gain.linearRampToValueAtTime(0.065, t + 0.006);
+      bodyGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+      body.connect(bodyGain);
+      bodyGain.connect(audio.destination);
+      voices.current.add(body);
+      body.onended = () => {
+        voices.current.delete(body);
+        body.disconnect();
+        bodyGain.disconnect();
+      };
+      body.start(t);
+      body.stop(t + 0.17);
     };
     if (audio.state === 'suspended')
       void audio
@@ -126,7 +145,7 @@ export function useInterfaceSound(filmOpen: boolean) {
       )
         return;
       const target = event.target.closest<HTMLElement>(
-        'button, a, [role="button"]',
+        'button, a, [role="button"], [role="radio"]',
       );
       if (
         !target ||
@@ -142,7 +161,7 @@ export function useInterfaceSound(filmOpen: boolean) {
       )
         return;
       accent(
-        target.closest('.stage-arrows')
+        target.closest('.stage-arrows') || target.matches('[role="radio"]')
           ? 'step'
           : target.matches('.hero-book,.nav-book,.booking-submit')
             ? 'open'

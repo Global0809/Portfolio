@@ -1,0 +1,255 @@
+/* Final identity: clear type, luminous capacity and a quiet scroll signal. */
+.exhibition h1.music-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: clamp(42px, 11.8vw, 70px);
+  line-height: 1.06;
+  letter-spacing: -0.065em;
+  text-align: left;
+}
+.exhibition h1.music-title em {
+  margin: 0;
+  font-size: 1.22em;
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+  white-space: nowrap;
+}
+.nav-portfolio {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #d8e1e7;
+}
+.masthead nav {
+  gap: 14px;
+}
+.archive .primary-watch {
+  gap: 12px;
+}
+.intake-marks i[data-available='true'] {
+  position: relative;
+  background: #d8c39b;
+  border-color: #ffebc5;
+  box-shadow:
+    0 0 10px #e3c49b32,
+    inset 0 0 4px #fff6df;
+}
+.intake-marks i[data-available='true']::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid #e5c99970;
+  border-radius: 3px;
+  opacity: 0.15;
+  animation: slot-illumination 3.8s ease-in-out infinite;
+  animation-delay: calc(var(--slot-index) * 180ms);
+}
+@keyframes slot-illumination {
+  0%,
+  70%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 0.85;
+    transform: scale(1.18);
+  }
+}
+.intake-panel:not([data-reveal='visible']) .intake-marks i::after,
+html[data-page-hidden='true'] .intake-marks i::after {
+  animation-play-state: paused;
+}
+.intake-unit {
+  font-weight: 500;
+}
+.intake-limit {
+  max-width: 225px;
+}
+.scroll-signal {
+  --scroll-progress: 0;
+  position: fixed;
+  z-index: 8;
+  right: 5px;
+  top: 48%;
+  width: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  color: #d0dbe2;
+  opacity: 0.8;
+}
+.scroll-signal[data-paused='true'] {
+  visibility: hidden;
+}
+.scroll-signal-track {
+  position: relative;
+  width: 7px;
+  height: 92px;
+  border-left: 1px solid #e0eaf32b;
+  background: repeating-linear-gradient(
+    to bottom,
+    #d9e8f040 0 1px,
+    transparent 1px 23px
+  );
+}
+.scroll-signal-fill {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  left: -1px;
+  top: 0;
+  background: linear-gradient(#abc3d6, #f6dbb3);
+  transform-origin: top;
+  transform: scaleY(var(--scroll-progress));
+}
+.scroll-signal-head {
+  position: absolute;
+  top: calc(var(--scroll-progress) * 100%);
+  left: -3px;
+  width: 5px;
+  height: 5px;
+  transform: translateY(-50%) rotate(45deg);
+  background: #f8e6ca;
+  box-shadow: 0 0 9px #e6ccaa99;
+}
+.scroll-signal-number {
+  font:
+    8px/1 ui-monospace,
+    monospace;
+  font-variant-numeric: tabular-nums;
+}
+.studio-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 38px;
+  padding: 42px 0 30px;
+}
+.instagram-signature {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 13px;
+  border-radius: 10px;
+}
+.instagram-caption {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: #a6b6c2;
+}
+.instagram-name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #e9eff2;
+  font-size: clamp(29px, 6vw, 45px);
+  letter-spacing: -0.05em;
+}
+.instagram-name .verified-mark {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.instagram-name > svg:last-child {
+  margin-left: 8px;
+  transition: transform 0.25s ease;
+}
+.instagram-signature:hover .instagram-name > svg:last-child {
+  transform: translate(3px, -3px);
+}
+.instagram-followers {
+  font-size: 12px;
+  color: #b5c1ca;
+}
+.instagram-followers strong {
+  color: #e0e8ec;
+  font-weight: 600;
+}
+.footer-baseline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  color: #99a9b5;
+}
+.footer-baseline button {
+  min-height: 44px;
+}
+@media (min-width: 761px) {
+  .scroll-signal {
+    right: 13px;
+  }
+  .scroll-signal-track {
+    height: 138px;
+  }
+  .studio-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 52px 0 30px;
+  }
+  .footer-baseline {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+}
+@media (min-width: 1100px) {
+  .exhibition h1.music-title {
+    font-size: clamp(58px, 5.15vw, 82px);
+    gap: 10px;
+  }
+  .exhibition h1.music-title em {
+    white-space: normal;
+    max-width: 4.8em;
+    font-size: 1.25em;
+  }
+}
+@media (max-width: 360px) {
+  .masthead .sound-toggle {
+    min-width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+  .masthead .sound-toggle span {
+    display: none;
+  }
+  .masthead nav {
+    gap: 10px;
+  }
+  .nav-portfolio {
+    font-size: 11px;
+    gap: 3px;
+  }
+  .masthead .sound-toggle {
+    margin-right: 8px;
+  }
+  .exhibition h1.music-title {
+    font-size: 39px;
+  }
+  .exhibition h1.music-title em {
+    font-size: 1.2em;
+  }
+  .scroll-signal {
+    right: 1px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intake-marks i[data-available='true']::after {
+    animation: none;
+    opacity: 0.45;
+  }
+  .instagram-name > svg:last-child {
+    transition: none;
+  }
+}

@@ -25,10 +25,10 @@ export function SlotInvitation({
         data-intake-state={full ? 'full' : live ? 'open' : 'requests'}
       >
         <div className="intake-header">
-          <span>AICANFEEL / PROJECT INTAKE</span>
+          <span>MUSIC VIDEO BOOKINGS</span>
           <span className="intake-status">
             <i />
-            {full ? 'INTAKE FULL' : live ? 'BOOKING OPEN' : 'LIMITED INTAKE'}
+            {full ? 'FULLY BOOKED' : 'LIMITED SLOTS'}
           </span>
         </div>
         <div className="intake-layout">
@@ -37,24 +37,28 @@ export function SlotInvitation({
             aria-label={
               live
                 ? `${count} slots left out of ${availability.capacity}`
-                : `${availability.capacity} projects per intake`
+                : `Only ${availability.capacity} slots per intake`
             }
           >
             <strong className="intake-number">
               {String(count).padStart(2, '0')}
             </strong>
             <span className="intake-unit">
-              {live ? 'slots left' : 'projects per intake'}
+              {live ? 'slots left' : 'slots per intake'}
             </span>
-            <div className="intake-marks" aria-hidden="true">
+            <div className="intake-marks" aria-hidden="true" data-parallax="6">
               {Array.from({ length: availability.capacity }, (_, i) => (
-                <i key={i} data-available={live && i < count} />
+                <i
+                  key={i}
+                  data-available={i < count}
+                  style={{ '--slot-index': i } as React.CSSProperties}
+                />
               ))}
             </div>
             <span className="intake-limit">
               {live
                 ? `of ${availability.capacity} studio slots`
-                : 'A small intake. A dedicated focus.'}
+                : 'Limited capacity. Bookings confirmed by the studio.'}
             </span>
           </div>
           <div className="intake-action">
@@ -67,9 +71,11 @@ export function SlotInvitation({
                 </>
               ) : (
                 <>
-                  {live ? 'Hold your slot.' : 'Make the next'}
+                  {live ? 'Book your slot.' : 'Limited slots.'}
                   <br />
-                  <em>{live ? 'Start your film.' : 'slot yours.'}</em>
+                  <em>
+                    {live ? 'Create your music video.' : 'Make one yours.'}
+                  </em>
                 </>
               )}
             </h2>
@@ -77,8 +83,8 @@ export function SlotInvitation({
               {full
                 ? 'Have a track lined up? Send your brief for the next intake.'
                 : live
-                  ? 'A limited place for your track. Reserve it now, then shape the film with us.'
-                  : 'Seven projects per intake. If your track is ready, request your place for a CGI / VFX music video.'}
+                  ? 'Reserve a place for your CGI + VFX music video before this intake fills.'
+                  : 'We take on just 7 music videos per intake. Send your request to get your track into our schedule.'}
             </p>
             <button
               className="booking-submit intake-submit"
@@ -87,13 +93,7 @@ export function SlotInvitation({
               data-scan-id="intake-request"
               onClick={onStart}
             >
-              <span>
-                {full
-                  ? 'Request the next intake'
-                  : live
-                    ? 'Hold my slot'
-                    : 'Request my slot'}
-              </span>
+              <span>{full ? 'Request the next intake' : 'Book my slot'}</span>
               <ArrowUpRight size={21} strokeWidth={1.7} />
             </button>
             <div className="intake-deadline">
@@ -101,7 +101,7 @@ export function SlotInvitation({
               <span>
                 {live && !full
                   ? `Confirm by email for a ${availability.holdHours}-hour hold.`
-                  : 'Email request · Studio confirmation required'}
+                  : 'Three details to start. We confirm your slot by email.'}
               </span>
             </div>
           </div>
