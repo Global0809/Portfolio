@@ -1,0 +1,1001 @@
+/* A glass listening room: one live portrait, four quiet frames, one transport. */
+.listening-room.screening {
+  --picture-width: min(68vw, calc((100dvh - 312px) * 0.5625), 350px);
+  --picture-height: calc(var(--picture-width) * 16 / 9);
+  --card-height: calc(var(--picture-height) + 58px);
+  padding: 0 max(16px, env(safe-area-inset-right))
+    max(14px, env(safe-area-inset-bottom));
+  background: #090b0f;
+  overflow-x: clip;
+  overflow-y: auto;
+}
+.room-light {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.room-light > div {
+  position: absolute;
+  inset: -12%;
+  background-position: center;
+  background-size: cover;
+  filter: blur(65px) saturate(0.65);
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+.room-light > .is-current {
+  opacity: 0.27;
+}
+.room-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 32%, #a4bfdb10, #080b1299 70%),
+    linear-gradient(#080b1330, transparent 40%, #070a12a6);
+}
+.listening-room .cinema-header {
+  flex: 0 0 64px;
+  min-height: 64px;
+  width: min(1120px, 100%);
+  align-self: center;
+  border: 0;
+  position: relative;
+  z-index: 20;
+}
+.listening-room .return-button {
+  padding: 0 4px;
+  gap: 8px;
+  color: #d4e0e8;
+  font-size: 13px;
+}
+.listening-room .cinema-brand {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: -0.6px;
+}
+.listening-room .verified-mark {
+  width: 15px;
+  height: 15px;
+}
+.listening-room .cinema-count {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #e8eef4;
+}
+.listening-room .cinema-count > span {
+  color: #9eaab7;
+}
+.reel-stage {
+  position: relative;
+  flex: 1 0 calc(var(--card-height) + 18px);
+  min-height: calc(var(--card-height) + 18px);
+  width: 100%;
+  perspective: 1400px;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+.reel-horizon {
+  position: absolute;
+  width: min(900px, 90vw);
+  height: 16%;
+  bottom: -3%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, #adcbe927, transparent 70%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+.reel-card {
+  position: absolute;
+  width: var(--picture-width);
+  height: var(--card-height);
+  top: 50%;
+  left: 50%;
+  margin-left: calc(var(--picture-width) / -2);
+  margin-top: calc(var(--card-height) / -2);
+  padding: 4px;
+  border: 1px solid #e0ecff47;
+  border-radius: 19px;
+  background: linear-gradient(
+    145deg,
+    #e1f0ff35,
+    #afc8d51a 35%,
+    #c4d5ef0c 60%,
+    #faf0de24
+  );
+  box-shadow:
+    inset 0 1px 1px #fff7,
+    inset 0 -1px 1px #e8e9ea30,
+    0 30px 60px #0006;
+  transition:
+    transform 650ms cubic-bezier(0.22, 0.85, 0.18, 1),
+    filter 650ms,
+    opacity 650ms,
+    border-color 500ms;
+  transform-origin: 50% 65%;
+}
+.reel-card[data-position='0'] {
+  transform: translateX(0) translateZ(0);
+  z-index: 5;
+  border-color: #eaf3ff99;
+  background: linear-gradient(135deg, #dceaff52, #16212bf5 65%);
+}
+.reel-card[data-position='-1'] {
+  transform: translateX(-58%) rotateY(18deg) rotateZ(-7deg) scale(0.87);
+  z-index: 3;
+  filter: brightness(0.59) saturate(0.6);
+}
+.reel-card[data-position='1'] {
+  transform: translateX(58%) rotateY(-18deg) rotateZ(7deg) scale(0.87);
+  z-index: 3;
+  filter: brightness(0.59) saturate(0.6);
+}
+.reel-card[data-position='-2'] {
+  transform: translateX(-106%) rotateY(24deg) rotateZ(-12deg) scale(0.74);
+  z-index: 2;
+  filter: brightness(0.4) saturate(0.4);
+}
+.reel-card[data-position='2'] {
+  transform: translateX(106%) rotateY(-24deg) rotateZ(12deg) scale(0.74);
+  z-index: 2;
+  filter: brightness(0.4) saturate(0.4);
+}
+.reel-card:has(.reel-cover:hover),
+.reel-card:has(.reel-cover:focus-visible) {
+  filter: brightness(0.86) saturate(0.9);
+  border-color: #eaf3ffd0;
+}
+.reel-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1px solid transparent;
+  background: linear-gradient(
+      120deg,
+      transparent 25%,
+      #e6f4ffb8 49%,
+      transparent 70%
+    )
+    border-box;
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+}
+.reel-card.is-current::after {
+  animation: reel-rim 2.8s ease-out both;
+}
+@keyframes reel-rim {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.32;
+  }
+}
+.reel-picture {
+  position: relative;
+  width: 100%;
+  height: calc(var(--picture-height) - 8px);
+  overflow: hidden;
+  border-radius: 14px 14px 7px 7px;
+  background: #050607;
+}
+.reel-picture video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+.reel-caption {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  background: linear-gradient(125deg, #bacbda20, #111820ed 65%);
+  border-radius: 0 0 14px 14px;
+}
+.reel-caption > div {
+  min-width: 0;
+}
+.reel-title {
+  font:
+    500 18px/1.2 var(--font-archive-sans),
+    sans-serif !important;
+  color: #f5f6f8;
+  letter-spacing: -0.5px;
+}
+.reel-description {
+  margin: 3px 0 0 !important;
+  font-size: 12px !important;
+  color: #c0cbd5 !important;
+  line-height: 1.3 !important;
+}
+.reel-cover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 0;
+}
+.reel-cover img {
+  display: block;
+  width: 100%;
+  height: calc(var(--picture-height) - 8px);
+  object-fit: contain;
+  background: #08090b;
+  flex-shrink: 0;
+}
+.reel-cover-caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 58px;
+  padding: 8px 12px;
+}
+.reel-cover-caption strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.reel-cover-caption > span {
+  font-size: 11px;
+  color: #b3c1cf;
+  margin-top: 3px;
+}
+.reel-activity {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.reel-activity i {
+  width: 2px;
+  height: 5px;
+  background: #cbe1ee;
+  border-radius: 2px;
+}
+.reel-activity i:nth-child(2),
+.reel-activity i:nth-child(4) {
+  height: 12px;
+}
+.reel-activity i:nth-child(3) {
+  height: 19px;
+}
+.reel-activity[data-active='true'] i {
+  animation: signal-bar 950ms ease-in-out infinite alternate;
+}
+.reel-activity i:nth-child(2) {
+  animation-delay: -400ms;
+}
+.reel-activity i:nth-child(3) {
+  animation-delay: -700ms;
+}
+.reel-activity i:nth-child(4) {
+  animation-delay: -150ms;
+}
+@keyframes signal-bar {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.room-console {
+  width: min(670px, 100%);
+  margin: 0 auto;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.signal-readout {
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #b5c4d0;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  white-space: nowrap;
+  padding: 0 14px;
+}
+.film-wave {
+  width: min(32%, 160px);
+  height: 30px;
+  opacity: 0.85;
+}
+.readout-separator {
+  color: #697b8c;
+}
+.glass-transport {
+  padding: 12px 18px 9px;
+  border: 1px solid #d9e5fb3b;
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, #dceafa1d, #c9ddeb08 45%, #f1dfbd12), #10161cc9;
+  box-shadow:
+    inset 0 1px 1px #f5f8ff45,
+    inset 0 -1px 1px #cfe5fc1a,
+    0 15px 45px #0005;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.transport-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.time-tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: -8px;
+}
+.time-tools .icon-button {
+  width: 44px;
+  height: 44px;
+}
+.transport-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.transport-track img {
+  width: 23px;
+  height: 31px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ffffff33;
+}
+.transport-track > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.transport-track strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.transport-track small {
+  font-size: 9px;
+  color: #b0bdc8;
+  letter-spacing: 0.07em;
+}
+.glass-transport .time-code {
+  margin: 0;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.glass-transport .seek-label {
+  display: block;
+  margin: 2px 0 1px;
+}
+.glass-transport .seek-bar {
+  --color-primary: #e7eff7;
+  --color-muted: #e8f3ff24;
+  padding: 10px 0;
+}
+.glass-transport .seek-bar [data-slot='slider-track'] {
+  height: 2px;
+}
+.deck-controls {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+.deck-controls > .icon-button {
+  justify-self: start;
+}
+.deck-primary-controls,
+.deck-secondary-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.deck-secondary-controls {
+  justify-content: flex-end;
+  gap: 0;
+}
+.deck-play {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #101720;
+  background: linear-gradient(135deg, #f7fafc, #cbdde8 70%, #ebdfcf);
+  border: 1px solid #fff9;
+  box-shadow:
+    inset 0 1px 2px #fff,
+    0 3px 15px #ccddeb16;
+  transition:
+    transform 200ms cubic-bezier(0.2, 1.8, 0.3, 1),
+    box-shadow 200ms;
+}
+.deck-play:active {
+  transform: scale(0.91);
+}
+.deck-play:hover {
+  box-shadow: 0 0 25px #d5edff35;
+}
+.listening-room .icon-button {
+  color: #d5e1e9;
+  width: 44px;
+  height: 44px;
+}
+.listening-room .icon-button:active {
+  transform: scale(0.91);
+}
+.listening-room .player-notice {
+  bottom: 170px;
+  z-index: 20;
+  max-width: 90%;
+  text-align: center;
+}
+.reel-picture .big-play {
+  width: 64px;
+  height: 64px;
+}
+.reel-picture .paused-overlay {
+  gap: 14px;
+  padding: 12px;
+}
+.reel-picture .ended-book {
+  padding: 12px 16px;
+  font-size: 12px;
+}
+
+/* The artist's edition changes optically with their direction, not with extra inputs. */
+.artist-booking[data-slot='dialog-content'] {
+  --mood-light: #b9d7f1;
+  width: min(560px, calc(100vw - 24px));
+  max-width: min(560px, calc(100vw - 24px));
+  left: 50vw;
+  padding: 30px;
+  overflow-x: hidden;
+}
+.artist-booking[data-mood='1'] {
+  --mood-light: #c5b9ee;
+}
+.artist-booking[data-mood='2'] {
+  --mood-light: #e9c8b3;
+}
+.artist-booking[data-mood='3'] {
+  --mood-light: #b8e3db;
+}
+.artist-booking .booking-topline {
+  padding-right: 36px;
+  gap: 12px;
+}
+.artist-booking .booking-step {
+  white-space: nowrap;
+}
+.artist-booking .booking-progress {
+  margin: 14px 0 18px;
+}
+.artist-booking .booking-progress i {
+  height: 2px;
+  width: 52px;
+}
+.artist-booking.quick-booking .booking-title {
+  font-size: clamp(32px, 6vw, 45px) !important;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+.artist-booking .booking-description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+.artist-pass.personal-pass {
+  position: relative;
+  isolation: isolate;
+  min-height: 192px;
+  margin: 0 0 20px;
+  padding: 20px;
+  border-radius: 19px;
+  border: 1px solid #d9efff55;
+  background:
+    radial-gradient(
+      ellipse at 85% 60%,
+      color-mix(in srgb, var(--mood-light) 13%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(125deg, #e5f3ff16, #050d1480 68%);
+  box-shadow:
+    inset 0 1px 1px #ffffff55,
+    0 12px 30px #0002;
+  overflow: hidden;
+  transition: background 600ms;
+}
+.artist-pass::after {
+  inset: 0;
+  border-radius: inherit;
+  width: auto;
+  height: auto;
+  border: 0;
+  transform: none;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    #dcecff14 40%,
+    transparent 60%
+  );
+  animation: pass-glint 6s ease-in-out infinite;
+  box-shadow: none;
+}
+@keyframes pass-glint {
+  0%,
+  25% {
+    transform: translateX(-100%);
+  }
+  80%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+.artist-pass .pass-overline {
+  display: block;
+  position: relative;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: #bdcddc;
+  z-index: 1;
+}
+.artist-pass.personal-pass .pass-for {
+  display: block;
+  margin: 21px 0 4px;
+  color: #cbd8e3;
+  font-size: 13px;
+  max-width: 75%;
+  overflow-wrap: anywhere;
+  position: relative;
+  z-index: 1;
+}
+.artist-pass.personal-pass strong {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(30px, 7vw, 39px);
+  line-height: 0.98;
+  font-weight: 400;
+  margin: 0 0 22px;
+  max-width: 80%;
+  overflow-wrap: anywhere;
+  text-shadow: 0 2px 20px #050b15;
+}
+.artist-pass.compact-pass .pass-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  border-top: 1px solid #d9eaff24;
+  padding-top: 12px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--mood-light);
+  font-size: 12px;
+  gap: 8px;
+}
+.artist-pass .pass-bottom > span {
+  animation: pass-caption 400ms ease both;
+}
+.artist-pass .pass-bottom > span > span {
+  color: #a6b7c8;
+}
+@keyframes pass-caption {
+  from {
+    opacity: 0.2;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pass-optics {
+  width: 220px;
+  height: 220px;
+  position: absolute;
+  top: -15px;
+  right: -75px;
+  transform: rotate(-25deg);
+  pointer-events: none;
+  opacity: 0.6;
+  transition: transform 750ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pass-optics > i {
+  position: absolute;
+  inset: calc(var(--ring) * 10px);
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mood-light) 55%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--mood-light) 7%, transparent),
+    transparent 55%
+  );
+  box-shadow:
+    inset 1px 0 2px #fff3,
+    2px 4px 12px #0003;
+  transform: rotateY(48deg);
+  transition:
+    border-radius 800ms,
+    transform 800ms;
+}
+.artist-booking[data-mood='1'] .pass-optics {
+  transform: rotate(25deg);
+}
+.artist-booking[data-mood='1'] .pass-optics > i {
+  border-radius: 25%;
+  transform: rotate(calc(var(--ring) * 12deg));
+}
+.artist-booking[data-mood='2'] .pass-optics {
+  transform: rotate(-60deg) scale(1.15);
+}
+.artist-booking[data-mood='2'] .pass-optics > i {
+  border-radius: 48% 52% 38% 62%;
+  transform: rotate(calc(var(--ring) * -9deg));
+}
+.artist-booking[data-mood='3'] .pass-optics {
+  transform: rotate(45deg);
+}
+.artist-booking[data-mood='3'] .pass-optics > i {
+  border-radius: 10%;
+  transform: rotate(calc(var(--ring) * 4deg)) scaleX(0.7);
+}
+.artist-booking .mood-options {
+  gap: 9px;
+}
+.artist-booking .mood-options > label {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 14px 12px;
+  min-height: 76px;
+  cursor: pointer;
+  background: #ccddf006;
+  border: 1px solid #d9e6f025;
+  border-radius: 13px;
+  transition:
+    background 240ms,
+    border-color 240ms,
+    transform 240ms;
+}
+.artist-booking .mood-options > label:hover {
+  background: #d5e7f611;
+}
+.artist-booking .mood-options > label:active {
+  transform: scale(0.975);
+}
+.artist-booking .mood-options > .chosen {
+  border-color: color-mix(in srgb, var(--mood-light) 65%, transparent);
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--mood-light) 15%, transparent),
+    #c4d9f107
+  );
+  box-shadow:
+    inset 0 1px 1px #ddecff30,
+    0 2px 12px #0002;
+}
+.artist-booking .mood-options [data-slot='radio-group-item'] {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 11px;
+  height: 11px;
+  border-color: #b7cbd366;
+}
+.artist-booking .mood-options [data-slot='radio-group-item']:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+.artist-booking .mood-options [data-slot='radio-group-indicator'] {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+}
+.mood-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.mood-name small {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #b8c7d5;
+}
+.mood-symbol {
+  position: relative;
+  width: 29px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--mood-light);
+}
+.mood-symbol i {
+  position: absolute;
+  inset: 5px 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.5;
+  transform: rotate(-35deg);
+}
+.mood-symbol i:nth-child(2) {
+  inset: 8px 4px;
+  opacity: 0.75;
+}
+.mood-symbol i:nth-child(3) {
+  inset: 11px 8px;
+  opacity: 1;
+}
+.mood-symbol[data-symbol='1'] i {
+  border-radius: 4px;
+  transform: rotate(45deg);
+}
+.mood-symbol[data-symbol='2'] i {
+  border-radius: 55% 45%;
+  transform: rotate(15deg);
+}
+.mood-symbol[data-symbol='3'] i {
+  border-radius: 2px;
+  transform: skewY(-25deg) scaleX(0.8);
+}
+.artist-booking .reservation-terms {
+  padding: 0;
+  border: 0;
+  background: none;
+  gap: 9px;
+  margin-top: 1px;
+  color: #c2cfdb;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.artist-booking .reservation-terms svg {
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.artist-booking .privacy-note {
+  font-size: 11px;
+  color: #aebcc9;
+}
+.artist-booking .booking-form {
+  gap: 14px;
+}
+.artist-booking .booking-actions {
+  margin-top: 2px;
+  gap: 12px;
+}
+.artist-booking .booking-actions .booking-submit {
+  min-height: 50px;
+  font-size: 14px;
+}
+.artist-booking .brief-download {
+  font-size: 12px;
+}
+.artist-booking .brief-delivery {
+  margin-top: 0;
+}
+
+@media (max-width: 760px) {
+  .listening-room .cinema-header {
+    flex-basis: 54px;
+    min-height: 54px;
+  }
+  .listening-room .cinema-brand {
+    font-size: 13px;
+  }
+  .listening-room .cinema-brand .verified-mark {
+    width: 13px;
+    height: 13px;
+  }
+  .listening-room .return-button {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .reel-card[data-position='-1'] {
+    transform: translateX(-24%) rotateY(13deg) rotateZ(-7deg) scale(0.88);
+  }
+  .reel-card[data-position='1'] {
+    transform: translateX(24%) rotateY(-13deg) rotateZ(7deg) scale(0.88);
+  }
+  .reel-card[data-position='-2'] {
+    transform: translateX(-43%) rotateY(20deg) rotateZ(-11deg) scale(0.75);
+  }
+  .reel-card[data-position='2'] {
+    transform: translateX(43%) rotateY(-20deg) rotateZ(11deg) scale(0.75);
+  }
+  .reel-title {
+    font-size: 16px !important;
+  }
+  .reel-description {
+    font-size: 11px !important;
+  }
+  .reel-activity {
+    gap: 2px;
+  }
+  .signal-readout {
+    padding: 0 8px;
+    height: 32px;
+    font-size: 9px;
+    letter-spacing: 0.065em;
+  }
+  .glass-transport {
+    border-radius: 23px;
+    padding: 10px 14px 8px;
+  }
+  .deck-primary-controls {
+    gap: 3px;
+  }
+  .deck-secondary-controls {
+    position: static;
+  }
+  .deck-controls {
+    position: relative;
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .deck-secondary-controls .icon-button {
+    width: 44px;
+  }
+  .deck-play {
+    width: 44px;
+    height: 44px;
+  }
+  .artist-booking[data-slot='dialog-content'] {
+    padding: 26px 22px 22px;
+    border-radius: 24px;
+  }
+  .artist-booking .booking-title {
+    font-size: 36px;
+  }
+  .artist-booking .booking-description {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .artist-pass.personal-pass {
+    padding: 17px;
+    min-height: 182px;
+    margin-bottom: 16px;
+  }
+  .artist-booking .mood-options > label {
+    padding: 13px 10px;
+    gap: 8px;
+    min-height: 76px;
+  }
+  .mood-symbol {
+    width: 24px;
+  }
+  .mood-name {
+    font-size: 13px;
+  }
+  .mood-name small {
+    font-size: 10px;
+  }
+}
+@media (max-width: 360px) {
+  .artist-booking[data-slot='dialog-content'] {
+    padding: 24px 17px 20px;
+  }
+  .artist-booking .booking-title {
+    font-size: 32px;
+  }
+  .artist-booking .mood-options > label {
+    gap: 7px;
+    padding: 13px 8px;
+  }
+  .mood-symbol {
+    width: 20px;
+  }
+  .artist-pass .pass-bottom > span > span {
+    display: none;
+  }
+  .deck-primary-controls {
+    gap: 0;
+  }
+  .deck-primary-controls .icon-button {
+    width: 44px;
+  }
+  .deck-secondary-controls .icon-button {
+    width: 44px;
+  }
+  .deck-controls > .icon-button {
+    width: 44px;
+  }
+}
+@media (max-height: 550px) and (min-width: 600px) {
+  .listening-room.screening {
+    --picture-width: min(29vw, calc((100dvh - 128px) * 0.5625));
+    --card-height: calc(var(--picture-height) + 46px);
+    padding: 0 24px 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 48px 1fr;
+    column-gap: 30px;
+  }
+  .listening-room .cinema-header {
+    grid-column: 1/-1;
+    width: 100%;
+    min-height: 48px;
+  }
+  .reel-stage {
+    height: 100%;
+    min-height: var(--card-height);
+  }
+  .reel-caption {
+    height: 46px;
+    padding: 5px 8px;
+  }
+  .reel-title {
+    font-size: 14px !important;
+  }
+  .reel-description {
+    display: none;
+  }
+  .room-console {
+    align-self: center;
+  }
+  .reel-card[data-position='-1'] {
+    transform: translateX(-30%) rotateZ(-7deg) scale(0.86);
+  }
+  .reel-card[data-position='1'] {
+    transform: translateX(30%) rotateZ(7deg) scale(0.86);
+  }
+  .reel-card[data-position='-2'] {
+    transform: translateX(-55%) rotateZ(-12deg) scale(0.72);
+  }
+  .reel-card[data-position='2'] {
+    transform: translateX(55%) rotateZ(12deg) scale(0.72);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel-card,
+  .room-light > div,
+  .pass-optics,
+  .pass-optics > i {
+    transition: none;
+  }
+  .reel-card::after,
+  .reel-activity i,
+  .artist-pass::after,
+  .artist-pass .pass-bottom > span {
+    animation: none !important;
+  }
+}
+html[data-effects-paused='true'] .reel-card,
+html[data-effects-paused='true'] .room-light > div,
+html[data-effects-paused='true'] .pass-optics,
+html[data-effects-paused='true'] .pass-optics > i {
+  transition: none;
+}
+html[data-effects-paused='true'] .reel-activity i,
+html[data-effects-paused='true'] .reel-card::after,
+html[data-effects-paused='true'] .artist-pass::after,
+html[data-page-hidden='true'] .reel-activity i,
+html[data-page-hidden='true'] .artist-pass::after {
+  animation-play-state: paused !important;
+}

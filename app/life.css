@@ -1,0 +1,382 @@
+/* Cinematic anticipation; short, tactile responses. All motion is bounded. */
+.neural-links {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  contain: strict;
+}
+.masthead nav .effects-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  padding: 8px;
+}
+.effects-toggle span {
+  display: none;
+}
+.masthead nav .effects-toggle:disabled {
+  cursor: default;
+}
+[data-effects-paused='true'] .neural-links {
+  opacity: 0.45;
+}
+@media (min-width: 761px) {
+  .effects-toggle span {
+    display: inline;
+    font-size: 12px;
+  }
+  .masthead nav .effects-toggle {
+    border-radius: 25px;
+    padding: 8px 12px;
+  }
+}
+@media (max-width: 760px) {
+  .masthead nav {
+    gap: 12px;
+  }
+}
+:root {
+  --motion-fluid: cubic-bezier(0.2, 0.75, 0.2, 1);
+  --motion-arrival: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.title-word {
+  animation: word-emerge 850ms var(--motion-arrival) both;
+}
+.title-word:nth-of-type(2) {
+  animation-delay: 100ms;
+}
+em.title-word {
+  animation-delay: 220ms;
+}
+@keyframes word-emerge {
+  from {
+    opacity: 0;
+    transform: translateY(22px) rotate(1deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+.editorial .eyebrow {
+  animation: soft-arrival 600ms ease-out both;
+}
+.intro,
+.social-proof {
+  animation: soft-arrival 900ms 150ms ease-out both;
+}
+.spatial-stage {
+  animation: soft-arrival 1000ms 120ms ease-out both;
+}
+@keyframes soft-arrival {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+[data-reveal] {
+  transition:
+    opacity 650ms var(--motion-fluid),
+    transform 750ms var(--motion-arrival);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal='waiting'] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+[data-reveal='visible'],
+[data-reveal='waiting']:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+}
+.focus-title {
+  animation: focus-arrival 360ms var(--motion-fluid) both;
+}
+@keyframes focus-arrival {
+  from {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.sculpture-canvas {
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.sculpture-fallback img {
+  transition: transform 550ms var(--motion-fluid);
+}
+.swipe-hint {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 0.045em;
+  pointer-events: none;
+}
+[data-press] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+[data-press] > .touch-light {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #ffffff7a,
+    #bdd9eb35 34%,
+    transparent 68%
+  );
+  border: 1px solid #eff7ff38;
+}
+[data-press]:active {
+  scale: 0.975;
+}
+.hero-book,
+.booking-submit,
+.nav-book,
+.mobile-booking-dock button {
+  transition:
+    transform 250ms var(--motion-fluid),
+    box-shadow 250ms,
+    border-color 250ms;
+}
+.stage-arrows button {
+  border-radius: 50%;
+}
+.invitation-glass[data-reveal='visible'] .slot-indicators i {
+  animation: slot-arrival 550ms ease-out both;
+}
+.slot-indicators i:nth-child(2) {
+  animation-delay: 55ms !important;
+}
+.slot-indicators i:nth-child(3) {
+  animation-delay: 110ms !important;
+}
+.slot-indicators i:nth-child(4) {
+  animation-delay: 165ms !important;
+}
+.slot-indicators i:nth-child(5) {
+  animation-delay: 220ms !important;
+}
+.slot-indicators i:nth-child(6) {
+  animation-delay: 275ms !important;
+}
+.slot-indicators i:nth-child(7) {
+  animation-delay: 330ms !important;
+}
+@keyframes slot-arrival {
+  from {
+    opacity: 0.2;
+    scale: 0.8 1;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.screening-layout {
+  animation: screening-arrival 460ms var(--motion-arrival) both;
+  transform-origin: var(--origin-x) var(--origin-y);
+}
+@keyframes screening-arrival {
+  from {
+    opacity: 0.15;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.ended-book {
+  max-width: 90%;
+  text-align: center;
+}
+.mobile-booking-dock {
+  transition-duration: 300ms, 550ms;
+}
+
+/* Two short steps; optional context stays tucked away. */
+.quick-booking .booking-title {
+  overflow-wrap: anywhere;
+}
+.quick-booking .booking-title:focus {
+  outline: none;
+}
+.quick-booking .booking-progress {
+  margin: 16px 0 20px;
+}
+.quick-booking .booking-progress i {
+  width: 36px;
+  transition: background 250ms;
+}
+.quick-booking .booking-description {
+  margin-bottom: 22px;
+}
+.quick-booking .booking-form {
+  gap: 16px;
+}
+.quick-booking .booking-form label,
+.brief-extra-fields > label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--foreground);
+}
+.quick-booking .booking-form .honeypot {
+  position: absolute;
+  left: -10000px;
+}
+.compact-pass {
+  padding: 15px 18px;
+  margin-bottom: 18px;
+}
+.compact-pass strong {
+  font-size: 29px;
+  margin: 8px 0 5px;
+}
+.compact-pass .pass-bottom {
+  display: none;
+}
+.compact-pass i {
+  display: inline-block;
+  animation: focus-arrival 300ms ease-out;
+}
+.quick-booking .mood-options > label {
+  min-height: 46px;
+  transition:
+    border-color 180ms,
+    background 180ms;
+  font-size: 13px;
+}
+.brief-extras {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.brief-extras summary {
+  cursor: pointer;
+  padding: 15px 0;
+  min-height: 48px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.brief-extras summary span {
+  color: var(--soft);
+  font-size: 11px;
+  margin-left: 5px;
+}
+.brief-extra-fields {
+  display: grid;
+  gap: 16px;
+  padding: 3px 0 18px;
+}
+.brief-extra-fields .optional {
+  display: none;
+}
+.quick-booking .reservation-terms {
+  padding: 12px;
+}
+.quick-booking .privacy-note {
+  margin: 0;
+}
+.brief-saved {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--glint-cool);
+}
+.brief-saved svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+@media (hover: none) {
+  .hero-book:hover,
+  .booking-submit:hover {
+    transform: none;
+  }
+}
+@media (min-width: 761px) {
+  .swipe-hint {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .quick-booking[data-slot='dialog-content'] {
+    padding: 27px 22px 24px;
+    border-radius: 24px;
+  }
+  .quick-booking .booking-title {
+    font-size: 35px !important;
+  }
+  .quick-booking .booking-description {
+    font-size: 13px !important;
+    line-height: 1.6;
+  }
+  .quick-booking .booking-actions {
+    margin-top: 2px;
+  }
+  .compact-pass {
+    padding: 13px 16px;
+  }
+  .compact-pass strong {
+    font-size: 27px;
+  }
+  .cinema-ambience {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal='waiting'],
+  .title-word,
+  .editorial .eyebrow,
+  .intro,
+  .social-proof,
+  .spatial-stage,
+  .focus-title,
+  .screening-layout,
+  .compact-pass i {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    filter: none;
+  }
+  .slot-indicators i {
+    animation: none !important;
+  }
+  [data-press]:active {
+    scale: 1;
+  }
+  .touch-light {
+    display: none;
+  }
+}
