@@ -33,6 +33,20 @@ export function FilmSculpture({
   useEffect(() => {
     let stopped = false;
     let cleanup = () => {};
+    // The fallback must pause even when WebGL or Save-Data prevents renderer setup.
+    const fallback = host.current?.parentElement;
+    if (fallback)
+      fallback.dataset.fallbackStatic = String(
+        !!(navigator as Navigator & { connection?: { saveData?: boolean } })
+          .connection?.saveData,
+      );
+    const fallbackObserver =
+      fallback && 'IntersectionObserver' in window
+        ? new IntersectionObserver(([entry]) => {
+            fallback.dataset.inView = String(entry.isIntersecting);
+          })
+        : null;
+    if (fallback) fallbackObserver?.observe(fallback);
     async function init() {
       if (
         (navigator as Navigator & { connection?: { saveData?: boolean } })
@@ -173,9 +187,10 @@ export function FilmSculpture({
             void main(){vEdge=perimeter;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
           fragmentShader: `uniform float sweep; uniform float strength; varying float vEdge;
             void main(){float d=abs(vEdge-sweep);d=min(d,1.-d);
-              float light=exp(-d*d*700.)*strength;
-              vec3 silver=mix(vec3(.66,.78,.86),vec3(.98,.97,.93),light);
-              gl_FragColor=vec4(silver,.36+light*.64);}`,
+              float light=exp(-d*d*240.)*strength;
+              float core=exp(-d*d*1800.)*strength;
+              vec3 silver=mix(vec3(.52,.65,.76),vec3(.9,.96,1.),light);
+              gl_FragColor=vec4(silver+core*.4,.32+light*.68);}`,
         });
         edges.push(edge);
         group.add(new THREE.LineLoop(edgeGeometry, edge));
@@ -202,6 +217,8 @@ export function FilmSculpture({
         inView = true,
         contextLost = false;
       let edgeStarted = -2000;
+      let glintTimer = 0,
+        lastScrollGlint = 0;
       const eligible = () =>
         !stopped &&
         !contextLost &&
@@ -212,6 +229,8 @@ export function FilmSculpture({
         if (eligible() && !raf) raf = requestAnimationFrame(render);
       }
       const sync = () => {
+        clearTimeout(glintTimer);
+        glintTimer = 0;
         cancelAnimationFrame(raf);
         raf = 0;
         dirty = true;
@@ -275,6 +294,8 @@ export function FilmSculpture({
           ? new IntersectionObserver(
               ([entry]) => {
                 inView = entry.isIntersecting;
+                if (mount.parentElement)
+                  mount.parentElement.dataset.inView = String(inView);
                 sync();
               },
               { rootMargin: '80px' },
@@ -286,12 +307,26 @@ export function FilmSculpture({
       renderer.domElement.addEventListener('webglcontextlost', lost);
       renderer.domElement.addEventListener('webglcontextrestored', restored);
       document.addEventListener('visibilitychange', sync);
+      const scrollGlint = () => {
+        if (
+          !eligible() ||
+          current.current.reduced ||
+          performance.now() - lastScrollGlint < 900
+        )
+          return;
+        lastScrollGlint = performance.now();
+        edgeStarted = lastScrollGlint;
+        clearTimeout(glintTimer);
+        glintTimer = 0;
+        wake();
+      };
+      window.addEventListener('scroll', scrollGlint, { passive: true });
       wakeRef.current = sync;
       function render(now: number) {
         raf = 0;
         if (!eligible()) return;
         const state = current.current;
-        if (now - lastTime < 32) {
+        if (now - lastTime < (innerWidth < 700 ? 50 : 32)) {
           wake();
           return;
         }
@@ -302,8 +337,8 @@ export function FilmSculpture({
           edgeStarted = now;
           dirty = true;
         }
-        // A single short glint on selection; no permanent extra GPU loop.
-        const edgeProgress = Math.min(1, (now - edgeStarted) / 1400);
+        // A staggered pass around all five frames, then a long idle rest.
+        const edgeProgress = Math.min(1, (now - edgeStarted) / 2300);
         const edgeAnimating = !state.reduced && edgeProgress < 1;
         if (
           !edgeAnimating &&
@@ -311,11 +346,17 @@ export function FilmSculpture({
         )
           dirty = true;
         edges.forEach((edge, i) => {
-          edge.uniforms.sweep.value = edgeProgress;
-          edge.uniforms.strength.value =
-            edgeAnimating && i === state.active
-              ? Math.sin(edgeProgress * Math.PI)
-              : 0;
+          const progress = Math.max(
+            0,
+            Math.min(
+              1,
+              (now - edgeStarted - ((i - state.active + 5) % 5) * 130) / 1700,
+            ),
+          );
+          edge.uniforms.sweep.value = progress;
+          edge.uniforms.strength.value = edgeAnimating
+            ? Math.sin(progress * Math.PI) * (i === state.active ? 1 : 0.72)
+            : 0;
         });
         const lerp = state.reduced ? 1 : 1 - Math.exp(-delta * 5);
         let unsettled = false;
@@ -367,9 +408,19 @@ export function FilmSculpture({
           }
         }
         if ((unsettled || edgeAnimating) && !state.reduced) wake();
+        else if (!state.reduced && !glintTimer) {
+          glintTimer = window.setTimeout(() => {
+            glintTimer = 0;
+            if (eligible()) {
+              edgeStarted = performance.now();
+              wake();
+            }
+          }, 6200);
+        }
       }
       wake();
       cleanup = () => {
+        clearTimeout(glintTimer);
         cancelAnimationFrame(raf);
         observer.disconnect();
         intersection?.disconnect();
@@ -383,6 +434,7 @@ export function FilmSculpture({
           restored,
         );
         document.removeEventListener('visibilitychange', sync);
+        window.removeEventListener('scroll', scrollGlint);
         bodyGeometry.dispose();
         photoGeometry.dispose();
         edgeGeometry.dispose();
@@ -401,11 +453,15 @@ export function FilmSculpture({
     void init().catch(() => setReady(false));
     return () => {
       stopped = true;
+      fallbackObserver?.disconnect();
       cleanup();
     };
   }, []);
   return (
-    <div className={`sculpture-wrap ${ready ? 'is-ready' : ''}`}>
+    <div
+      className={`sculpture-wrap ${ready ? 'is-ready' : ''}`}
+      data-paused={paused}
+    >
       <div className="sculpture-fallback" aria-hidden={ready}>
         {films.map((film, i) => (
           <img

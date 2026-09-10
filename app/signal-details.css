@@ -1,0 +1,361 @@
+/* Light has a job: acquisition, material edges, and the studio's signatures. */
+.stage-caption .stage-arrows button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  flex-basis: 50px;
+  border-color: #e7f4ff70;
+  background:
+    radial-gradient(ellipse at 27% 10%, #f7fbff59, transparent 54%),
+    linear-gradient(140deg, #d1e0ed32, #91aec914 55%, #f6d8b726);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    inset 0 1px 1px #ffffffa0,
+    inset 0 -2px 3px #aec4df45,
+    inset 2px 0 3px #ecf6ff30,
+    0 5px 18px #0006;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.stage-caption .stage-arrows button::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid #ecf6ff25;
+  border-bottom-color: #fff0d840;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.stage-caption .stage-arrows button::after {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    #ffffff45 49%,
+    transparent 63%
+  );
+  transform: translateX(-100%) rotate(-15deg);
+  pointer-events: none;
+}
+.stage-caption .stage-arrows button:hover::after,
+.stage-caption .stage-arrows button:focus-visible::after {
+  animation: glass-arrow-reflection 0.7s ease-out;
+}
+.stage-caption .stage-arrows button svg {
+  color: #eff8ff;
+  filter: drop-shadow(0 1px 2px #0007);
+  position: relative;
+  z-index: 1;
+}
+@keyframes glass-arrow-reflection {
+  to {
+    transform: translateX(100%) rotate(-15deg);
+  }
+}
+.sculpture-fallback img {
+  animation: fallback-edge 7s ease-in-out infinite;
+  animation-delay: calc(var(--offset) * 240ms);
+}
+.is-ready .sculpture-fallback img,
+.sculpture-wrap[data-fallback-static='true'] .sculpture-fallback img,
+.sculpture-wrap[data-in-view='false'] .sculpture-fallback img,
+.sculpture-wrap[data-paused='true'] .sculpture-fallback img {
+  animation-play-state: paused;
+}
+@keyframes fallback-edge {
+  0%,
+  75%,
+  100% {
+    outline-color: #c6dceb60;
+  }
+  35% {
+    outline-color: #eefaff;
+    box-shadow: 0 0 12px #cfecff38;
+  }
+}
+.studio-signatures {
+  background: linear-gradient(110deg, #0e1824cf, #05090de6);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  border-top: 1px solid #c7d9e225;
+  border-bottom: 1px solid #c7d9e225;
+  position: relative;
+}
+.studio-signatures li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 26px 8px 27px;
+  color: #aebdc9;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.studio-signatures li:nth-child(-n + 2) {
+  border-bottom: 1px solid #c7d9e219;
+}
+.studio-signatures li:nth-child(odd) {
+  border-right: 1px solid #c7d9e219;
+  padding-left: 0;
+}
+.studio-signatures li:nth-child(even) {
+  padding-left: 18px;
+}
+.studio-signatures li > svg {
+  flex-shrink: 0;
+  color: #c6dbed;
+  margin-top: 3px;
+}
+.studio-signatures strong {
+  display: block;
+  font-weight: 500;
+  color: #edf1f3;
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.studio-signatures .signature-uhd {
+  align-items: center;
+}
+.studio-signatures .signature-uhd strong {
+  font-size: 25px;
+  letter-spacing: -0.05em;
+}
+.signature-song strong {
+  font-family: var(--font-archive-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 0.98;
+  color: #e8d9c7;
+}
+.studio-signatures li > i {
+  position: absolute;
+  height: 1px;
+  width: 38px;
+  bottom: 12px;
+  left: 33px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #dcefff,
+    #eed3ad,
+    transparent
+  );
+  opacity: 0.12;
+  transform-origin: left;
+  animation: signature-light 6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.studio-signatures li:nth-child(2) > i {
+  animation-delay: 1.5s;
+  left: 49px;
+}
+.studio-signatures li:nth-child(3) > i {
+  animation-delay: 3s;
+}
+.studio-signatures li:nth-child(4) > i {
+  animation-delay: 4.5s;
+  left: 49px;
+}
+.studio-signatures[data-visible='true'][data-paused='false'] li > i {
+  animation-play-state: running;
+}
+@keyframes signature-light {
+  0%,
+  65%,
+  100% {
+    opacity: 0.12;
+    transform: scaleX(0.3);
+  }
+  25% {
+    opacity: 0.9;
+    transform: scaleX(1.3);
+  }
+}
+.studio-signatures[data-visible='true'][data-paused='false']
+  .signature-lipsync
+  > svg {
+  animation: signature-audio 3.5s ease-in-out infinite;
+}
+@keyframes signature-audio {
+  0%,
+  80%,
+  100% {
+    opacity: 0.6;
+  }
+  35% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #b9e0ff60);
+  }
+}
+.studio-entrance {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  overflow: hidden;
+  background: #070a10;
+  opacity: 1;
+  transition: opacity 0.45s ease;
+  animation: entrance-failsafe 1.7s both;
+}
+.studio-entrance[data-phase='leaving'] {
+  animation: none;
+  opacity: 0;
+}
+.entrance-optics {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  gap: clamp(28px, 9vw, 120px);
+}
+.entrance-optics i {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(transparent, #c5e4fc70, #efcea94d, transparent);
+  box-shadow: 0 0 35px 12px #b8d8f10d;
+  animation: entrance-refraction 1.1s ease-out both;
+}
+.entrance-optics i:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.entrance-optics i:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.entrance-signature {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+}
+.entrance-signature > span {
+  font-size: clamp(28px, 7vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  color: #e6eef3;
+}
+.entrance-signature small {
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  color: #a7b9c6;
+}
+.entrance-signal {
+  height: 1px;
+  width: 90px;
+  margin-top: 20px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #e7d5b7,
+    #c0e1f7,
+    transparent
+  );
+  transform-origin: left;
+  animation: entrance-signal 1s ease both;
+}
+@keyframes entrance-signal {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes entrance-refraction {
+  from {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes entrance-failsafe {
+  0%,
+  65% {
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@media (min-width: 761px) {
+  .studio-signatures {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 38px;
+  }
+  .studio-signatures li,
+  .studio-signatures li:nth-child(even),
+  .studio-signatures li:nth-child(odd) {
+    border: 0;
+    padding: 29px 22px;
+  }
+  .studio-signatures li + li {
+    border-left: 1px solid #c7d9e219 !important;
+  }
+  .studio-signatures li > i,
+  .studio-signatures li:nth-child(2) > i,
+  .studio-signatures li:nth-child(4) > i {
+    left: 54px;
+  }
+  .studio-signatures strong {
+    font-size: 18px;
+  }
+  .studio-signatures .signature-song strong {
+    font-size: 26px;
+  }
+}
+html[data-page-hidden='true'] .studio-signatures li > i,
+html[data-page-hidden='true'] .studio-signatures .signature-lipsync > svg,
+html[data-page-hidden='true'] .sculpture-fallback img {
+  animation-play-state: paused !important;
+}
+@media (max-width: 360px) {
+  .studio-signatures li {
+    gap: 8px;
+    font-size: 11px;
+  }
+  .studio-signatures li:nth-child(even) {
+    padding-left: 12px;
+  }
+  .studio-signatures strong {
+    font-size: 13px;
+  }
+  .signature-song strong {
+    font-size: 21px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-entrance {
+    display: none;
+  }
+  .studio-signatures li > i,
+  .studio-signatures .signature-lipsync > svg,
+  .sculpture-fallback img {
+    animation: none !important;
+  }
+  .stage-caption .stage-arrows button {
+    transition: none;
+  }
+  .stage-caption .stage-arrows button::after {
+    display: none;
+  }
+}

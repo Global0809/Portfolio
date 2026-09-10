@@ -3,15 +3,19 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Layered glass notes and a low tactile accent, synthesized only on interaction.
-// The audio context is created only by the visitor's explicit sound toggle.
-export function useInterfaceSound(filmOpen: boolean) {
-  const [enabled, setEnabled] = useState(false);
+// Default-on preference; the context is armed only by a trusted visitor gesture.
+export function useInterfaceSound(filmOpen: boolean, ambientPaused = false) {
+  const [enabled, setEnabled] = useState(true);
   const [available, setAvailable] = useState(true);
   const context = useRef<AudioContext | null>(null);
-  const settings = useRef({ enabled, filmOpen });
-  settings.current = { enabled, filmOpen };
+  const settings = useRef({ enabled, filmOpen, ambientPaused });
+  settings.current = { enabled, filmOpen, ambientPaused };
   const last = useRef(0);
   const voices = useRef(new Set<OscillatorNode>());
+  const lastGesture = useRef(-20000);
+  const lastAmbient = useRef(-2000);
+  const variation = useRef(0);
+  const unlocking = useRef(false);
 
   function silence() {
     for (const oscillator of voices.current) {
@@ -99,6 +103,11 @@ export function useInterfaceSound(filmOpen: boolean) {
   }
 
   function toggle() {
+    try {
+      localStorage.setItem('aicanfeel-sound', enabled ? 'off' : 'on');
+    } catch {
+      /* optional preference */
+    }
     if (enabled) {
       settings.current.enabled = false;
       setEnabled(false);
@@ -129,6 +138,14 @@ export function useInterfaceSound(filmOpen: boolean) {
   }, [filmOpen]);
 
   useEffect(() => {
+    try {
+      if (localStorage.getItem('aicanfeel-sound') === 'off') {
+        settings.current.enabled = false;
+        setEnabled(false);
+      }
+    } catch {
+      /* storage optional */
+    }
     setAvailable(
       !!(
         window.AudioContext ||
@@ -168,6 +185,114 @@ export function useInterfaceSound(filmOpen: boolean) {
             : 'tap',
       );
     };
+    const arm = (event: Event) => {
+      if (!event.isTrusted || !(event.target instanceof Element)) return;
+      if (
+        event instanceof PointerEvent &&
+        (!event.isPrimary || event.button !== 0)
+      )
+        return;
+      // Touch activation is reliable on release; do not lock out the qualifying event.
+      if (
+        event instanceof PointerEvent &&
+        event.pointerType !== 'mouse' &&
+        event.type === 'pointerdown'
+      )
+        return;
+      if (
+        event instanceof KeyboardEvent &&
+        (event.repeat || event.ctrlKey || event.metaKey || event.altKey)
+      )
+        return;
+      lastGesture.current = performance.now();
+      if (
+        !settings.current.enabled ||
+        settings.current.filmOpen ||
+        (unlocking.current && event.type !== 'pointerup') ||
+        event.target.closest(
+          '[data-sound-toggle],.cinema,.film-entry,.primary-watch,.sculpture-canvas,.fallback-watch',
+        )
+      )
+        return;
+      try {
+        const Constructor =
+          window.AudioContext ||
+          (window as Window & { webkitAudioContext?: typeof AudioContext })
+            .webkitAudioContext;
+        if (!Constructor) return;
+        const fresh = !context.current;
+        context.current ||= new Constructor();
+        if (!fresh && context.current.state === 'running') return;
+        unlocking.current = true;
+        void context.current
+          .resume()
+          .then(() => {
+            unlocking.current = false;
+            accent('enable');
+          })
+          .catch(() => {
+            unlocking.current = false;
+          });
+      } catch {
+        setAvailable(false);
+      }
+    };
+    const scan = (event: Event) => {
+      const audio = context.current;
+      const now = performance.now();
+      if (
+        !audio ||
+        audio.state !== 'running' ||
+        !settings.current.enabled ||
+        settings.current.filmOpen ||
+        settings.current.ambientPaused ||
+        document.hidden ||
+        now - lastGesture.current > 10000 ||
+        now - lastAmbient.current < 1150 ||
+        now - last.current < 420
+      )
+        return;
+      lastAmbient.current = now;
+      last.current = now;
+      const scrolling =
+        (event as CustomEvent<{ cause?: string }>).detail?.cause === 'scroll';
+      const variant = variation.current++ % 3;
+      const frequency = [740, 980, 620][variant];
+      // Quiet digital doublets, with a falling tail when the scan follows scrolling.
+      [0, 1].forEach((i) => {
+        const oscillator = audio.createOscillator(),
+          gain = audio.createGain(),
+          filter = audio.createBiquadFilter();
+        const t = audio.currentTime + i * 0.058;
+        const duration = i ? 0.055 : 0.038;
+        filter.type = 'lowpass';
+        filter.frequency.value = 1900;
+        oscillator.type = i ? 'triangle' : 'square';
+        oscillator.frequency.setValueAtTime(frequency * (i ? 1.52 : 1), t);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          scrolling ? 280 : frequency * 0.48,
+          t + duration,
+        );
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(i ? 0.009 : 0.011, t + 0.004);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+        oscillator.connect(filter);
+        filter.connect(gain);
+        gain.connect(audio.destination);
+        voices.current.add(oscillator);
+        oscillator.onended = () => {
+          voices.current.delete(oscillator);
+          oscillator.disconnect();
+          filter.disconnect();
+          gain.disconnect();
+        };
+        oscillator.start(t);
+        oscillator.stop(t + duration + 0.01);
+      });
+    };
+    const scrollIntent = (event: Event) => {
+      if (event.isTrusted) lastGesture.current = performance.now();
+    };
     const visibility = () => {
       document.documentElement.dataset.pageHidden = String(document.hidden);
       if (document.hidden) {
@@ -175,9 +300,21 @@ export function useInterfaceSound(filmOpen: boolean) {
         void context.current?.suspend().catch(() => {});
       }
     };
+    document.addEventListener('pointerdown', arm, true);
+    document.addEventListener('pointerup', arm, true);
+    document.addEventListener('keydown', arm, true);
+    window.addEventListener('wheel', scrollIntent, { passive: true });
+    window.addEventListener('touchmove', scrollIntent, { passive: true });
+    window.addEventListener('aicanfeel:scan', scan);
     document.addEventListener('click', click);
     document.addEventListener('visibilitychange', visibility);
     return () => {
+      document.removeEventListener('pointerdown', arm, true);
+      document.removeEventListener('pointerup', arm, true);
+      document.removeEventListener('keydown', arm, true);
+      window.removeEventListener('wheel', scrollIntent);
+      window.removeEventListener('touchmove', scrollIntent);
+      window.removeEventListener('aicanfeel:scan', scan);
       document.removeEventListener('click', click);
       document.removeEventListener('visibilitychange', visibility);
       delete document.documentElement.dataset.pageHidden;

@@ -12,11 +12,16 @@
 ## Latest interface update
 
 - Updated the headline to CGI + VFX Music videos and the portfolio/player/booking wording. Booking starts below the hero; no motion-pause control is shown. System reduced-motion settings still apply.
-- Added a linked Instagram footer, stronger opt-in synthesized sound accents, subtle scroll parallax, and a scroll meter verified at 0% and 100%.
+- Added a linked Instagram footer, synthesized sound accents, subtle scroll parallax, and a scroll meter verified at 0% and 100%.
 - Checked the updated production UI at 320 × 568, 390 × 844, and 1440 × 1000. The narrow-phone sound target is 44 × 44 pixels, and the page has no horizontal overflow.
 - All five videos advanced with one video element at a time. Interface sound voices finished and did not restart during video playback. The personalized email draft was intercepted for inspection; no email was sent.
 - Both delivery builds and TypeScript checks passed. No animation library, media download, or continuously running scroll loop was added.
 - The availability panel shows seven slots per intake. The suggested 30-total/23-booked counts were not confirmed, so the site does not present them as actual bookings.
+
+## Sound, entrance and material update
+
+- Latest sound/glass pass: default sound is gesture-armed, mute persists after reload, and scroll events trigger distinct scan cues with a cooldown and a ten-second activity window. All synthesized voices ended, and none restarted while any of the five music videos played.
+- The short opening reveal dismisses after font readiness or a hard deadline and is skipped for reduced motion. The four studio-supplied capability highlights, glass arrows and animated tablet edges were inspected in phone and desktop browser layouts. Offscreen/Save-Data fallbacks pause decorative border motion. No new media files or animation dependencies were added.
 
 ## Remaining limitations
 

@@ -354,7 +354,7 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
         );
       }
     }
-    function burst() {
+    function burst(cause = 'idle') {
       stop();
       if (disposed || !visible() || staticMode()) return;
       measure();
@@ -369,7 +369,12 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       started = performance.now();
       previousDraw = 0;
       canvas!.dataset.running = 'true';
+      canvas!.dataset.cause = cause;
       frame = requestAnimationFrame(animate);
+      if (cause !== 'idle' || cycle % 2 === 0)
+        window.dispatchEvent(
+          new CustomEvent('aicanfeel:scan', { detail: { cause, cycle } }),
+        );
     }
     function sync() {
       stop();
@@ -414,8 +419,13 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       canvas!.dataset.nodes = String(tracks.length);
       sync();
     }
+    let scrollDistance = 0,
+      lastScrollBurst = 0;
     const scrollChanged = () => {
       const delta = scrollY - window.scrollY;
+      scrollDistance += Math.abs(delta);
+      if (Math.abs(delta) > 8 && focused !== document.activeElement)
+        focused = null;
       scrollY = window.scrollY;
       controls.forEach((c) => {
         c.box.y += delta;
@@ -424,6 +434,16 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       layoutFrame = requestAnimationFrame(() => {
         layoutFrame = 0;
         if (disposed || !visible()) return;
+        if (
+          !staticMode() &&
+          scrollDistance > 65 &&
+          performance.now() - lastScrollBurst > 600
+        ) {
+          scrollDistance = 0;
+          lastScrollBurst = performance.now();
+          burst('scroll');
+          return;
+        }
         measure();
         draw(
           frame
@@ -450,7 +470,7 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       focused = control;
       measure();
       if (staticMode()) draw();
-      else burst();
+      else burst('focus');
     };
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);

@@ -1,10 +1,12 @@
-# AICANFEEL — Light Archive
+# AICANFEEL — Portfolio
 
 The complete mobile-first CGI / VFX portfolio, with five portrait films, a real-time glass film fan, Shader Lines background, control-linked scan effects, a glass video carousel, soundtrack waveforms and a personalized musician brief.
 
 **Deploy:** follow [DEPLOY.md](DEPLOY.md) to connect this repository to Cloudflare Workers.
 
 **Final checks and limitations:** see [FINAL-CHECK.md](FINAL-CHECK.md).
+
+Repository: [Global0809/Portfolio](https://github.com/Global0809/Portfolio). The short opening reveal, illuminated studio highlights and scroll-linked glitch accents share the existing glass visual language. Sound is enabled by default but starts only after a trusted visitor gesture; a saved mute preference is respected. Interface audio stops during music video playback.
 
 ## Run locally
 
@@ -20,6 +22,8 @@ For a production check: `npm run typecheck`, `npm run test:bookings`, `npm run b
 ## Main editable files
 
 - `app/page.tsx`: portfolio composition and navigation.
+- `app/entrance.tsx`, `app/studio-signatures.tsx`, `app/signal-details.css`: opening transition, capability highlights and glass controls.
+- `app/interface-sound.ts`: gesture-armed sound preference and synthesized interaction/scan accents.
 - `app/film-player.tsx`: glass viewer, player controls and film switching.
 - `app/listening-room.css`: film carousel and artist pass styling.
 - `app/booking.tsx`: three required details and a choice of visual direction.

@@ -6,6 +6,7 @@ import './life.css';
 import './refinements.css';
 import './listening-room.css';
 import './release-polish.css';
+import './signal-details.css';
 const sans = Manrope({
   variable: '--font-archive-sans',
   subsets: ['latin'],

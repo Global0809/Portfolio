@@ -28,6 +28,8 @@ import { useInterfaceSound } from './interface-sound';
 import { SlotInvitation } from './slot-invitation';
 import { FilmPlayer } from './film-player';
 import { ScrollSignal } from './scroll-signal';
+import { Entrance } from './entrance';
+import { StudioSignatures } from './studio-signatures';
 
 const time = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
@@ -41,7 +43,7 @@ export default function Home() {
   const [bookingOpen, setBookingOpen] = useState(false);
   const { availability, refresh } = useAvailability();
   const [reduced, setReduced] = useState(false);
-  const sound = useInterfaceSound(viewing !== null);
+  const sound = useInterfaceSound(viewing !== null, bookingOpen || about);
   const [origin, setOrigin] = useState({ x: 70, y: 45 });
   const returnFocus = useRef<HTMLElement | null>(null);
   useEffect(() => {
@@ -111,6 +113,7 @@ export default function Home() {
   }
   return (
     <main id="top" className="archive" data-effects-paused={reduced}>
+      <Entrance />
       <ScrollSignal paused={viewing !== null || bookingOpen || about} />
       <div className="shader-background" aria-hidden="true">
         <ShaderAnimation
@@ -276,6 +279,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <StudioSignatures paused={viewing !== null || bookingOpen || about} />
       <SlotInvitation
         availability={availability}
         onStart={() => setBookingOpen(true)}
