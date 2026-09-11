@@ -7,6 +7,8 @@ import './refinements.css';
 import './listening-room.css';
 import './release-polish.css';
 import './signal-details.css';
+import './instagram-invitation.css';
+import { assetPath } from './site-path';
 const sans = Manrope({
   variable: '--font-archive-sans',
   subsets: ['latin'],
@@ -22,11 +24,10 @@ const serif = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: 'AICANFEEL — CGI + VFX Music videos',
   description:
-    'CGI + VFX music videos by AICANFEEL. Explore the portfolio and book a studio slot for your next release.',
-  metadataBase: new URL(
-    'https://aicanfeel-light-archive.globalgupta14.chatgpt.site',
-  ),
-  icons: { icon: '/favicon.svg' },
+    'CGI + VFX music videos by AICANFEEL. Explore the portfolio and message the studio on Instagram about your next release.',
+  metadataBase: new URL('https://global0809.github.io/Portfolio/'),
+  alternates: { canonical: 'https://global0809.github.io/Portfolio/' },
+  icons: { icon: assetPath('favicon.svg') },
 };
 export const viewport: Viewport = {
   themeColor: '#060709',

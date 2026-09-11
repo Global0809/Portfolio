@@ -18,6 +18,7 @@ import { Slider } from '@/components/ui/slider';
 import { films } from './films';
 import { FilmWave } from './film-wave';
 import { VerifiedMark } from './verified-mark';
+import { studio } from './studio-config';
 
 const time = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
@@ -26,13 +27,11 @@ export function FilmPlayer({
   index,
   onClose,
   onSelect,
-  onBook,
   reduced,
 }: {
   index: number;
   onClose: () => void;
   onSelect: (index: number) => void;
-  onBook: () => void;
   reduced: boolean;
 }) {
   const film = films[index];
@@ -328,14 +327,16 @@ export function FilmPlayer({
                             {ended ? 'Feel it again.' : 'Press play.'}
                           </span>
                           {ended && (
-                            <button
+                            <a
                               data-press
-                              className="ended-book"
-                              onClick={onBook}
+                              className="ended-message"
+                              href={studio.instagramMessageUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
-                              Book my slot
+                              Message us on Instagram
                               <ArrowUpRight size={16} />
-                            </button>
+                            </a>
                           )}
                         </div>
                       )

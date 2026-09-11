@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
+import { assetPath } from './site-path';
 
 export function FilmWave({
   video,
@@ -19,7 +20,7 @@ export function FilmWave({
   useEffect(() => {
     envelope.current = null;
     const controller = new AbortController();
-    fetch(`/media/wave-${filmId}.json`, { signal: controller.signal })
+    fetch(assetPath(`media/wave-${filmId}.json`), { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : null))
       .then((data: unknown) => {
         if (

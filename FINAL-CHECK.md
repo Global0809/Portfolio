@@ -1,31 +1,24 @@
-# Final delivery check — 10 September 2026
+# GitHub Pages delivery — 11 September 2026
 
-- TypeScript compilation passed.
-- A clean dependency install, standalone production build and Cloudflare deployment dry run passed. The generated Worker has no placeholder D1 binding or Sites runtime dependency.
-- The standalone production server returned 200 for the portfolio and availability endpoint, and rejected unauthenticated studio requests. All five packaged films played successfully in its mobile browser preview.
-- All eight isolated booking integration scenarios passed, including capacity, idempotency, expiry, confirmation/cancellation and email-failure recovery. No external email was sent during testing.
-- Desktop and mobile browser checks covered all five films, play/pause, sound, seeking, replay, direct selection, fullscreen continuity, returning to the portfolio and opening the booking form.
-- Small portrait and landscape layouts, reduced motion, autoplay-denied fallback, media error recovery, source cleanup and the soundtrack waveform were checked.
-- The optional track-link/note fields are absent. The email draft retains the artist, track, mood and inspiration. No test request was sent.
-- The GitHub delivery includes every video needed by the build. No real secrets, runtime database files, local environment files or Git history from unrelated projects are included.
+Live website: **https://global0809.github.io/Portfolio/**
 
-## Latest interface update
+## Completed checks
 
-- Updated the headline to CGI + VFX Music videos and the portfolio/player/booking wording. Booking starts below the hero; no motion-pause control is shown. System reduced-motion settings still apply.
-- Added a linked Instagram footer, synthesized sound accents, subtle scroll parallax, and a scroll meter verified at 0% and 100%.
-- Checked the updated production UI at 320 × 568, 390 × 844, and 1440 × 1000. The narrow-phone sound target is 44 × 44 pixels, and the page has no horizontal overflow.
-- All five videos advanced with one video element at a time. Interface sound voices finished and did not restart during video playback. The personalized email draft was intercepted for inspection; no email was sent.
-- Both delivery builds and TypeScript checks passed. No animation library, media download, or continuously running scroll loop was added.
-- The availability panel shows seven slots per intake. The suggested 30-total/23-booked counts were not confirmed, so the site does not present them as actual bookings.
+- TypeScript and the static export passed. The production build was run using Node 22; the packaged output is in pages-dist.
+- GitHub Pages reports the gh-pages deployment as built and public, with HTTPS enforced. Anonymous requests to the website, CSS, JavaScript, fonts and covers return 200.
+- All five public MP4 endpoints support byte-range requests (206), allowing seeking without downloading each entire video first.
+- All five music videos played in the static production preview. The check covered selection, replay, play/pause, mute, seeking, fullscreen, and returning to the portfolio. Only one video existed during playback, and none remained after closing.
+- The Instagram message link opened the AICANFEEL conversation. No message was composed or sent. A separate profile link is available beside the verified badge and supplied follower count.
+- The new invitation was inspected at 320 × 568, 390 × 844 and 1440 × 1000. The phone CTA is 58px tall, no horizontal overflow was found, and the decorative orbit pauses offscreen. Reduced-motion mode was checked.
+- The booking forms, availability counters, reservation/studio routes, API, database schema, email setup and booking dependencies were removed from this version.
+- Existing video audio, mobile rendering caps, touch interactions, shader/scan effects, entrance, sound preferences and capability highlights are retained.
+- This version is separate from the earlier chatgpt.site preview, which was not changed by this deployment.
 
-## Sound, entrance and material update
+## Practical limits
 
-- Latest sound/glass pass: default sound is gesture-armed, mute persists after reload, and scroll events trigger distinct scan cues with a cooldown and a ten-second activity window. All synthesized voices ended, and none restarted while any of the five music videos played.
-- The short opening reveal dismisses after font readiness or a hard deadline and is skipped for reduced motion. The four studio-supplied capability highlights, glass arrows and animated tablet edges were inspected in phone and desktop browser layouts. Offscreen/Save-Data fallbacks pause decorative border motion. No new media files or animation dependencies were added.
-
-## Remaining limitations
-
-- Automated booking confirmations require the studio's real sender setup, database, private runtime values and chosen hold duration. The current email-request flow is usable without these.
-- Strict lint is not clean. It reports React Compiler/style recommendations and accessibility findings in application and bundled UI components. Type checking, build and integration tests are separate checks; passing them does not imply lint passed.
-- Source videos have no separate closed-caption tracks. Physical iOS and Android hardware testing has not been performed; mobile checks used browser viewports.
-- The real-time Three.js chunk still triggers a build size warning. It is loaded on demand; mobile rendering and pixel budgets remain capped.
+- Instagram may require the visitor to sign in or open its app to message the studio.
+- Browser sound starts after deliberate interaction. Saved mute and reduced-motion preferences are respected.
+- Mobile checks used browser viewports, not physical iOS/Android devices. The supplied videos have no separate caption tracks.
+- The existing lazy-loaded Three.js chunk still triggers a build-size warning. The repository's strict lint baseline is not clean; TypeScript and production-build checks are separate.
+- Existing npm audit findings concern build/server packages. This deployment serves static files only and has no public Node, RSC or application API server. Future dependency updates should be tested before publishing.
+- Use Node 22 LTS for builds. Windows Node 24 can hit an upstream shutdown assertion after Vinext prerendering.

@@ -1,40 +1,45 @@
 # AICANFEEL — Portfolio
 
-The complete mobile-first CGI / VFX portfolio, with five portrait films, a real-time glass film fan, Shader Lines background, control-linked scan effects, a glass video carousel, soundtrack waveforms and a personalized musician brief.
+**Live website: [global0809.github.io/Portfolio](https://global0809.github.io/Portfolio/)**
 
-**Deploy:** follow [DEPLOY.md](DEPLOY.md) to connect this repository to Cloudflare Workers.
+A mobile-first CGI / VFX music video portfolio. Five portrait videos, a real-time glass cover fan, shader background, control-linked scan effects, soundtrack waves, and a single Instagram message invitation.
 
-**Final checks and limitations:** see [FINAL-CHECK.md](FINAL-CHECK.md).
+## Local development
 
-Repository: [Global0809/Portfolio](https://github.com/Global0809/Portfolio). The short opening reveal, illuminated studio highlights and scroll-linked glitch accents share the existing glass visual language. Sound is enabled by default but starts only after a trusted visitor gesture; a saved mute preference is respected. Interface audio stops during music video playback.
-
-## Run locally
-
-Use Node 22.13 or newer.
+Use Node 22 LTS (22.13 or newer within the 22.x line), then:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-For a production check: `npm run typecheck`, `npm run test:bookings`, `npm run build`, then `npm start`.
+Open the URL printed by the development server. The production preview uses `/Portfolio/`.
 
-## Main editable files
+For the production version:
 
-- `app/page.tsx`: portfolio composition and navigation.
-- `app/entrance.tsx`, `app/studio-signatures.tsx`, `app/signal-details.css`: opening transition, capability highlights and glass controls.
-- `app/interface-sound.ts`: gesture-armed sound preference and synthesized interaction/scan accents.
-- `app/film-player.tsx`: glass viewer, player controls and film switching.
-- `app/listening-room.css`: film carousel and artist pass styling.
-- `app/booking.tsx`: three required details and a choice of visual direction.
-- `app/studio-config.ts`: studio identity, Instagram presentation and email.
-- `app/films.ts`: the five films and cover mapping.
-- `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: capped, reduced-motion-aware background and glass effects.
-- `public/media`: all five optimized MP4s, WebP covers and waveform envelopes.
-- `wrangler.jsonc`, `vite.config.ts`: standalone Cloudflare deployment configuration.
+```sh
+npm run typecheck
+npm run build
+npm start
+```
 
-The original source footage remains unchanged. Run `node scripts/prepare-waveforms.mjs` with FFmpeg installed after replacing a soundtrack.
+Open [localhost:4173/Portfolio/](http://localhost:4173/Portfolio/).
 
-The booking form currently prepares an email request to **aicanfeel@gmail.com**. A slot is confirmed by the studio. Automated reservation emails remain disabled until the real database, sender, secrets and studio-approved hold duration are configured.
+Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or run `npx --yes --package=node@22 -- npm run build` to build with Node 22 temporarily.
 
-This repository contains the complete deployment copy. It has no dependency on a Codex workspace, a Sites project, or the original computer's media paths.
+## Editable source
+
+- `app/page.tsx`: composition, navigation, and portfolio.
+- `app/instagram-invitation.tsx`, `app/instagram-invitation.css`: Instagram contact section.
+- `app/studio-config.ts`: Instagram profile, message link, and supplied profile details.
+- `app/film-player.tsx`, `app/listening-room.css`: music video viewer and playback controls.
+- `app/films.ts`, `public/media`: video metadata, optimized media, covers, and audio envelopes.
+- `app/interface-sound.ts`: gesture-armed interaction sounds and mute preference.
+- `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: reactive visual effects.
+- `app/studio-signatures.tsx`, `app/signal-details.css`: studio highlights and entrance styling.
+
+This version is fully static. It contains no booking form, reservation API, database, email sender, or slot counters. The contact button opens Instagram messaging; the profile link is also available. Instagram may require sign-in.
+
+Sound is enabled by default but starts only after a trusted visitor gesture. Saved mute preferences and reduced-motion settings are respected. Original video audio is preserved; interface sounds stop during playback.
+
+See [DEPLOY.md](DEPLOY.md) for publishing and [FINAL-CHECK.md](FINAL-CHECK.md) for validation details.

@@ -62,7 +62,7 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
     );
     const anchors = Array.from(
       document.querySelectorAll<HTMLElement>(
-        '.editorial h1, .sculpture-wrap, .film-index, .invitation-glass',
+        '.editorial h1, .sculpture-wrap, .film-index, .instagram-invitation',
       ),
     );
     const staticMode = () =>
@@ -106,9 +106,9 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
         .sort((a, b) => {
           const rank = (c: Control) =>
             (c.element === focused ? 1000 : 0) +
-            (c.id === 'intake-request'
+            (c.id === 'instagram-message'
               ? 100
-              : c.action === 'book'
+              : c.action === 'contact'
                 ? 30
                 : c.action === 'watch'
                   ? 20

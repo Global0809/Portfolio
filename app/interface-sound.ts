@@ -180,7 +180,7 @@ export function useInterfaceSound(filmOpen: boolean, ambientPaused = false) {
       accent(
         target.closest('.stage-arrows') || target.matches('[role="radio"]')
           ? 'step'
-          : target.matches('.hero-book,.nav-book,.booking-submit')
+          : target.matches('.instagram-message,.ended-message')
             ? 'open'
             : 'tap',
       );

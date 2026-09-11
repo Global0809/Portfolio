@@ -19,13 +19,12 @@ import {
 import { films } from './films';
 import { FilmSculpture } from './sculpture';
 import { ShaderAnimation } from '@/components/ui/shader-lines';
-import { BookingDialog, useAvailability } from './booking';
 import { VerifiedMark } from './verified-mark';
 import { studio } from './studio-config';
 import { useExperienceMotion } from './motion';
 import { NeuralLinks } from './neural-links';
 import { useInterfaceSound } from './interface-sound';
-import { SlotInvitation } from './slot-invitation';
+import { InstagramInvitation } from './instagram-invitation';
 import { FilmPlayer } from './film-player';
 import { ScrollSignal } from './scroll-signal';
 import { Entrance } from './entrance';
@@ -38,12 +37,9 @@ export default function Home() {
   useExperienceMotion();
   const [active, setActive] = useState(4);
   const [viewing, setViewing] = useState<number | null>(null);
-  const [showDock, setShowDock] = useState(false);
   const [about, setAbout] = useState(false);
-  const [bookingOpen, setBookingOpen] = useState(false);
-  const { availability, refresh } = useAvailability();
   const [reduced, setReduced] = useState(false);
-  const sound = useInterfaceSound(viewing !== null, bookingOpen || about);
+  const sound = useInterfaceSound(viewing !== null, about);
   const [origin, setOrigin] = useState({ x: 70, y: 45 });
   const returnFocus = useRef<HTMLElement | null>(null);
   useEffect(() => {
@@ -58,35 +54,6 @@ export default function Home() {
     update();
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
-  }, []);
-  useEffect(() => {
-    const films = document.querySelector('.film-index');
-    const hero = document.querySelector('.hero-actions');
-    const invitation = document.querySelector(
-      '.invitation-glass .booking-submit',
-    );
-    if (!films || !hero || !invitation) return;
-    if (!('IntersectionObserver' in window)) {
-      setShowDock(true);
-      return;
-    }
-    let explored = false,
-      heroVisible = true,
-      invitationVisible = false;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.target === films && entry.isIntersecting) explored = true;
-          if (entry.target === hero) heroVisible = entry.isIntersecting;
-          if (entry.target === invitation)
-            invitationVisible = entry.isIntersecting;
-        }
-        setShowDock(explored && !heroVisible && !invitationVisible);
-      },
-      { threshold: 0.15 },
-    );
-    [films, hero, invitation].forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
   }, []);
   function openFilm(index: number, target?: HTMLElement) {
     returnFocus.current = target || (document.activeElement as HTMLElement);
@@ -114,16 +81,16 @@ export default function Home() {
   return (
     <main id="top" className="archive" data-effects-paused={reduced}>
       <Entrance />
-      <ScrollSignal paused={viewing !== null || bookingOpen || about} />
+      <ScrollSignal paused={viewing !== null || about} />
       <div className="shader-background" aria-hidden="true">
         <ShaderAnimation
           reducedMotion={reduced}
-          paused={viewing !== null || bookingOpen || about}
+          paused={viewing !== null || about}
         />
         <div className="shader-vignette" />
       </div>
       <NeuralLinks
-        paused={viewing !== null || bookingOpen || about}
+        paused={viewing !== null || about}
         reduced={reduced}
         signal={active}
       />
@@ -200,7 +167,7 @@ export default function Home() {
           <div className="stage-halo" data-parallax="24" />
           <FilmSculpture
             active={active}
-            paused={viewing !== null || about || bookingOpen}
+            paused={viewing !== null || about}
             reduced={reduced}
             onSelect={openFilm}
             onPreview={setActive}
@@ -279,69 +246,9 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <StudioSignatures paused={viewing !== null || bookingOpen || about} />
-      <SlotInvitation
-        availability={availability}
-        onStart={() => setBookingOpen(true)}
-      />
-      <div
-        className={`mobile-booking-dock ${showDock && !bookingOpen && viewing === null && !about ? 'is-visible' : ''}`}
-        inert={!showDock || bookingOpen || viewing !== null || about}
-      >
-        <span>
-          {availability.enabled ? (
-            <>
-              <i className="signal-dot" />
-              {availability.remaining} places available
-            </>
-          ) : (
-            <>
-              Your next release.
-              <br />
-              <strong>Make it cinematic.</strong>
-            </>
-          )}
-        </span>
-        <button
-          data-press
-          data-scan="book"
-          data-scan-id="dock-book"
-          onClick={() => setBookingOpen(true)}
-        >
-          {availability.enabled && availability.remaining === 0
-            ? 'Next intake'
-            : 'Book my slot'}
-          <ArrowUpRight size={17} />
-        </button>
-      </div>
-      <BookingDialog
-        open={bookingOpen}
-        onOpenChange={setBookingOpen}
-        availability={
-          availability.remaining === 0
-            ? { ...availability, enabled: false }
-            : availability
-        }
-        onReserved={() => void refresh()}
-        inspiration={films[active].title}
-      />
+      <StudioSignatures paused={viewing !== null || about} />
+      <InstagramInvitation />
       <footer className="studio-footer">
-        <a
-          className="instagram-signature"
-          href={studio.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-press
-        >
-          <span className="instagram-caption">FIND US ON INSTAGRAM</span>
-          <span className="instagram-name">
-            @aicanfeel {studio.instagramVerified && <VerifiedMark />}{' '}
-            <ArrowUpRight size={22} />
-          </span>
-          <span className="instagram-followers">
-            <strong>{studio.instagramFollowers}</strong> followers
-          </span>
-        </a>
         <div className="footer-baseline">
           <span>AICANFEEL © {new Date().getFullYear()}</span>
           <button onClick={() => setAbout(true)}>About AICANFEEL</button>
@@ -369,10 +276,6 @@ export default function Home() {
             <FilmPlayer
               index={viewing}
               reduced={reduced}
-              onBook={() => {
-                setViewing(null);
-                setBookingOpen(true);
-              }}
               onClose={closeFilm}
               onSelect={(index) => {
                 setViewing(index);

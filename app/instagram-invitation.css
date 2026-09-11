@@ -1,0 +1,91 @@
+/* A single invitation, with a signal that travels toward the message action. */
+.instagram-contact { padding: 48px 0 36px; }
+.instagram-invitation {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 29px 25px 25px;
+  background: radial-gradient(ellipse at 100% 0, #7fa4cf24, transparent 55%), linear-gradient(145deg, #18212ac9, #070c13f0 75%);
+  border: 1px solid #c9dfed4d;
+  box-shadow: inset 0 1px 1px #ebf4ff4d, 0 18px 50px #0004;
+}
+.contact-copy { position: relative; z-index: 1; width: 100%; }
+.contact-eyebrow { display: flex; align-items: center; gap: 8px; color: #b4c7d7; font-size: 9px; letter-spacing: .14em; margin: 0 0 23px; }
+.contact-eyebrow > span { width: 4px; height: 4px; border-radius: 50%; background: #d7e5f2; box-shadow: 0 0 9px #daeaff80; }
+.instagram-invitation h2 { margin: 0; font-size: clamp(28px, 7.7vw, 45px); line-height: 1.17; font-weight: 500; letter-spacing: -.055em; color: #f0f3f4; }
+.instagram-invitation h2 em { display: inline-block; margin-top: 3px; font-family: var(--font-archive-serif), Georgia, serif; font-weight: 400; color: #ded4c4; font-size: 1.2em; line-height: 1.03; letter-spacing: -.045em; }
+.contact-description { color: #b8c4ce; font-size: 13px; line-height: 1.85; margin: 21px 0 29px; max-width: 390px; }
+.contact-desktop-break { display: none; }
+.instagram-message {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  min-height: 58px;
+  width: 100%;
+  padding: 15px 14px;
+  border: 1px solid #f0f8ffcf;
+  border-radius: 18px;
+  color: #111f2d;
+  background: linear-gradient(110deg, #edf6ff, #c6d9e8 53%, #e9d9c3);
+  box-shadow: inset 0 1px 1px #fff, inset 0 -2px 2px #62758425, 0 7px 28px #a7c9e412;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+.instagram-message > svg { flex-shrink: 0; }
+.instagram-message > svg:last-child { margin-left: auto; transition: transform .3s ease; }
+.instagram-message::before { content: ''; position: absolute; inset: -60% -35%; background: linear-gradient(105deg, transparent 43%, #fff8 50%, transparent 57%); transform: translateX(-85%); pointer-events: none; }
+.instagram-message:hover, .instagram-message[data-scan-active='true'] { box-shadow: inset 0 1px 1px #fff, 0 0 0 3px #d5eafa12, 0 9px 30px #aecde922; }
+.instagram-message:hover::before, .instagram-message:focus-visible::before { animation: contact-reflection .85s ease; }
+.instagram-message:hover > svg:last-child { transform: translate(2px,-2px); }
+@keyframes contact-reflection { to { transform: translateX(85%); } }
+.contact-profile { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 16px; font-size: 10px; color: #9aaebc; }
+.contact-profile a { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; color: #d2dce4; }
+.contact-profile .verified-mark { width: 15px; height: 15px; }
+.contact-orbit { width: 66px; height: 66px; position: relative; margin: 0 0 27px; display: grid; place-items: center; }
+.contact-orbit > span { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 17px; border: 1px solid #e9f4ff42; background: linear-gradient(135deg, #def1ff26, #a0c6ec06); box-shadow: inset 0 1px #ecf7ff55, 0 8px 28px #0003; color: #d1e5f4; transform: rotate(-8deg); }
+.contact-orbit > span svg { transform: rotate(8deg); }
+.contact-orbit > i { position: absolute; inset: -7px; border: 1px solid #b5d4ed1e; border-top-color: #e4efff6b; border-radius: 50%; animation: contact-orbit 13s linear infinite; }
+.contact-orbit > i:nth-child(2) { inset: -18px; border-color: #b5d4ed0a; border-right-color: #e8cfac38; animation-direction: reverse; animation-duration: 19s; }
+@keyframes contact-orbit { to { transform: rotate(360deg); } }
+.instagram-invitation:not([data-in-view='true']) .contact-orbit > i { animation-play-state: paused; }
+.studio-footer { padding: 0 0 24px; gap: 0; border-top: 0; }
+.studio-footer .footer-baseline { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; }
+/* The previous dock's bottom clearance is no longer needed. */
+body { padding-bottom: 0; }
+@media (min-width: 761px) {
+  .instagram-contact { padding: 64px 0 44px; }
+  .instagram-invitation { padding: 55px 56px 38px; min-height: 380px; }
+  .contact-copy { width: 70%; max-width: 620px; }
+  .instagram-invitation h2 { font-size: clamp(36px, 3.4vw, 51px); }
+  .contact-description { font-size: 14px; margin-bottom: 29px; }
+  .contact-desktop-break { display: block; }
+  .instagram-message { max-width: 370px; min-height: 60px; padding: 16px 20px; font-size: 14px; }
+  .contact-profile { max-width: 370px; }
+  .contact-orbit { position: absolute; width: 140px; height: 140px; right: 9%; top: 50%; margin: -70px 0 0; }
+  .contact-orbit > span { width: 100px; height: 100px; border-radius: 28px; }
+  .contact-orbit > span svg { width: 42px; height: 42px; }
+  .contact-orbit > i { inset: -6px; }
+  .contact-orbit > i:nth-child(2) { inset: -30px; }
+}
+@media (max-width: 360px) {
+  .instagram-invitation { padding: 25px 19px 19px; }
+  .instagram-invitation h2 { font-size: 27px; }
+  .instagram-message { font-size: 12px; gap: 8px; }
+  .instagram-message > svg:first-child { width: 18px; }
+  .contact-profile { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-orbit > i { animation: none; }
+  .instagram-message, .instagram-message > svg:last-child { transition: none; }
+  .instagram-message::before { display: none; }
+}
+html[data-page-hidden='true'] .contact-orbit > i { animation-play-state: paused; }
