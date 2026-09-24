@@ -1,12 +1,15 @@
-# Custom-domain preparation — 24 September 2026
+# Custom-domain delivery — 24 September 2026
 
-Target domain: **https://aicanfeelweb.com/**
+Live website: **https://aicanfeelweb.com/**
 
 - Rebuilt the static website with root-relative assets and the new canonical URL.
 - Added public/CNAME and a packaging check to preserve the custom domain across future deployments.
 - TypeScript and the Node22 production build passed.
 - The local root preview loaded in the browser without console errors; all generated JavaScript, CSS, fonts and covers returned200. All five MP4s supported206 byte-range requests.
-- Hostinger now has all four GitHub Pages A records and the www CNAME. GitHub's custom domain is set to aicanfeelweb.com; the root-path build is published. Authoritative DNS confirms the records; existing MX/SPF/DKIM/DMARC records were preserved. HTTPS certificate provisioning is still pending.
+- Hostinger now has all four GitHub Pages A records and the www CNAME. GitHub's custom domain is set to aicanfeelweb.com; the root-path build is published. Authoritative DNS confirms the records; existing MX/SPF/DKIM/DMARC records were preserved. The HTTPS certificate is approved for both aicanfeelweb.com and www.aicanfeelweb.com; HTTPS enforcement is enabled.
+
+- Verified HTTPS200 for the portfolio and all15 linked assets, with206 video range responses for all five films. The custom-domain browser played Seeing red and returned to the portfolio without console errors.
+- HTTP, www and the original github.io/Portfolio address all return301 redirects to https://aicanfeelweb.com/.
 
 ---
 
