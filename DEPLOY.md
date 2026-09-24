@@ -1,12 +1,12 @@
-# GitHub Pages
+# GitHub Pages with a Hostinger domain
 
-Live website: **https://global0809.github.io/Portfolio/**
+Website address: **https://aicanfeelweb.com/**
 
-The editable source lives on `main`. GitHub Pages publishes the generated static website from the root of `gh-pages`. No API keys, database, paid hosting, or server are needed.
+Hostinger manages the domain and DNS. GitHub Pages serves the static portfolio. The editable source is on `main`; the published website is generated into the root of `gh-pages`.
 
 ## Publish an update
 
-Install Node 22 LTS and GitHub CLI, and authenticate GitHub CLI with an account that can push to this repository. Then:
+Use Node 22 LTS and GitHub CLI authenticated with permission to push to Global0809/Portfolio:
 
 ```sh
 npm ci
@@ -14,14 +14,28 @@ npm run typecheck
 npm run deploy
 ```
 
-The deploy command builds the website, prepares `pages-dist`, and pushes the generated files to `gh-pages`. GitHub publishes that branch automatically. Commit and push editable source changes to `main` separately.
+On Windows with Node 24 installed, run `npx --yes --package=node@22 -- npm run deploy` instead. Commit and push source changes to `main` separately.
 
-Repository Settings → Pages should use **Deploy from a branch**, branch **gh-pages**, folder **/ (root)**.
+GitHub Settings → Pages must use **Deploy from a branch**, branch **gh-pages**, folder **/ (root)**, and custom domain **aicanfeelweb.com**. Enable **Enforce HTTPS** once GitHub provisions the certificate.
 
-## Project path
+## Domain records at Hostinger
 
-The website is hosted beneath `/Portfolio/`. `next.config.ts` and `app/site-path.ts` provide that prefix. The packaging script normalizes Vinext's prefixed asset directories for GitHub Pages and includes `.nojekyll`. If you change the repository name, update these paths, the canonical URL in `app/layout.tsx`, and `scripts/deploy-pages.mjs` before rebuilding.
+Keep Hostinger nameservers and the domain's existing email records. The website DNS records should be:
 
-All five optimized MP4s, covers and waveform files are included. Original footage remains untouched. Videos load on selection.
+| Type | Name | Value |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | global0809.github.io |
 
-This GitHub Pages deployment is separate from the earlier chatgpt.site preview.
+Replace any previous website A record for @. Use the provider's default TTL. GitHub's current setup instructions are at https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site .
+
+## Root paths and CNAME
+
+All assets load from the domain root. `app/site-path.ts`, `next.config.ts` and `vite.preview.config.ts` use root paths. The canonical URL is in `app/layout.tsx`.
+
+`public/CNAME` must contain `aicanfeelweb.com`; it is copied into every build so a future deployment does not remove the custom domain. The packaging script validates this before publishing. The Git repository remote remains https://github.com/Global0809/Portfolio.git.
+
+All five MP4s, covers and audio envelopes are included. This deployment is separate from the earlier chatgpt.site preview.

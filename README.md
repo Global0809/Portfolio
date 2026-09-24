@@ -1,6 +1,6 @@
 # AICANFEEL — Portfolio
 
-**Live website: [global0809.github.io/Portfolio](https://global0809.github.io/Portfolio/)**
+**Live website: [aicanfeelweb.com](https://aicanfeelweb.com/)**
 
 A mobile-first CGI / VFX music video portfolio. Five portrait videos, a real-time glass cover fan, shader background, control-linked scan effects, soundtrack waves, and a single Instagram message invitation.
 
@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Open the URL printed by the development server. The production preview uses `/Portfolio/`.
+Open the URL printed by the development server. The production preview uses `/`.
 
 For the production version:
 
@@ -23,7 +23,7 @@ npm run build
 npm start
 ```
 
-Open [localhost:4173/Portfolio/](http://localhost:4173/Portfolio/).
+Open [localhost:4173/Portfolio/](http://localhost:4173/).
 
 Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or run `npx --yes --package=node@22 -- npm run build` to build with Node 22 temporarily.
 

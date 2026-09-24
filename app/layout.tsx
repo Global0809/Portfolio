@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   title: 'AICANFEEL — CGI + VFX Music videos',
   description:
     'CGI + VFX music videos by AICANFEEL. Explore the portfolio and message the studio on Instagram about your next release.',
-  metadataBase: new URL('https://global0809.github.io/Portfolio/'),
-  alternates: { canonical: 'https://global0809.github.io/Portfolio/' },
+  metadataBase: new URL('https://aicanfeelweb.com/'),
+  alternates: { canonical: 'https://aicanfeelweb.com/' },
   icons: { icon: assetPath('favicon.svg') },
 };
 export const viewport: Viewport = {

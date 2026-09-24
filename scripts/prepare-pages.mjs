@@ -10,16 +10,10 @@ rmSync(target, { recursive: true, force: true });
 mkdirSync(target, { recursive: true });
 cpSync(source, target, { recursive: true });
 
-// Vinext writes prefixed assets on disk. Pages supplies /Portfolio at the mount point.
-const prefixed = resolve(target, 'Portfolio');
-if (existsSync(resolve(prefixed, '_next'))) {
-  cpSync(resolve(prefixed, '_next'), resolve(target, '_next'), { recursive: true });
-  if (!prefixed.startsWith(target + sep)) throw new Error('Invalid nested output');
-  rmSync(prefixed, { recursive: true, force: true });
-}
 writeFileSync(resolve(target, '.nojekyll'), '');
 const html = readFileSync(resolve(target, 'index.html'), 'utf8');
-if (!html.includes('/Portfolio/_next/')) throw new Error('Expected project-prefixed assets');
+if (!html.includes('/_next/') || html.includes('/Portfolio/')) throw new Error('Expected custom-domain root asset paths');
+if (readFileSync(resolve(target, 'CNAME'), 'utf8').trim() !== 'aicanfeelweb.com') throw new Error('Missing custom-domain CNAME');
 for (let i = 1; i <= 5; i++) {
   for (const name of [`film-${i}.mp4`, `cover-${i}.webp`, `wave-${i}.json`]) {
     if (!existsSync(resolve(target, 'media', name))) throw new Error(`Missing ${name}`);

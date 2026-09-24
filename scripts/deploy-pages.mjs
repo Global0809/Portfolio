@@ -32,7 +32,7 @@ try {
     git(['-c', 'user.name=Codex', '-c', 'user.email=codex@openai.com', 'commit', '-m', 'Publish AICANFEEL portfolio']);
     git(['push', 'origin', 'gh-pages']);
   } else console.log('Published artifact is already current.');
-  console.log('GitHub Pages: https://global0809.github.io/Portfolio/');
+  console.log('GitHub Pages: https://aicanfeelweb.com/');
 } finally {
   const safe = resolve(temp);
   if (safe.startsWith(resolve(tmpdir()) + sep) && safe.split(sep).at(-1).startsWith('aicanfeel-pages-')) rmSync(safe, { recursive: true, force: true });
