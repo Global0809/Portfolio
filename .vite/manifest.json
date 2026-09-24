@@ -1,24 +1,24 @@
 {
-  "_framework-b0sdmwSz.js": {
-    "file": "Portfolio/_next/static/chunks/framework-b0sdmwSz.js",
+  "_framework-D_rUT4EX.js": {
+    "file": "_next/static/chunks/framework-D_rUT4EX.js",
     "name": "framework",
     "imports": [
-      "_rolldown-runtime-B61bpulY.js"
+      "_rolldown-runtime-C60lm6uB.js"
     ]
   },
-  "_rolldown-runtime-B61bpulY.js": {
-    "file": "Portfolio/_next/static/chunks/rolldown-runtime-B61bpulY.js",
+  "_rolldown-runtime-C60lm6uB.js": {
+    "file": "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
     "name": "rolldown-runtime"
   },
   "app/page.tsx": {
-    "file": "Portfolio/_next/static/chunks/page-DzRZGWor.js",
+    "file": "_next/static/chunks/page-D7zFcBoh.js",
     "name": "page",
     "src": "app/page.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_rolldown-runtime-B61bpulY.js",
+      "_rolldown-runtime-C60lm6uB.js",
       "virtual:vinext-app-browser-entry",
-      "_framework-b0sdmwSz.js"
+      "_framework-D_rUT4EX.js"
     ],
     "dynamicImports": [
       "node_modules/three/build/three.module.js",
@@ -27,13 +27,13 @@
     ]
   },
   "node_modules/three/build/three.module.js": {
-    "file": "Portfolio/_next/static/chunks/three.module-CZdO6E3Z.js",
+    "file": "_next/static/chunks/three.module-BGUene8P.js",
     "name": "three.module",
     "src": "node_modules/three/build/three.module.js",
     "isDynamicEntry": true
   },
   "node_modules/three/examples/jsm/environments/RoomEnvironment.js": {
-    "file": "Portfolio/_next/static/chunks/RoomEnvironment-DCPorwk0.js",
+    "file": "_next/static/chunks/RoomEnvironment-BVLP_FFy.js",
     "name": "RoomEnvironment",
     "src": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
     "isDynamicEntry": true,
@@ -42,7 +42,7 @@
     ]
   },
   "node_modules/three/examples/jsm/geometries/RoundedBoxGeometry.js": {
-    "file": "Portfolio/_next/static/chunks/RoundedBoxGeometry-BcYjEczC.js",
+    "file": "_next/static/chunks/RoundedBoxGeometry-CcUsvMBK.js",
     "name": "RoundedBoxGeometry",
     "src": "node_modules/three/examples/jsm/geometries/RoundedBoxGeometry.js",
     "isDynamicEntry": true,
@@ -51,7 +51,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
-    "file": "Portfolio/_next/static/chunks/app-route-prefetch-policy-MAbUMY2c.js",
+    "file": "_next/static/chunks/app-route-prefetch-policy-FCILSUyW.js",
     "name": "app-route-prefetch-policy",
     "src": "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
     "isDynamicEntry": true,
@@ -60,34 +60,34 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "Portfolio/_next/static/chunks/layout-segment-context-DqI2oVSA.js",
+    "file": "_next/static/chunks/layout-segment-context-DZV_VSTQ.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
     "imports": [
-      "_rolldown-runtime-B61bpulY.js",
+      "_rolldown-runtime-C60lm6uB.js",
       "virtual:vinext-app-browser-entry",
-      "_framework-b0sdmwSz.js"
+      "_framework-D_rUT4EX.js"
     ]
   },
   "node_modules/vinext/dist/shims/streamed-icons.js": {
-    "file": "Portfolio/_next/static/chunks/streamed-icons-CGslbsbj.js",
+    "file": "_next/static/chunks/streamed-icons-B7zI55ff.js",
     "name": "streamed-icons",
     "src": "node_modules/vinext/dist/shims/streamed-icons.js",
     "isDynamicEntry": true,
     "imports": [
-      "_rolldown-runtime-B61bpulY.js",
-      "_framework-b0sdmwSz.js"
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-D_rUT4EX.js"
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "Portfolio/_next/static/chunks/index-rLjrloHB.js",
+    "file": "_next/static/chunks/index-DWK6EDu8.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
     "imports": [
-      "_rolldown-runtime-B61bpulY.js",
-      "_framework-b0sdmwSz.js"
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-D_rUT4EX.js"
     ],
     "dynamicImports": [
       "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
