@@ -1,5 +1,7 @@
 # Screening and reservation redesign — 27 September 2026
 
+Live: **https://aicanfeelweb.com/#reserve**. Pages commit `3fb3cdc9fdab65c98ae4c4eaa8226a86c6713117`, deployment run `36276018665`: successful. Public browser check confirms new highlights, no Instagram invitation, $99 reservation/disabled checkout, footer email, working WebGL, and mobile video playback/seek/filmstrip/close with zero page errors.
+
 - Replaced the four icon cells with an editorial feature composition and optical diagrams. Rebuilt the full-video collection and its full-screen viewing room with a selected-video atmosphere, thumbnail filmstrip, glass navigation and playback-linked sound indicator.
 - Replaced the closing Instagram invitation with a WebGL studio reservation pass. $99 USD is explicitly credited in full to the project deposit. Checkout is visibly unavailable until the studio supplies its real payment link. A true capacity count is still unconfirmed, so the display reads “Limited studio availability”; no timer-based inventory or simulated sales exist.
 - Added the visible footer email `aicanfeel@gmail.com` and connected the portrait-video completion CTA to the reservation section.
