@@ -57,12 +57,12 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
     let controls: Control[] = [],
       focused: HTMLElement | null = null,
       scrollY = window.scrollY;
-    const buttons = Array.from(
+    let buttons = Array.from(
       document.querySelectorAll<HTMLElement>('[data-scan]'),
     );
     const anchors = Array.from(
       document.querySelectorAll<HTMLElement>(
-        '.editorial h1, .sculpture-wrap, .film-index, .instagram-invitation',
+        '.editorial h1, .sculpture-wrap, .film-index, .full-music-videos, .instagram-invitation',
       ),
     );
     const staticMode = () =>
@@ -77,6 +77,8 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
     };
     function measure() {
       scrollY = window.scrollY;
+      // Include controls in sections revealed after hydration, such as local previews.
+      buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-scan]'));
       controls = buttons
         .flatMap((element) => {
           const port = element

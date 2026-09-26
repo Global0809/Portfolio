@@ -8,6 +8,7 @@ import './listening-room.css';
 import './release-polish.css';
 import './signal-details.css';
 import './instagram-invitation.css';
+import './full-music-videos.css';
 import { assetPath } from './site-path';
 const sans = Manrope({
   variable: '--font-archive-sans',

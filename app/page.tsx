@@ -29,6 +29,7 @@ import { FilmPlayer } from './film-player';
 import { ScrollSignal } from './scroll-signal';
 import { Entrance } from './entrance';
 import { StudioSignatures } from './studio-signatures';
+import { FullMusicVideos } from './full-music-videos';
 
 const time = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
@@ -37,9 +38,11 @@ export default function Home() {
   useExperienceMotion();
   const [active, setActive] = useState(4);
   const [viewing, setViewing] = useState<number | null>(null);
+  const [fullVideoViewing, setFullVideoViewing] = useState(false);
   const [about, setAbout] = useState(false);
   const [reduced, setReduced] = useState(false);
-  const sound = useInterfaceSound(viewing !== null, about);
+  const cinemaOpen = viewing !== null || fullVideoViewing;
+  const sound = useInterfaceSound(cinemaOpen, about);
   const [origin, setOrigin] = useState({ x: 70, y: 45 });
   const returnFocus = useRef<HTMLElement | null>(null);
   useEffect(() => {
@@ -81,16 +84,16 @@ export default function Home() {
   return (
     <main id="top" className="archive" data-effects-paused={reduced}>
       <Entrance />
-      <ScrollSignal paused={viewing !== null || about} />
+      <ScrollSignal paused={cinemaOpen || about} />
       <div className="shader-background" aria-hidden="true">
         <ShaderAnimation
           reducedMotion={reduced}
-          paused={viewing !== null || about}
+          paused={cinemaOpen || about}
         />
         <div className="shader-vignette" />
       </div>
       <NeuralLinks
-        paused={viewing !== null || about}
+        paused={cinemaOpen || about}
         reduced={reduced}
         signal={active}
       />
@@ -167,7 +170,7 @@ export default function Home() {
           <div className="stage-halo" data-parallax="24" />
           <FilmSculpture
             active={active}
-            paused={viewing !== null || about}
+            paused={cinemaOpen || about}
             reduced={reduced}
             onSelect={openFilm}
             onPreview={setActive}
@@ -246,7 +249,8 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <StudioSignatures paused={viewing !== null || about} />
+      <StudioSignatures paused={cinemaOpen || about} />
+      <FullMusicVideos onViewingChange={setFullVideoViewing} />
       <InstagramInvitation />
       <footer className="studio-footer">
         <div className="footer-baseline">

@@ -34,6 +34,7 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 - `app/studio-config.ts`: Instagram profile, message link, and supplied profile details.
 - `app/film-player.tsx`, `app/listening-room.css`: music video viewer and playback controls.
 - `app/films.ts`, `public/media`: video metadata, optimized media, covers, and audio envelopes.
+- `app/full-music-videos.tsx`, `app/full-music-videos.css`, `app/full-music-video-catalog.ts`: full-length collection above the Instagram invitation; see [FULL-MUSIC-VIDEOS.md](FULL-MUSIC-VIDEOS.md) for free streaming setup and local preview.
 - `app/interface-sound.ts`: gesture-armed interaction sounds and mute preference.
 - `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: reactive visual effects.
 - `app/studio-signatures.tsx`, `app/signal-details.css`: studio highlights and entrance styling.
