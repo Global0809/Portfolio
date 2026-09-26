@@ -7,7 +7,8 @@ import './refinements.css';
 import './listening-room.css';
 import './release-polish.css';
 import './signal-details.css';
-import './instagram-invitation.css';
+import './studio-signatures.css';
+import './studio-reservation.css';
 import './full-music-videos.css';
 import { assetPath } from './site-path';
 const sans = Manrope({
@@ -25,7 +26,7 @@ const serif = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: 'AICANFEEL — CGI + VFX Music videos',
   description:
-    'CGI + VFX music videos by AICANFEEL. Explore the portfolio and message the studio on Instagram about your next release.',
+    'CGI + VFX music videos by AICANFEEL. Explore full music videos and discover a studio reservation for your next release.',
   metadataBase: new URL('https://aicanfeelweb.com/'),
   alternates: { canonical: 'https://aicanfeelweb.com/' },
   icons: { icon: assetPath('favicon.svg') },

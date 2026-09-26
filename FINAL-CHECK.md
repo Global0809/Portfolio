@@ -1,3 +1,16 @@
+# Screening and reservation redesign — 27 September 2026
+
+- Replaced the four icon cells with an editorial feature composition and optical diagrams. Rebuilt the full-video collection and its full-screen viewing room with a selected-video atmosphere, thumbnail filmstrip, glass navigation and playback-linked sound indicator.
+- Replaced the closing Instagram invitation with a WebGL studio reservation pass. $99 USD is explicitly credited in full to the project deposit. Checkout is visibly unavailable until the studio supplies its real payment link. A true capacity count is still unconfirmed, so the display reads “Limited studio availability”; no timer-based inventory or simulated sales exist.
+- Added the visible footer email `aicanfeel@gmail.com` and connected the portrait-video completion CTA to the reservation section.
+- Chrome checks at 1440×1000, 390×844, 320×568, 768×1024 and 844×390 found no horizontal overflow. All four full videos play with native controls; phones default to 720p. Seeking, HD switching with position/pause/mute retention, filmstrip selection, Escape, close cleanup, and focus return pass. No full-video file downloads before selection. No browser page errors in the completed flow.
+- Checked reduced motion, viewport exit, video-modal pausing, and WebGL-disabled fallback. The reservation stops rendering offscreen, caps resolution/frame rate and has no animation-driven React state updates. Fallback preserves all business content.
+- Initial visual review found ticket clipping and aliasing; the renderer fit, depth separation and antialiasing were corrected. The independent finish reviewer scored that fix resolved and returned “Ship” for the reviewed scope. The one mechanical design scan returned no findings.
+- TypeScript, targeted lint, and Node 22 static production build pass. Existing Three.js large-chunk warning remains; no additional graphics library, streaming service or media asset was added. Original source footage and optimized media files are unchanged. Mobile validation used browser viewports, not physical devices.
+- The production preview also passes native fullscreen entry/exit and the portrait-video end-to-reservation journey. A pre-existing pointer-event rule was corrected so the end-screen link accepts taps. No page errors in the completed production check.
+
+---
+
 # Full music videos — 26 September 2026
 
 Live section: **https://aicanfeelweb.com/#full-music-videos**

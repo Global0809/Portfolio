@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-26T22:18:31.982Z",
+  "title": "Design System: AICANFEEL",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Carbon",
+        "tonalRamp": [
+          "oklch(15% 0.0056 262.00)",
+          "oklch(26.4% 0.0056 262.00)",
+          "oklch(37.9% 0.0056 262.00)",
+          "oklch(49.3% 0.0056 262.00)",
+          "oklch(60.7% 0.0056 262.00)",
+          "oklch(72.1% 0.0056 262.00)",
+          "oklch(83.6% 0.0056 262.00)",
+          "oklch(95% 0.0056 262.00)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Primary text",
+        "tonalRamp": [
+          "oklch(15% 0.0011 197.14)",
+          "oklch(26.4% 0.0011 197.14)",
+          "oklch(37.9% 0.0011 197.14)",
+          "oklch(49.3% 0.0011 197.14)",
+          "oklch(60.7% 0.0011 197.14)",
+          "oklch(72.1% 0.0011 197.14)",
+          "oklch(83.6% 0.0011 197.14)",
+          "oklch(95% 0.0011 197.14)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Silver ice",
+        "tonalRamp": [
+          "oklch(15% 0.0154 241.79)",
+          "oklch(26.4% 0.0154 241.79)",
+          "oklch(37.9% 0.0154 241.79)",
+          "oklch(49.3% 0.0154 241.79)",
+          "oklch(60.7% 0.0154 241.79)",
+          "oklch(72.1% 0.0154 241.79)",
+          "oklch(83.6% 0.0154 241.79)",
+          "oklch(95% 0.0154 241.79)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted surface",
+        "tonalRamp": [
+          "oklch(15% 0.0157 252.40)",
+          "oklch(26.4% 0.0157 252.40)",
+          "oklch(37.9% 0.0157 252.40)",
+          "oklch(49.3% 0.0157 252.40)",
+          "oklch(60.7% 0.0157 252.40)",
+          "oklch(72.1% 0.0157 252.40)",
+          "oklch(83.6% 0.0157 252.40)",
+          "oklch(95% 0.0157 252.40)"
+        ]
+      },
+      "ring": {
+        "role": "primary",
+        "displayName": "Focus ice",
+        "tonalRamp": [
+          "oklch(15% 0.0475 238.53)",
+          "oklch(26.4% 0.0475 238.53)",
+          "oklch(37.9% 0.0475 238.53)",
+          "oklch(49.3% 0.0475 238.53)",
+          "oklch(60.7% 0.0475 238.53)",
+          "oklch(72.1% 0.0475 238.53)",
+          "oklch(83.6% 0.0475 238.53)",
+          "oklch(95% 0.0475 238.53)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Muted text",
+        "tonalRamp": [
+          "oklch(15% 0.0183 248.07)",
+          "oklch(26.4% 0.0183 248.07)",
+          "oklch(37.9% 0.0183 248.07)",
+          "oklch(49.3% 0.0183 248.07)",
+          "oklch(60.7% 0.0183 248.07)",
+          "oklch(72.1% 0.0183 248.07)",
+          "oklch(83.6% 0.0183 248.07)",
+          "oklch(95% 0.0183 248.07)"
+        ]
+      },
+      "glint-cool": {
+        "role": "primary",
+        "displayName": "Cool glint",
+        "tonalRamp": [
+          "oklch(15% 0.0389 236.12)",
+          "oklch(26.4% 0.0389 236.12)",
+          "oklch(37.9% 0.0389 236.12)",
+          "oklch(49.3% 0.0389 236.12)",
+          "oklch(60.7% 0.0389 236.12)",
+          "oklch(72.1% 0.0389 236.12)",
+          "oklch(83.6% 0.0389 236.12)",
+          "oklch(95% 0.0389 236.12)"
+        ]
+      },
+      "glint-warm": {
+        "role": "secondary",
+        "displayName": "Champagne glint",
+        "tonalRamp": [
+          "oklch(15% 0.0502 66.05)",
+          "oklch(26.4% 0.0502 66.05)",
+          "oklch(37.9% 0.0502 66.05)",
+          "oklch(49.3% 0.0502 66.05)",
+          "oklch(60.7% 0.0502 66.05)",
+          "oklch(72.1% 0.0502 66.05)",
+          "oklch(83.6% 0.0502 66.05)",
+          "oklch(95% 0.0502 66.05)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Secondary text",
+        "tonalRamp": [
+          "oklch(15% 0.0114 243.68)",
+          "oklch(26.4% 0.0114 243.68)",
+          "oklch(37.9% 0.0114 243.68)",
+          "oklch(49.3% 0.0114 243.68)",
+          "oklch(60.7% 0.0114 243.68)",
+          "oklch(72.1% 0.0114 243.68)",
+          "oklch(83.6% 0.0114 243.68)",
+          "oklch(95% 0.0114 243.68)"
+        ]
+      },
+      "glass-edge": {
+        "role": "neutral",
+        "displayName": "Translucent glass edge",
+        "tonalRamp": [
+          "oklch(15% 0.0213 241.37)",
+          "oklch(26.4% 0.0213 241.37)",
+          "oklch(37.9% 0.0213 241.37)",
+          "oklch(49.3% 0.0213 241.37)",
+          "oklch(60.7% 0.0213 241.37)",
+          "oklch(72.1% 0.0213 241.37)",
+          "oklch(83.6% 0.0213 241.37)",
+          "oklch(95% 0.0213 241.37)"
+        ]
+      },
+      "glass-highlight": {
+        "role": "neutral",
+        "displayName": "Translucent glass highlight",
+        "tonalRamp": [
+          "oklch(15% 0.0042 236.50)",
+          "oklch(26.4% 0.0042 236.50)",
+          "oklch(37.9% 0.0042 236.50)",
+          "oklch(49.3% 0.0042 236.50)",
+          "oklch(60.7% 0.0042 236.50)",
+          "oklch(72.1% 0.0042 236.50)",
+          "oklch(83.6% 0.0042 236.50)",
+          "oklch(95% 0.0042 236.50)"
+        ]
+      },
+      "reserve-paper": {
+        "role": "secondary",
+        "displayName": "Reservation paper",
+        "tonalRamp": [
+          "oklch(15% 0.0234 75.85)",
+          "oklch(26.4% 0.0234 75.85)",
+          "oklch(37.9% 0.0234 75.85)",
+          "oklch(49.3% 0.0234 75.85)",
+          "oklch(60.7% 0.0234 75.85)",
+          "oklch(72.1% 0.0234 75.85)",
+          "oklch(83.6% 0.0234 75.85)",
+          "oklch(95% 0.0234 75.85)"
+        ]
+      },
+      "reserve-ink": {
+        "role": "neutral",
+        "displayName": "Reservation text",
+        "tonalRamp": [
+          "oklch(15% 0.0042 236.50)",
+          "oklch(26.4% 0.0042 236.50)",
+          "oklch(37.9% 0.0042 236.50)",
+          "oklch(49.3% 0.0042 236.50)",
+          "oklch(60.7% 0.0042 236.50)",
+          "oklch(72.1% 0.0042 236.50)",
+          "oklch(83.6% 0.0042 236.50)",
+          "oklch(95% 0.0042 236.50)"
+        ]
+      },
+      "reserve-soft": {
+        "role": "neutral",
+        "displayName": "Reservation supporting text",
+        "tonalRamp": [
+          "oklch(15% 0.0235 233.45)",
+          "oklch(26.4% 0.0235 233.45)",
+          "oklch(37.9% 0.0235 233.45)",
+          "oklch(49.3% 0.0235 233.45)",
+          "oklch(60.7% 0.0235 233.45)",
+          "oklch(72.1% 0.0235 233.45)",
+          "oklch(83.6% 0.0235 233.45)",
+          "oklch(95% 0.0235 233.45)"
+        ]
+      },
+      "screening-background": {
+        "role": "neutral",
+        "displayName": "Screening-room carbon",
+        "tonalRamp": [
+          "oklch(15% 0.0104 253.27)",
+          "oklch(26.4% 0.0104 253.27)",
+          "oklch(37.9% 0.0104 253.27)",
+          "oklch(49.3% 0.0104 253.27)",
+          "oklch(60.7% 0.0104 253.27)",
+          "oklch(72.1% 0.0104 253.27)",
+          "oklch(83.6% 0.0104 253.27)",
+          "oklch(95% 0.0104 253.27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Hero display",
+        "purpose": "Base mobile-first hero role; responsive overrides remain component-specific."
+      },
+      "headline": {
+        "displayName": "Gallery heading",
+        "purpose": "Heading for the full music-video collection."
+      },
+      "feature-headline": {
+        "displayName": "Feature headline",
+        "purpose": "Sans-serif half of the feature interlude heading."
+      },
+      "reservation-headline": {
+        "displayName": "Reservation headline",
+        "purpose": "Sans-serif half of the studio reservation heading."
+      },
+      "title": {
+        "displayName": "Compact film title",
+        "purpose": "Titles in the three supporting full-video rows."
+      },
+      "featured-title": {
+        "displayName": "Featured film title",
+        "purpose": "Cormorant title beneath the leading full-video cover."
+      },
+      "screening-title": {
+        "displayName": "Screening title",
+        "purpose": "Selected full-film title inside the screening dialog."
+      },
+      "body": {
+        "displayName": "Body base",
+        "purpose": "Global Manrope base; component copy uses its documented sizes."
+      },
+      "reservation-copy": {
+        "displayName": "Reservation copy",
+        "purpose": "Supporting reservation description on the base layout."
+      },
+      "label": {
+        "displayName": "Eyebrow",
+        "purpose": "Small tracked global eyebrow, not body text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "reservation-action",
+        "value": "inset 0 1px 1px #ffffffd9, inset 0 -1px 2px #506f8950, 0 9px 24px #0004",
+        "purpose": "Enabled reservation action; its inset rim and outward depth."
+      },
+      {
+        "name": "reservation-action-disabled",
+        "value": "inset 0 1px 1px #b8ccd954, inset 0 -1px 1px #c5d2dc18",
+        "purpose": "Subdued disabled checkout state."
+      },
+      {
+        "name": "reservation-fallback",
+        "value": "inset 0 1px 1px #e2edf38c, inset 1px 0 1px #abc4d564, inset 0 -1px 1px #e2ceb98c, 0 20px 40px #0005",
+        "purpose": "CSS pass plate when WebGL is not active."
+      },
+      {
+        "name": "screening-picture",
+        "value": "0 20px 60px #0007",
+        "purpose": "Separate the selected video from the image-lit room."
+      },
+      {
+        "name": "screening-control",
+        "value": "inset 0 1px 1px #f2f8ff52, 0 5px 13px #0002",
+        "purpose": "Circular previous and next buttons."
+      },
+      {
+        "name": "cover-play",
+        "value": "inset 0 1px 1px #f8fbff88, inset 0 -1px 1px #f4f7ff25, 0 4px 16px #0004",
+        "purpose": "Glass play disc within film covers."
+      }
+    ],
+    "motion": [
+      {
+        "name": "motion-fluid",
+        "value": "cubic-bezier(0.2, 0.75, 0.2, 1)",
+        "purpose": "Existing global fluid-motion easing in life.css."
+      },
+      {
+        "name": "motion-arrival",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Global arrival easing, also used by optical and screening transitions."
+      },
+      {
+        "name": "optical-read",
+        "value": "8s cubic-bezier(0.16, 1, 0.3, 1) infinite",
+        "purpose": "Single light sweep across the feature panel; visibility-gated and hidden for reduced motion."
+      },
+      {
+        "name": "screening-room-enter",
+        "value": "480ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Full-video dialog entrance, disabled for reduced motion."
+      },
+      {
+        "name": "screening-picture-enter",
+        "value": "560ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Video frame entrance, disabled for reduced motion."
+      },
+      {
+        "name": "cover-hover",
+        "value": "650ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Small image enlargement on hover-capable devices."
+      },
+      {
+        "name": "place-reflection",
+        "value": "5s ease-in-out infinite",
+        "purpose": "Confirmed-capacity lights only; paused offscreen, on hidden pages, or while effects are paused."
+      },
+      {
+        "name": "reservation-action-transition",
+        "value": "filter .25s, box-shadow .25s",
+        "purpose": "Enabled checkout hover; removed for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "feature-compact-max",
+        "value": "359px"
+      },
+      {
+        "name": "reservation-compact-max",
+        "value": "360px"
+      },
+      {
+        "name": "feature-padding-min",
+        "value": "600px"
+      },
+      {
+        "name": "gallery-wide-min",
+        "value": "680px"
+      },
+      {
+        "name": "reservation-wide-min",
+        "value": "761px"
+      },
+      {
+        "name": "feature-side-by-side-min",
+        "value": "1000px"
+      },
+      {
+        "name": "hero-wide-min",
+        "value": "1100px"
+      },
+      {
+        "name": "screening-short-max-height",
+        "value": "650px"
+      },
+      {
+        "name": "screening-landscape-max-height",
+        "value": "520px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Reservation Action — Configured",
+      "kind": "button",
+      "refersTo": "reservation-button",
+      "description": "Existing enabled appearance for a configured payment link. This specimen has no checkout action; the current public site is disabled.",
+      "html": "<button class=\"ds-reserve\" type=\"button\"><span>Book my slot <span>— $99</span></span><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\"/></svg></button>",
+      "css": ".ds-reserve{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:62px;padding:18px 23px;border:0;border-radius:12px;color:#111b22;background:linear-gradient(112deg,#f0f4f5,#c9dce6 58%,#e6d6bf);box-shadow:inset 0 1px 1px #ffffffd9,inset 0 -1px 2px #506f8950,0 9px 24px #0004;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:filter .25s,box-shadow .25s}.ds-reserve>span>span{font-weight:400}.ds-reserve svg{flex-shrink:0}.ds-reserve:not(:disabled):hover{filter:brightness(1.08);box-shadow:inset 0 1px 1px #fff,0 9px 28px #7d9db52b}.ds-reserve:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-reserve:disabled{opacity:1;cursor:default;color:#b4c4cf;background:linear-gradient(120deg,#24313b,#19222c 60%,#2b2c2b);box-shadow:inset 0 1px 1px #b8ccd954,inset 0 -1px 1px #c5d2dc18}.ds-checkout-note{margin:12px 0 0;color:#a2b3bf;font:11px/1.7 var(--font-archive-sans, Manrope), Arial, sans-serif;text-align:center}@media(prefers-reduced-motion:reduce){.ds-reserve{transition:none}}"
+    },
+    {
+      "name": "Reservation Action — Current Disabled State",
+      "kind": "button",
+      "refersTo": "reservation-button-disabled",
+      "description": "Current checkout-unavailable state, retaining readable price and an explanatory note.",
+      "html": "<button class=\"ds-reserve\" type=\"button\" disabled aria-describedby=\"ds-checkout-note\"><span>Book my slot <span>— $99</span></span><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/><circle cx=\"12\" cy=\"16\" r=\"1\"/></svg></button><p class=\"ds-checkout-note\" id=\"ds-checkout-note\">Booking opens soon. Online checkout isn’t available yet.</p>",
+      "css": ".ds-reserve{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:62px;padding:18px 23px;border:0;border-radius:12px;color:#111b22;background:linear-gradient(112deg,#f0f4f5,#c9dce6 58%,#e6d6bf);box-shadow:inset 0 1px 1px #ffffffd9,inset 0 -1px 2px #506f8950,0 9px 24px #0004;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:filter .25s,box-shadow .25s}.ds-reserve>span>span{font-weight:400}.ds-reserve svg{flex-shrink:0}.ds-reserve:not(:disabled):hover{filter:brightness(1.08);box-shadow:inset 0 1px 1px #fff,0 9px 28px #7d9db52b}.ds-reserve:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-reserve:disabled{opacity:1;cursor:default;color:#b4c4cf;background:linear-gradient(120deg,#24313b,#19222c 60%,#2b2c2b);box-shadow:inset 0 1px 1px #b8ccd954,inset 0 -1px 1px #c5d2dc18}.ds-checkout-note{margin:12px 0 0;color:#a2b3bf;font:11px/1.7 var(--font-archive-sans, Manrope), Arial, sans-serif;text-align:center}@media(prefers-reduced-motion:reduce){.ds-reserve{transition:none}}"
+    },
+    {
+      "name": "Screening Next Control",
+      "kind": "button",
+      "refersTo": "screening-switch",
+      "description": "Circular glass control used to move between full music videos.",
+      "html": "<button class=\"ds-screening-switch\" type=\"button\" aria-label=\"Next music video\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></button>",
+      "css": ".ds-screening-switch{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #ccdfef47;border-radius:50%;background:linear-gradient(140deg,#e3f2ff25,#a0b2c502 55%,#d2e1ed19);box-shadow:inset 0 1px 1px #f2f8ff52,0 5px 13px #0002;color:#e6f1f8;cursor:pointer;transition:background-color 200ms,transform 200ms}.ds-screening-switch:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}@media(hover:hover){.ds-screening-switch:hover{background-color:#b8d3ea19;transform:translateY(-2px)}}@media(prefers-reduced-motion:reduce){.ds-screening-switch{transition:none}}"
+    },
+    {
+      "name": "Playback Quality Field",
+      "kind": "input",
+      "refersTo": "quality-select",
+      "description": "Native select used beneath the full-video picture; the public surface has no text-entry booking form.",
+      "html": "<label class=\"ds-quality\">Quality <select aria-label=\"Playback quality\"><option>720p</option><option>1080p</option></select></label>",
+      "css": ".ds-quality{display:inline-flex;align-items:center;gap:8px;color:#bac9d3;font:10px var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-quality>select{min-height:44px;min-width:94px;padding:0 9px;color:#e5edf4;background:#ffffff07;border:1px solid #cbdaeb33;border-radius:8px;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif;font-size:16px;color-scheme:dark;cursor:pointer}.ds-quality>select option{color:#e5edf4;background:#111b24}.ds-quality>select:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}"
+    },
+    {
+      "name": "Screening Toolbar",
+      "kind": "nav",
+      "refersTo": "screening-nav",
+      "description": "Back control and studio name at the top of the full-video room.",
+      "html": "<nav class=\"ds-screening-nav\" aria-label=\"Screening room\"><button class=\"ds-back\" type=\"button\"><span><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 19-7-7 7-7M5 12h14\"/></svg></span>Back</button><span class=\"ds-room-brand\">AICANFEEL</span></nav>",
+      "css": ".ds-screening-nav{display:flex;align-items:center;justify-content:space-between;min-height:62px;gap:14px;width:100%;border-bottom:1px solid #c9dce51a;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-back{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0;border:0;background:none;font:11px var(--font-archive-sans, Manrope), Arial, sans-serif;color:#dce6ed;cursor:pointer}.ds-back>span{display:grid;place-items:center;width:35px;height:35px;border:1px solid #d3e6f247;border-radius:50%;background:linear-gradient(145deg,#f0f7ff21,#f0f7ff00 58%,#f0f7ff10);box-shadow:inset 0 1px 0 #ddecf44a}.ds-back:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-room-brand{color:#edf3f7;font-size:12px;line-height:1;font-weight:700;letter-spacing:-.035em}"
+    },
+    {
+      "name": "Featured Film Watch Affordance",
+      "kind": "chip",
+      "refersTo": "watch-affordance",
+      "description": "Pill-shaped visual affordance inside the complete clickable featured card; it is not a separate production control.",
+      "html": "<span class=\"ds-watch\">Watch <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></span>",
+      "css": ".ds-watch{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:74px;min-height:44px;padding:0 13px;border:1px solid #d8e7f447;border-radius:30px;background:linear-gradient(140deg,#deedfa1e,#aac6db05 58%,#f4e2c415);box-shadow:inset 0 1px 0 #eef6ff33;color:#cfdee8;font:11px var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-watch>svg{width:18px;height:18px}"
+    },
+    {
+      "name": "Reservation Pass — CSS Fallback",
+      "kind": "card",
+      "refersTo": "reservation-pass",
+      "description": "Mobile pass specimen using the existing CSS fallback plate; production adds a beveled WebGL object behind the same HTML copy.",
+      "html": "<div class=\"ds-pass-art\"><div class=\"ds-pass-material\" aria-hidden=\"true\"><i></i><i></i></div><div class=\"ds-pass\"><span class=\"ds-pass-brand\">AICANFEEL <span>STUDIO RESERVATION</span></span><p class=\"ds-price\"><span>$</span>99<span>USD</span></p><p class=\"ds-pass-note\">A place for <em>your music.</em></p><div class=\"ds-pass-credit\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg><span>100% toward your deposit</span></div></div></div>",
+      "css": ".ds-pass-art{position:relative;height:340px;width:100%;isolation:isolate;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-pass-material{position:absolute;inset:17% 8% 13%;border-radius:16px;background:linear-gradient(145deg,#bdced323,#0c1119 40%,#1a202780);box-shadow:inset 0 1px 1px #e2edf38c,inset 1px 0 1px #abc4d564,inset 0 -1px 1px #e2ceb98c,0 20px 40px #0005;transform:rotate(-4deg)}.ds-pass-material>i{position:absolute;width:85%;height:1px;top:-17%;left:8%;background:linear-gradient(90deg,transparent,#e0d3c159,transparent);transform:rotate(4deg)}.ds-pass-material>i+i{top:auto;bottom:-15%;width:60%;left:25%}.ds-pass{position:absolute;top:26%;left:16%;right:16%;z-index:2;color:#edf3f5}.ds-pass-brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:-.025em}.ds-pass-brand>span{font-size:7px;font-weight:400;letter-spacing:.11em;color:#b5c1cc}.ds-price{display:flex;gap:3px;align-items:baseline;margin:17px 0 0;font-size:76px;font-weight:400;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.04em}.ds-price>span:first-child{align-self:flex-start;margin-top:9px;font-size:.39em;color:#efe4d5}.ds-price>span:last-child{margin-left:7px;font-size:10px;letter-spacing:.06em;color:#bac9d3}.ds-pass-note{margin:10px 0 20px;font-size:12px;color:#b2c3ce}.ds-pass-note em{font-family:var(--font-archive-serif, 'Cormorant Garamond'), Georgia, serif;color:#efe4d5;font-size:1.5em}.ds-pass-credit{display:flex;align-items:center;gap:7px;padding-top:13px;border-top:1px solid #cee4ef26;font-size:10px;color:#c0d3df}.ds-pass-credit svg{color:#efe4d5}"
+    },
+    {
+      "name": "Optical Resolution Proof",
+      "kind": "custom",
+      "refersTo": "optical-proof",
+      "description": "The 4K instrument from the shared three-proof interlude, shown within its existing optical material.",
+      "html": "<div class=\"ds-optics\"><figure class=\"ds-proof\"><div class=\"ds-instrument\" aria-hidden=\"true\"><svg viewBox=\"0 0 180 132\" fill=\"none\"><path class=\"ds-frame-rear\" d=\"M22 34L138 18V102L22 118V34Z\"/><path class=\"ds-frame-middle\" d=\"M33 27L149 24V108L33 111V27Z\"/><path class=\"ds-frame-front\" d=\"M43 19L160 34V118L43 103V19Z\"/><path class=\"ds-frame-detail\" d=\"M53 41V31L65 33M138 44L150 46V58M150 95V107L138 105M65 95L53 93V81\"/></svg><span class=\"ds-resolution-type\">4K</span></div><figcaption aria-label=\"4K UHD\">UHD</figcaption></figure></div>",
+      "css": ".ds-optics{padding:18px 8px 24px;border-block:1px solid #ccdeed35;background:radial-gradient(ellipse at 52% 0%,#c0d8e514,transparent 68%),linear-gradient(125deg,#091219f0,#0d161bdb 48%,#111414ed);font-family:var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-proof{display:flex;flex-direction:column;align-items:center;margin:0}.ds-instrument{position:relative;width:100%;max-width:200px;aspect-ratio:180/132}.ds-instrument svg{width:100%;height:100%;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round;overflow:visible}.ds-frame-rear{stroke:#adc6d34a;fill:#b3d7f008}.ds-frame-middle{stroke:#d6e7f373;fill:#d6e7f30d}.ds-frame-front{stroke:#ddcdb694;fill:#d9e8f314}.ds-frame-detail{stroke:#f0e0c783;stroke-width:.8}.ds-resolution-type{position:absolute;top:52%;left:56%;transform:translate(-50%,-50%);color:#f3ede4;font-size:clamp(29px,7vw,43px);font-weight:400;line-height:1;letter-spacing:-.04em}.ds-proof figcaption{margin-top:13px;padding-top:16px;text-align:center;font-size:13px;line-height:1.4;letter-spacing:.16em;font-weight:400;color:#ddcfbd}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A studio in spectral glass",
+    "overview": "The site presents the studio's films inside a dark, cinematic environment. Silver ice and champagne reflections make controls and objects feel tangible, while the supplied footage carries the strongest imagery. Manrope gives the interface clarity; Cormorant Garamond brings a lyrical voice to selected titles and phrases.\n\nPreserve the established shader background and liquid glass identity. The feature interlude, full-video gallery, screening room, and reservation pass are different expressions of that same material world. Their layouts are component-specific; they do not establish a mandatory composition for every future page.",
+    "keyCharacteristics": [
+      "Dark continuous space with fine optical edges.",
+      "Cool silver light balanced by warm champagne highlights.",
+      "Clear sans-serif controls paired with expressive serif emphasis.",
+      "Supplied films lead; supporting graphics stay abstract.",
+      "Motion supports the experience and has a static fallback."
+    ],
+    "rules": [
+      {
+        "name": "The Material Continuity Rule",
+        "body": "Preserve the dark foundation, cool silver light, and champagne reflections across new work.",
+        "section": "colors"
+      },
+      {
+        "name": "The Optional Motion Rule",
+        "body": "Keep content and controls usable when animation or WebGL is unavailable.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep Manrope and Cormorant Garamond in their established interface and expressive roles.",
+      "**Do** use the supplied footage and posters as the portfolio's primary imagery.",
+      "**Do** preserve visible keyboard focus, touch targets, reduced-motion behavior, and no-WebGL fallbacks.",
+      "**Do** keep price, currency, deposit credit, and checkout availability readable as real text.",
+      "**Do** follow each component's responsive layout rather than forcing a single card grid everywhere."
+    ],
+    "donts": [
+      "**Don't** replace the dark shader, silver ice, champagne light, or liquid glass identity.",
+      "**Don't** introduce mascots or generated characters.",
+      "**Don't** obscure the selected film with decorative overlays.",
+      "**Don't** display invented capacity, decrement availability on a timer, or imply that an unavailable checkout works.",
+      "**Don't** promote unused legacy styles or synthesized tonal ramps into production tokens."
+    ]
+  }
+}

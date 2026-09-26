@@ -330,11 +330,10 @@ export function FilmPlayer({
                             <a
                               data-press
                               className="ended-message"
-                              href={studio.instagramMessageUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                              href="#reserve"
+                              onClick={onClose}
                             >
-                              Message us on Instagram
+                              Explore studio reservations
                               <ArrowUpRight size={16} />
                             </a>
                           )}

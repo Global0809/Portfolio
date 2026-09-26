@@ -1,6 +1,6 @@
 # Full music videos
 
-The four-video collection sits immediately above the Instagram contact section. It uses the site's existing typography, glass materials, and actual footage posters.
+The four-video collection sits immediately above the studio reservation section. Its featured image and three compact entries open a full-screen screening room with a thumbnail filmstrip. It uses the site's existing typography, glass materials, and actual footage posters.
 
 ## Hosting and playback
 

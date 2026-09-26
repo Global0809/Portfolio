@@ -1,5 +1,7 @@
 'use client';
 
+/* oxlint-disable next/no-img-element -- Source-matched posters are optimized WebP files with explicit dimensions. */
+
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
@@ -24,7 +26,7 @@ import { studio } from './studio-config';
 import { useExperienceMotion } from './motion';
 import { NeuralLinks } from './neural-links';
 import { useInterfaceSound } from './interface-sound';
-import { InstagramInvitation } from './instagram-invitation';
+import { StudioReservation } from './studio-reservation';
 import { FilmPlayer } from './film-player';
 import { ScrollSignal } from './scroll-signal';
 import { Entrance } from './entrance';
@@ -251,9 +253,10 @@ export default function Home() {
       </section>
       <StudioSignatures paused={cinemaOpen || about} />
       <FullMusicVideos onViewingChange={setFullVideoViewing} />
-      <InstagramInvitation />
+      <StudioReservation paused={cinemaOpen || about} reducedMotion={reduced} />
       <footer className="studio-footer">
         <div className="footer-baseline">
+          <a className="footer-contact-email" href="mailto:aicanfeel@gmail.com">aicanfeel@gmail.com <ArrowUpRight size={16} aria-hidden="true" /></a>
           <span>AICANFEEL © {new Date().getFullYear()}</span>
           <button onClick={() => setAbout(true)}>About AICANFEEL</button>
         </div>

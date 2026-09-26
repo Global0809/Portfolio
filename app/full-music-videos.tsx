@@ -40,6 +40,8 @@ function FullVideoPlayback({
   const [slow, setSlow] = useState(false);
   const [failed, setFailed] = useState(false);
   const [playBlocked, setPlayBlocked] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const source = video.sources[quality];
 
   useEffect(() => {
@@ -93,10 +95,12 @@ function FullVideoPlayback({
   const playing = () => {
     ready();
     setPlayBlocked(false);
+    setIsPlaying(true);
   };
   const error = () => {
     setLoading(false);
     setFailed(true);
+    setIsPlaying(false);
   };
   const rememberPlayback = () => {
     const player = element.current;
@@ -116,6 +120,7 @@ function FullVideoPlayback({
     setSlow(false);
     setFailed(false);
     setPlayBlocked(false);
+    setIsPlaying(false);
   };
   const retry = () => {
     rememberPlayback();
@@ -146,7 +151,10 @@ function FullVideoPlayback({
           onLoadedData={ready}
           onCanPlay={ready}
           onPlaying={playing}
-          onWaiting={() => setLoading(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => setIsPlaying(false)}
+          onVolumeChange={(event) => setIsMuted(event.currentTarget.muted || event.currentTarget.volume === 0)}
+          onWaiting={() => { setLoading(true); setIsPlaying(false); }}
           onError={error}
         />
         {playBlocked && !failed && (
@@ -169,6 +177,12 @@ function FullVideoPlayback({
         )}
       </div>
       <div className="full-video-playback-options">
+        <div className="full-video-sound" data-playing={isPlaying && !isMuted}>
+          <span className="full-video-wave" aria-hidden="true">
+            {Array.from({ length: 13 }, (_, index) => <i key={index} />)}
+          </span>
+          <span>{isMuted ? 'Sound muted' : 'Original sound'}</span>
+        </div>
         <label className="full-video-quality">
           Quality
           <select value={quality} onChange={(event) => changeQuality(event.target.value as VideoQuality)}>
@@ -230,15 +244,17 @@ export function FullMusicVideos({
         <div className="full-video-heading" data-reveal>
           <div>
             <h2 id="full-video-heading">Full music videos<span>.</span></h2>
+            <p>Stay for the <em>whole story.</em></p>
           </div>
-          <span className="full-video-count">0{available.length} music videos</span>
+          <span className="full-video-count">{available.length} music videos. Yours to explore.</span>
         </div>
 
         <div className="full-video-grid">
-          {available.map((video) => (
+          {available.map((video, index) => (
             <button
               key={video.id}
               className="full-video-card"
+              data-featured={index === 0}
               data-reveal
               data-press
               data-scan="watch"
@@ -261,9 +277,12 @@ export function FullMusicVideos({
                 <span className="full-video-runtime">{durationLabel(video.duration)}</span>
               </span>
               <span className="full-video-caption">
-                <span className="full-video-title">{video.title}</span>
+                <span className="full-video-title-wrap">
+                  <span className="full-video-title">{video.title}</span>
+                  <span className="full-video-caption-note">Full music video</span>
+                </span>
                 <span className="full-video-watch">
-                  <span>Watch</span>
+                  <span>Play</span>
                   <ArrowRight size={17} strokeWidth={1.5} />
                 </span>
               </span>
@@ -285,30 +304,22 @@ export function FullMusicVideos({
             initialFocus={closeButton}
             finalFocus={returnFocus}
           >
+            <img className="full-video-room-light" src={selected.cover} alt="" aria-hidden="true" decoding="async" />
             <header className="full-video-toolbar">
               <button ref={closeButton} onClick={close} className="full-video-back">
-                <ArrowLeft size={18} strokeWidth={1.6} /> All music videos
+                <span><ArrowLeft size={18} strokeWidth={1.6} /></span> All music videos
               </button>
-              <span className="full-video-position" aria-hidden="true">
-                0{selectedIndex + 1} <span>/ 0{available.length}</span>
-              </span>
+              <span className="full-video-room-brand">AICANFEEL</span>
             </header>
-
-            <FullVideoPlayback
-              key={selected.id}
-              video={selected}
-            />
 
             <div className="full-video-details">
               <div className="full-video-current" aria-live="polite">
-                <DialogDescription className="full-video-description">
-                  Full music video
-                  <span aria-hidden="true"> · </span>
-                  {durationLabel(selected.duration)}
-                </DialogDescription>
                 <DialogTitle className="full-video-current-title">
                   {selected.title}
                 </DialogTitle>
+                <DialogDescription className="full-video-description">
+                  Full music video <span aria-hidden="true"> / </span> {durationLabel(selected.duration)}
+                </DialogDescription>
               </div>
               {available.length > 1 && (
                 <nav className="full-video-switch" aria-label="Choose a music video">
@@ -327,6 +338,28 @@ export function FullMusicVideos({
                 </nav>
               )}
             </div>
+
+            <div className="full-video-projection">
+              <FullVideoPlayback key={selected.id} video={selected} />
+            </div>
+
+            <nav className="full-video-filmstrip" aria-label="Full music video collection">
+              {available.map((video) => (
+                <button
+                  key={video.id}
+                  className="full-video-thumbnail"
+                  aria-label={`${selectedId === video.id ? 'Now playing' : 'Watch'}: ${video.title}`}
+                  aria-current={selectedId === video.id ? 'true' : undefined}
+                  onClick={() => setSelectedId(video.id)}
+                >
+                  <span className="full-video-thumbnail-image">
+                    <img src={video.cover} alt="" width={160} height={90} loading="lazy" decoding="async" />
+                    {selectedId === video.id && <span className="full-video-selected-mark"><Play size={12} fill="currentColor" /></span>}
+                  </span>
+                  <span className="full-video-thumbnail-title">{video.title}</span>
+                </button>
+              ))}
+            </nav>
           </DialogContent>
         )}
       </Dialog>
