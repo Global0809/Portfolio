@@ -2,7 +2,7 @@
 
 **Live website: [aicanfeelweb.com](https://aicanfeelweb.com/)**
 
-A mobile-first CGI / VFX music video portfolio. Five portrait videos, a real-time glass cover fan, shader background, control-linked scan effects, soundtrack waves, and a single Instagram message invitation.
+A mobile-first CGI / VFX music video portfolio. Five portrait videos, four full music videos with mobile and HD playback, a real-time glass cover fan, shader background, control-linked scan effects, soundtrack waves, and a single Instagram message invitation.
 
 ## Local development
 
@@ -23,7 +23,7 @@ npm run build
 npm start
 ```
 
-Open [localhost:4173/Portfolio/](http://localhost:4173/).
+Open [localhost:4173](http://localhost:4173/).
 
 Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or run `npx --yes --package=node@22 -- npm run build` to build with Node 22 temporarily.
 
@@ -34,7 +34,7 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 - `app/studio-config.ts`: Instagram profile, message link, and supplied profile details.
 - `app/film-player.tsx`, `app/listening-room.css`: music video viewer and playback controls.
 - `app/films.ts`, `public/media`: video metadata, optimized media, covers, and audio envelopes.
-- `app/full-music-videos.tsx`, `app/full-music-videos.css`, `app/full-music-video-catalog.ts`: full-length collection above the Instagram invitation; see [FULL-MUSIC-VIDEOS.md](FULL-MUSIC-VIDEOS.md) for free streaming setup and local preview.
+- `app/full-music-videos.tsx`, `app/full-music-videos.css`, `app/full-music-video-catalog.ts`: full-length collection above the Instagram invitation; see [FULL-MUSIC-VIDEOS.md](FULL-MUSIC-VIDEOS.md) for the included 720p/1080p web copies and hosting limits.
 - `app/interface-sound.ts`: gesture-armed interaction sounds and mute preference.
 - `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: reactive visual effects.
 - `app/studio-signatures.tsx`, `app/signal-details.css`: studio highlights and entrance styling.

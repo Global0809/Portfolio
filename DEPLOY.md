@@ -38,4 +38,4 @@ All assets load from the domain root. `app/site-path.ts`, `next.config.ts` and `
 
 `public/CNAME` must contain `aicanfeelweb.com`; it is copied into every build so a future deployment does not remove the custom domain. The packaging script validates this before publishing. The Git repository remote remains https://github.com/Global0809/Portfolio.git.
 
-All five MP4s, covers and audio envelopes are included. This deployment is separate from the earlier chatgpt.site preview.
+All five portrait MP4s, their covers/audio envelopes, and the eight 720p/1080p copies for the four full music videos are included. See `FULL-MUSIC-VIDEOS.md` for encoding and bandwidth limits. This deployment is separate from the earlier chatgpt.site preview.

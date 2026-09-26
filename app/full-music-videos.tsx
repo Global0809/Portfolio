@@ -2,7 +2,7 @@
 
 /* oxlint-disable jsx-a11y/media-has-caption -- No caption tracks were supplied with the original music videos. */
 /* oxlint-disable next/no-img-element -- These below-fold WebP posters are already compressed, sized, and lazy loaded. */
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Play, RotateCcw } from 'lucide-react';
 import {
   Dialog,
@@ -17,94 +17,146 @@ const durationLabel = (seconds: number) => {
   return `${Math.floor(rounded / 60)}:${String(rounded % 60).padStart(2, '0')}`;
 };
 
-const subscribeToHost = () => () => {};
-const isLocalHost = () =>
-  ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
-const serverHost = () => false;
+type VideoQuality = keyof FullMusicVideo['sources'];
+
+const defaultQuality = (): VideoQuality => {
+  if (typeof window === 'undefined') return 'mobile';
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  return connection?.saveData || window.matchMedia('(max-width: 767px)').matches
+    ? 'mobile'
+    : 'hd';
+};
 
 function FullVideoPlayback({
   video,
-  local,
 }: {
   video: FullMusicVideo;
-  local: boolean;
 }) {
   const element = useRef<HTMLVideoElement>(null);
+  const resume = useRef({ time: 0, playing: true, muted: false, volume: 1, rate: 1 });
+  const [quality, setQuality] = useState<VideoQuality>(defaultQuality);
   const [attempt, setAttempt] = useState(0);
   const [loading, setLoading] = useState(true);
   const [slow, setSlow] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [playBlocked, setPlayBlocked] = useState(false);
+  const source = video.sources[quality];
+
+  useEffect(() => {
+    if (!loading) return;
+    const delay = window.setTimeout(() => setSlow(true), 20000);
+    return () => window.clearTimeout(delay);
+  }, [loading, attempt, quality]);
 
   useEffect(() => {
     let cancelled = false;
-    const delay = window.setTimeout(() => setSlow(true), 20000);
     const player = element.current;
-    if (player) {
-      // Restore the source after React's development effect cleanup as well.
-      player.src = `http://127.0.0.1:4174/${video.id}.mp4`;
-      void player.play().catch(() => {
-        // The native play button remains available if autoplay is blocked.
-        if (!cancelled) setLoading(false);
+    if (!player) return;
+    const saved = { ...resume.current };
+    const tryPlay = () => {
+      void player.play().catch((reason: unknown) => {
+        if (cancelled || !(reason instanceof DOMException) || reason.name !== 'NotAllowedError') return;
+        setLoading(false);
+        setPlayBlocked(true);
       });
-    }
+    };
+    const restore = () => {
+      if (cancelled) return;
+      if (Number.isFinite(player.duration)) {
+        player.currentTime = Math.min(saved.time, Math.max(0, player.duration - 0.05));
+      }
+      player.muted = saved.muted;
+      player.volume = saved.volume;
+      player.playbackRate = saved.rate;
+    };
+    player.addEventListener('loadedmetadata', restore, { once: true });
+    player.muted = saved.muted;
+    player.volume = saved.volume;
+    player.playbackRate = saved.rate;
+    player.src = source;
+    player.load();
+    // Calling play immediately retains the selection gesture where browsers allow it.
+    if (saved.playing) tryPlay();
     return () => {
       cancelled = true;
-      window.clearTimeout(delay);
-      if (player) {
-        player.pause();
-        player.removeAttribute('src');
-        player.load();
-      }
+      player.removeEventListener('loadedmetadata', restore);
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
     };
-  }, [attempt, video.id]);
+  }, [attempt, source]);
 
   const ready = () => {
     setLoading(false);
     setSlow(false);
   };
+  const playing = () => {
+    ready();
+    setPlayBlocked(false);
+  };
   const error = () => {
     setLoading(false);
     setFailed(true);
   };
-  const retry = () => {
+  const rememberPlayback = () => {
+    const player = element.current;
+    if (!player) return;
+    // A second quality choice during loading must keep the first saved position.
+    if (player.readyState < HTMLMediaElement.HAVE_METADATA) return;
+    resume.current = {
+      time: player.currentTime,
+      playing: !player.paused && !player.ended,
+      muted: player.muted,
+      volume: player.volume,
+      rate: player.playbackRate,
+    };
+  };
+  const beginLoading = () => {
     setLoading(true);
     setSlow(false);
     setFailed(false);
+    setPlayBlocked(false);
+  };
+  const retry = () => {
+    rememberPlayback();
+    resume.current.playing = true;
+    beginLoading();
     setAttempt((value) => value + 1);
+  };
+  const changeQuality = (next: VideoQuality) => {
+    if (next === quality) return;
+    rememberPlayback();
+    beginLoading();
+    setQuality(next);
+  };
+  const play = () => {
+    void element.current?.play().catch(() => setPlayBlocked(true));
   };
 
   return (
     <>
       <div className="full-video-screen" aria-busy={loading}>
-        {local ? (
-          <video
-            key={`${video.id}-${attempt}`}
-            ref={element}
-            src={`http://127.0.0.1:4174/${video.id}.mp4`}
-            poster={video.cover}
-            controls
-            playsInline
-            autoPlay
-            preload="metadata"
-            aria-label={`${video.title}, full music video`}
-            onLoadedData={ready}
-            onPlaying={ready}
-            onError={error}
-          />
-        ) : (
-          <iframe
-            key={`${video.id}-${attempt}`}
-            src={`https://player.mux.com/${encodeURIComponent(video.playbackId)}?autoplay=true&max-resolution=1080p&primary-color=%23f2f3f3`}
-            title={`${video.title} — full music video player`}
-            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-            allowFullScreen
-            onLoad={ready}
-            onError={error}
-          />
+        <video
+          ref={element}
+          poster={video.cover}
+          controls
+          playsInline
+          preload="metadata"
+          aria-label={`${video.title}, full music video`}
+          onLoadedData={ready}
+          onCanPlay={ready}
+          onPlaying={playing}
+          onWaiting={() => setLoading(true)}
+          onError={error}
+        />
+        {playBlocked && !failed && (
+          <button className="full-video-start" onClick={play}>
+            <Play size={20} fill="currentColor" /> Play music video
+          </button>
         )}
         {loading && !failed && (
           <output className="full-video-loading" aria-live="polite">
-            <span aria-hidden="true" /> Opening music video
+            <span aria-hidden="true" /> Loading music video
           </output>
         )}
         {failed && (
@@ -115,6 +167,15 @@ function FullVideoPlayback({
             </button>
           </div>
         )}
+      </div>
+      <div className="full-video-playback-options">
+        <label className="full-video-quality">
+          Quality
+          <select value={quality} onChange={(event) => changeQuality(event.target.value as VideoQuality)}>
+            <option value="mobile">720p</option>
+            <option value="hd">1080p</option>
+          </select>
+        </label>
       </div>
       {slow && loading && !failed && (
         <output className="full-video-slow" aria-live="polite">
@@ -133,14 +194,11 @@ export function FullMusicVideos({
 }: {
   onViewingChange: (open: boolean) => void;
 }) {
-  const localPreview = useSyncExternalStore(subscribeToHost, isLocalHost, serverHost);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const returnFocus = useRef<HTMLButtonElement | null>(null);
   const closeButton = useRef<HTMLButtonElement | null>(null);
 
-  const available = fullMusicVideos.filter(
-    (video) => Boolean(video.playbackId) || localPreview,
-  );
+  const available = fullMusicVideos;
   const selected = available.find((video) => video.id === selectedId);
   const selectedIndex = available.findIndex((video) => video.id === selectedId);
 
@@ -173,11 +231,7 @@ export function FullMusicVideos({
           <div>
             <h2 id="full-video-heading">Full music videos<span>.</span></h2>
           </div>
-          {localPreview && available.some((video) => !video.playbackId) ? (
-            <span className="full-video-preview-label">Local preview</span>
-          ) : (
-            <span className="full-video-count">0{available.length} music videos</span>
-          )}
+          <span className="full-video-count">0{available.length} music videos</span>
         </div>
 
         <div className="full-video-grid">
@@ -243,13 +297,12 @@ export function FullMusicVideos({
             <FullVideoPlayback
               key={selected.id}
               video={selected}
-              local={localPreview && !selected.playbackId}
             />
 
             <div className="full-video-details">
               <div className="full-video-current" aria-live="polite">
                 <DialogDescription className="full-video-description">
-                  {localPreview && !selected.playbackId ? 'Local preview' : 'Full music video'}
+                  Full music video
                   <span aria-hidden="true"> · </span>
                   {durationLabel(selected.duration)}
                 </DialogDescription>

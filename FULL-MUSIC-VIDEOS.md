@@ -1,10 +1,18 @@
 # Full music videos
 
-The collection sits immediately above the Instagram contact section. It extends the existing dark glass materials, Manrope/Cormorant typography, and neural tracking, using widescreen footage covers rather than changing the hero.
+The four-video collection sits immediately above the Instagram contact section. It uses the site's existing typography, glass materials, and actual footage posters.
+
+## Hosting and playback
+
+Videos are served directly from the existing GitHub Pages deployment at `aicanfeelweb.com`. No streaming account, API key, iframe, or external player is needed. Each video has a 720p mobile copy and a 1080p copy; the visitor can change quality without restarting the video. Playback uses native browser controls, including sound, seeking and fullscreen where supported.
+
+Only the selected video is mounted. Closing or switching stops and removes its media source. Website effects pause while the player is open. The gallery itself loads small WebP posters rather than video files.
+
+This is progressive MP4 delivery, not adaptive streaming. It is suitable for a modest portfolio audience. GitHub Pages has a 1 GB published-site limit and a 100 GB/month soft bandwidth limit; individual Git files must be below 100 MiB. The build requires all eight web copies and enforces a stricter 95 MiB file budget. See [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits) and [file limits](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).
 
 ## Media
 
-Original files remain outside the repository. All four are 3840 × 2160 with AAC stereo audio. These are the display names and durations:
+Original 3840 × 2160 files remain outside the repository, unchanged. Web copies use H.264/yuv420p at 30 fps, retain the full source composition, and copy the original AAC audio without re-encoding. The MP4 metadata is moved to the front (`faststart`) so playback can begin before a whole file downloads.
 
 | Title | Runtime | Poster timestamp |
 | --- | --- | --- |
@@ -13,36 +21,24 @@ Original files remain outside the repository. All four are 3840 × 2160 with AAC
 | Nice and Neat | 3:33 | 195.828 s |
 | OWO | 3:05 | 144.512 s |
 
-The first and last titles were confirmed in opening title cards. Other titles come from the supplied filenames. Posters in `public/media/full-music-videos/` are actual source frames, cropped to remove letterboxing and fit 16:9, exported to 1280 × 720 WebP. Playback retains the full source composition.
+The first and last titles were confirmed in opening title cards. The other titles come from the supplied filenames. Posters are actual source frames, cropped to remove letterboxing and fit 16:9, exported to 1280 × 720 WebP. The videos preserve the original framing and letterboxing.
 
-## Free streaming setup
+The catalog is `app/full-music-video-catalog.ts`; media lives in `public/media/full-music-videos/`.
 
-Use a Mux **Free** account, not temporary test assets or a paid plan. Upload the four supplied music videos, with public playback and a maximum streaming resolution of 1080p. Keep the required Mux branding visible. No API credential belongs in a client-side file or the repository.
+## Recreate web copies
 
-Once the assets have finished processing, set their public playback IDs in `app/full-music-video-catalog.ts`. These IDs are designed to be public; API tokens are not. The embedded player loads only after the visitor selects a video. Closing or switching the viewer unmounts the previous player.
-
-The collection stays hidden on the public site until videos are configured. Do not publish this addition as complete until all four IDs are set and each stream has been checked.
-
-## Local preview before uploads
-
-In one terminal, serve the originals from their existing folder:
+Install FFmpeg with `libx264`, then run from the project directory:
 
 ```powershell
-node scripts/preview-full-videos.mjs 'C:\path\to\video-folder'
+node scripts/encode-full-videos.mjs 'C:\path\to\original-video-folder'
 ```
 
-In another, start the site with Node 22:
+The script matches the four original filenames, writes both sizes, preserves the originals, and checks output size. It can optionally use NVIDIA encoding when `AICANFEEL_VIDEO_ENCODER=h264_nvenc` and compatible drivers are available. Do not commit the 4K masters or replace the web copies with them.
 
-```powershell
-npx --yes --package=node@22 -- npm run dev -- --host 127.0.0.1 --port 3000
-```
+## Validation
 
-Open `http://127.0.0.1:3000/#full-music-videos`. Unconfigured videos are available only on localhost through a clearly labeled local preview. The separate media server binds to 127.0.0.1, supports byte ranges for seeking, and exposes only the four named files. It is not part of the deployment.
+Before publishing, check all four videos, both quality options, seeking and original sound, pause/resume, fullscreen, close/switch cleanup, keyboard focus return, reduced motion, mobile layout, and loading/error recovery. Confirm there are no full-video requests before selection and that the deployed host honors byte-range requests for seeking.
 
-The media server rejects unexpected Host headers and nonlocal Origin values. If the development server prints `http://localhost:3000`, use that URL instead of 127.0.0.1.
+Verified September 26, 2026: all four videos play at both resolutions and seek to one minute. Quality changes retain time, paused/playing state, mute, volume, and playback speed, including rapid changes. Close/switch cleanup, keyboard focus return, blocked-autoplay fallback, network-error retry, end/replay, fullscreen, and reduced motion pass. Viewports tested: 1440 × 1000, 390 × 844, 320 × 568, and 844 × 390 landscape; no horizontal overflow. No full-video files load before selection. These are browser viewport checks, not physical-device tests.
 
-## Validation scope
-
-Check gallery placement and mobile layout, all four sources, open/close/switch behavior, keyboard navigation and focus return, seeking/sound/fullscreen, reduced motion, loading/error recovery, and no full-video requests before a selection. A local MP4 check does not substitute for validating the final Mux streams.
-
-Local verification on September 26, 2026: TypeScript, targeted lint, static build and mechanical UI checks pass. Browser checks passed for all four local files, autoplay after selection, pause, seeking to one minute, mute, source removal on close, focus return, and one player while switching. There were zero original-video requests before a selection. Layout checked at 1440, 390 and 320 px; mobile widths had no horizontal overflow. Forced network failure, retry, end/replay, keyboard Enter/Escape, and reduced-motion checks passed. Final Mux playback and native fullscreen still require verification after the account is connected.
+All eight copies pass format, duration, fast-start and file-size checks. Each AAC packet hash matches its original. The copies total 442,997,314 bytes (422.48 MiB); the largest is 85.59 MiB. See `FINAL-CHECK.md` for deployment verification.

@@ -1,7 +1,8 @@
-import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { resolve, join, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
+import { copyArtifact } from './copy-artifact.mjs';
 
 const source = resolve('pages-dist');
 if (!existsSync(join(source, 'index.html'))) throw new Error('Run npm run build first');
@@ -25,7 +26,7 @@ try {
     git(['init', '--initial-branch=gh-pages', checkout], temp);
     git(['remote', 'add', 'origin', remote]);
   }
-  cpSync(source, checkout, { recursive: true });
+  copyArtifact(source, checkout);
   git(['add', '--all']);
   const changes = execFileSync('git', ['status', '--porcelain'], { cwd: checkout, encoding: 'utf8' });
   if (changes.trim()) {
