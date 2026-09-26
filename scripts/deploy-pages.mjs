@@ -15,7 +15,8 @@ const git = (args, cwd = checkout) => execFileSync('git', [...auth, ...args], { 
 try {
   const exists = execFileSync('git', [...auth, 'ls-remote', '--heads', remote, 'gh-pages'], { encoding: 'utf8' }).trim();
   if (exists) {
-    git(['clone', '--depth', '1', '--branch', 'gh-pages', remote, checkout], temp);
+    const reference = existsSync(resolve('.git')) ? ['--reference-if-able', process.cwd()] : [];
+    git(['clone', '--depth', '1', '--branch', 'gh-pages', ...reference, remote, checkout], temp);
     for (const entry of readdirSync(checkout)) {
       if (entry === '.git') continue;
       const path = resolve(checkout, entry);

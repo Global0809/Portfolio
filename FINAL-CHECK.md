@@ -1,3 +1,16 @@
+# Full music videos — 26 September 2026
+
+Live section: **https://aicanfeelweb.com/#full-music-videos**
+
+- Published four full music videos immediately above the Instagram invitation, using first-party MP4 playback instead of Mux. GitHub Pages deployment `40feca49c35b7236ead7c00b158e2c227fd38269` completed successfully.
+- All eight public MP4 URLs return `206`, `video/mp4`, the expected byte ranges and file lengths. The live site played and sought all four 720p videos without login; desktop 1080p playback also passed. No media files loaded before selection, and no player remained after closing. No browser page errors.
+- Local browser checks passed for every video at both resolutions, paused/playing quality changes without losing position, rapid quality switching, mute/volume/rate preservation, previous/next cleanup, keyboard focus return, blocked-autoplay fallback, failed-load retry, end/replay, fullscreen and reduced motion. Layout checked at 1440 × 1000, 390 × 844, 320 × 568 and 844 × 390. Mobile checks use emulated browser viewports, not physical devices.
+- All eight web copies preserve original duration/composition, use H.264/yuv420p at 30fps, and have fast-start metadata. Every AAC packet hash matches its 4K master exactly; originals remain unchanged.
+- TypeScript, targeted lint and the Node 22 production build passed. The existing large Three.js chunk warning remains. The published artifact is 529,358,009 bytes, below Pages' 1 GB limit; every video is below 95 MiB. The Pages soft bandwidth limit remains 100 GB/month.
+- Packaging now reuses generated files through hard links where supported, with a cross-volume copy fallback. Temporary deployment checkouts reuse local Git objects to avoid duplicating the video storage.
+
+---
+
 # Custom-domain delivery — 24 September 2026
 
 Live website: **https://aicanfeelweb.com/**
