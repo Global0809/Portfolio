@@ -1,5 +1,7 @@
 # Instagram reservations — 27 September 2026
 
+Live: **https://aicanfeelweb.com/#reserve**. Pages commit `0feb9477a9854b1b26c1fbb60242ed92e4b1c208`, deployment run `36287983775`: successful. Public 320px browser check confirms the revealed CTA is visible and opens Instagram, with no pricing, horizontal overflow or page errors.
+
 - Removed the slot price, currency, deposit claims, payment configuration, and disabled checkout. The pass now reads “A place for your music.” The active “Reserve slot” link opens the existing `https://ig.me/m/aicanfeel` conversation target; availability is confirmed in chat.
 - Browser checks at 320, 390, and 1440px confirm no price/deposit/checkout wording in visible copy or the pass accessibility label, no horizontal overflow, and a 62px CTA. Keyboard activation successfully opens Instagram (its login page with the AICANFEEL conversation return target when signed out). No messages were sent. Completed page flows have no page errors.
 - TypeScript, targeted lint and Node 22 static build pass. The existing Three.js chunk-size warning remains. Existing graphics, scan-button connection, videos and email contact are retained.
