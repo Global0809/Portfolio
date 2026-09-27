@@ -264,11 +264,6 @@
         "purpose": "Enabled reservation action; its inset rim and outward depth."
       },
       {
-        "name": "reservation-action-disabled",
-        "value": "inset 0 1px 1px #b8ccd954, inset 0 -1px 1px #c5d2dc18",
-        "purpose": "Subdued disabled checkout state."
-      },
-      {
         "name": "reservation-fallback",
         "value": "inset 0 1px 1px #e2edf38c, inset 1px 0 1px #abc4d564, inset 0 -1px 1px #e2ceb98c, 0 20px 40px #0005",
         "purpose": "CSS pass plate when WebGL is not active."
@@ -328,7 +323,7 @@
       {
         "name": "reservation-action-transition",
         "value": "filter .25s, box-shadow .25s",
-        "purpose": "Enabled checkout hover; removed for reduced motion."
+        "purpose": "Instagram reservation link hover; removed for reduced motion."
       }
     ],
     "breakpoints": [
@@ -372,20 +367,12 @@
   },
   "components": [
     {
-      "name": "Reservation Action — Configured",
+      "name": "Reservation Action",
       "kind": "button",
       "refersTo": "reservation-button",
-      "description": "Existing enabled appearance for a configured payment link. This specimen has no checkout action; the current public site is disabled.",
-      "html": "<button class=\"ds-reserve\" type=\"button\"><span>Book my slot <span>— $99</span></span><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\"/></svg></button>",
-      "css": ".ds-reserve{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:62px;padding:18px 23px;border:0;border-radius:12px;color:#111b22;background:linear-gradient(112deg,#f0f4f5,#c9dce6 58%,#e6d6bf);box-shadow:inset 0 1px 1px #ffffffd9,inset 0 -1px 2px #506f8950,0 9px 24px #0004;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:filter .25s,box-shadow .25s}.ds-reserve>span>span{font-weight:400}.ds-reserve svg{flex-shrink:0}.ds-reserve:not(:disabled):hover{filter:brightness(1.08);box-shadow:inset 0 1px 1px #fff,0 9px 28px #7d9db52b}.ds-reserve:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-reserve:disabled{opacity:1;cursor:default;color:#b4c4cf;background:linear-gradient(120deg,#24313b,#19222c 60%,#2b2c2b);box-shadow:inset 0 1px 1px #b8ccd954,inset 0 -1px 1px #c5d2dc18}.ds-checkout-note{margin:12px 0 0;color:#a2b3bf;font:11px/1.7 var(--font-archive-sans, Manrope), Arial, sans-serif;text-align:center}@media(prefers-reduced-motion:reduce){.ds-reserve{transition:none}}"
-    },
-    {
-      "name": "Reservation Action — Current Disabled State",
-      "kind": "button",
-      "refersTo": "reservation-button-disabled",
-      "description": "Current checkout-unavailable state, retaining readable price and an explanatory note.",
-      "html": "<button class=\"ds-reserve\" type=\"button\" disabled aria-describedby=\"ds-checkout-note\"><span>Book my slot <span>— $99</span></span><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/><circle cx=\"12\" cy=\"16\" r=\"1\"/></svg></button><p class=\"ds-checkout-note\" id=\"ds-checkout-note\">Booking opens soon. Online checkout isn’t available yet.</p>",
-      "css": ".ds-reserve{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:62px;padding:18px 23px;border:0;border-radius:12px;color:#111b22;background:linear-gradient(112deg,#f0f4f5,#c9dce6 58%,#e6d6bf);box-shadow:inset 0 1px 1px #ffffffd9,inset 0 -1px 2px #506f8950,0 9px 24px #0004;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:filter .25s,box-shadow .25s}.ds-reserve>span>span{font-weight:400}.ds-reserve svg{flex-shrink:0}.ds-reserve:not(:disabled):hover{filter:brightness(1.08);box-shadow:inset 0 1px 1px #fff,0 9px 28px #7d9db52b}.ds-reserve:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-reserve:disabled{opacity:1;cursor:default;color:#b4c4cf;background:linear-gradient(120deg,#24313b,#19222c 60%,#2b2c2b);box-shadow:inset 0 1px 1px #b8ccd954,inset 0 -1px 1px #c5d2dc18}.ds-checkout-note{margin:12px 0 0;color:#a2b3bf;font:11px/1.7 var(--font-archive-sans, Manrope), Arial, sans-serif;text-align:center}@media(prefers-reduced-motion:reduce){.ds-reserve{transition:none}}"
+      "description": "Active Instagram conversation link; the studio confirms availability in chat.",
+      "html": "<a class=\"ds-reserve\" href=\"https://ig.me/m/aicanfeel\" target=\"_blank\" rel=\"noopener noreferrer\" aria-describedby=\"ds-contact-note\"><span>Reserve slot</span><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\"/></svg></a><p class=\"ds-contact-note\" id=\"ds-contact-note\">Opens @aicanfeel on Instagram.</p>",
+      "css": ".ds-reserve{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:62px;padding:18px 23px;border:0;border-radius:12px;color:#111b22;background:linear-gradient(112deg,#f0f4f5,#c9dce6 58%,#e6d6bf);box-shadow:inset 0 1px 1px #ffffffd9,inset 0 -1px 2px #506f8950,0 9px 24px #0004;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;transition:filter .25s,box-shadow .25s}.ds-reserve svg{flex-shrink:0}.ds-reserve:hover{filter:brightness(1.08);box-shadow:inset 0 1px 1px #fff,0 9px 28px #7d9db52b}.ds-reserve:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-contact-note{margin:12px 0 0;color:#a2b3bf;font:11px/1.7 var(--font-archive-sans, Manrope), Arial, sans-serif;text-align:center}@media(prefers-reduced-motion:reduce){.ds-reserve{transition:none}}"
     },
     {
       "name": "Screening Next Control",
@@ -424,8 +411,8 @@
       "kind": "card",
       "refersTo": "reservation-pass",
       "description": "Mobile pass specimen using the existing CSS fallback plate; production adds a beveled WebGL object behind the same HTML copy.",
-      "html": "<div class=\"ds-pass-art\"><div class=\"ds-pass-material\" aria-hidden=\"true\"><i></i><i></i></div><div class=\"ds-pass\"><span class=\"ds-pass-brand\">AICANFEEL <span>STUDIO RESERVATION</span></span><p class=\"ds-price\"><span>$</span>99<span>USD</span></p><p class=\"ds-pass-note\">A place for <em>your music.</em></p><div class=\"ds-pass-credit\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg><span>100% toward your deposit</span></div></div></div>",
-      "css": ".ds-pass-art{position:relative;height:340px;width:100%;isolation:isolate;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-pass-material{position:absolute;inset:17% 8% 13%;border-radius:16px;background:linear-gradient(145deg,#bdced323,#0c1119 40%,#1a202780);box-shadow:inset 0 1px 1px #e2edf38c,inset 1px 0 1px #abc4d564,inset 0 -1px 1px #e2ceb98c,0 20px 40px #0005;transform:rotate(-4deg)}.ds-pass-material>i{position:absolute;width:85%;height:1px;top:-17%;left:8%;background:linear-gradient(90deg,transparent,#e0d3c159,transparent);transform:rotate(4deg)}.ds-pass-material>i+i{top:auto;bottom:-15%;width:60%;left:25%}.ds-pass{position:absolute;top:26%;left:16%;right:16%;z-index:2;color:#edf3f5}.ds-pass-brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:-.025em}.ds-pass-brand>span{font-size:7px;font-weight:400;letter-spacing:.11em;color:#b5c1cc}.ds-price{display:flex;gap:3px;align-items:baseline;margin:17px 0 0;font-size:76px;font-weight:400;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.04em}.ds-price>span:first-child{align-self:flex-start;margin-top:9px;font-size:.39em;color:#efe4d5}.ds-price>span:last-child{margin-left:7px;font-size:10px;letter-spacing:.06em;color:#bac9d3}.ds-pass-note{margin:10px 0 20px;font-size:12px;color:#b2c3ce}.ds-pass-note em{font-family:var(--font-archive-serif, 'Cormorant Garamond'), Georgia, serif;color:#efe4d5;font-size:1.5em}.ds-pass-credit{display:flex;align-items:center;gap:7px;padding-top:13px;border-top:1px solid #cee4ef26;font-size:10px;color:#c0d3df}.ds-pass-credit svg{color:#efe4d5}"
+      "html": "<div class=\"ds-pass-art\"><div class=\"ds-pass-material\" aria-hidden=\"true\"><i></i><i></i></div><div class=\"ds-pass\"><span class=\"ds-pass-brand\">AICANFEEL <span>STUDIO RESERVATION</span></span><p class=\"ds-pass-title\">A place for<br /><em>your music.</em></p><div class=\"ds-pass-contact\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"20\" height=\"20\" x=\"2\" y=\"2\" rx=\"5\"/><path d=\"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z\"/><path d=\"M17.5 6.5h.01\"/></svg><span>@aicanfeel</span></div></div></div>",
+      "css": ".ds-pass-art{position:relative;height:340px;width:100%;isolation:isolate;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-pass-material{position:absolute;inset:17% 8% 13%;border-radius:16px;background:linear-gradient(145deg,#bdced323,#0c1119 40%,#1a202780);box-shadow:inset 0 1px 1px #e2edf38c,inset 1px 0 1px #abc4d564,inset 0 -1px 1px #e2ceb98c,0 20px 40px #0005;transform:rotate(-4deg)}.ds-pass-material>i{position:absolute;width:85%;height:1px;top:-17%;left:8%;background:linear-gradient(90deg,transparent,#e0d3c159,transparent);transform:rotate(4deg)}.ds-pass-material>i+i{top:auto;bottom:-15%;width:60%;left:25%}.ds-pass{position:absolute;top:26%;left:16%;right:16%;z-index:2;color:#edf3f5}.ds-pass-brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:-.025em}.ds-pass-brand>span{font-size:7px;font-weight:400;letter-spacing:.11em;color:#b5c1cc}.ds-pass-title{margin:24px 0 25px;font-size:30px;font-weight:400;line-height:1.12;letter-spacing:-.03em}.ds-pass-title em{font-family:var(--font-archive-serif, \"Cormorant Garamond\"), Georgia, serif;color:#efe4d5;font-size:1.4em}.ds-pass-contact{display:flex;align-items:center;gap:7px;padding-top:13px;border-top:1px solid #cee4ef26;font-size:11px;color:#c0d3df}.ds-pass-contact svg{color:#efe4d5}"
     },
     {
       "name": "Optical Resolution Proof",
@@ -462,14 +449,14 @@
       "**Do** keep Manrope and Cormorant Garamond in their established interface and expressive roles.",
       "**Do** use the supplied footage and posters as the portfolio's primary imagery.",
       "**Do** preserve visible keyboard focus, touch targets, reduced-motion behavior, and no-WebGL fallbacks.",
-      "**Do** keep price, currency, deposit credit, and checkout availability readable as real text.",
+      "**Do** keep the reservation invitation, Instagram handle, and availability readable as real text.",
       "**Do** follow each component's responsive layout rather than forcing a single card grid everywhere."
     ],
     "donts": [
       "**Don't** replace the dark shader, silver ice, champagne light, or liquid glass identity.",
       "**Don't** introduce mascots or additional characters; the user-requested canonical face study is the deliberate exception.",
       "**Don't** obscure the selected film with decorative overlays.",
-      "**Don't** display invented capacity, decrement availability on a timer, or imply that an unavailable checkout works.",
+      "**Don't** display invented capacity, decrement availability on a timer, or imply that opening Instagram confirms a reservation.",
       "**Don't** promote unused legacy styles or synthesized tonal ramps into production tokens."
     ]
   }

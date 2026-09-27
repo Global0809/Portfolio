@@ -1,15 +1,14 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight, Check, LockKeyhole } from 'lucide-react';
+import { ArrowUpRight, MessageCircle } from 'lucide-react';
 import { ReservationOptics } from '@/components/ui/reservation-optics';
-import { reservation, reservationCheckoutUrl } from './reservation-config';
+import { reservation } from './reservation-config';
+import { studio } from './studio-config';
 
 export function StudioReservation({ paused, reducedMotion }: { paused: boolean; reducedMotion: boolean }) {
   const section = useRef<HTMLElement>(null);
-  const checkoutUrl = reservationCheckoutUrl();
   const soldOut = reservation.remainingSlots === 0;
-  const canBook = Boolean(checkoutUrl) && !soldOut;
   useEffect(() => {
     const element = section.current;
     if (!element) return;
@@ -37,34 +36,27 @@ export function StudioReservation({ paused, reducedMotion }: { paused: boolean; 
           )}
         </div>
 
-        <div className="reservation-art" aria-label={`Studio reservation, $${reservation.amountUsd}, fully credited toward your project deposit`}>
+        <div className="reservation-art" aria-label="A place for your music at AICANFEEL">
           <div className="reservation-material-fallback" aria-hidden="true"><i /><i /></div>
           <ReservationOptics paused={paused} reducedMotion={reducedMotion} />
           <div className="reservation-pass">
             <span className="reservation-pass-brand">AICANFEEL <span>STUDIO RESERVATION</span></span>
-            <p className="reservation-price"><span>$</span>{reservation.amountUsd}<span>USD</span></p>
-            <p className="reservation-pass-note">A place for <em>your music.</em></p>
-            <div className="reservation-pass-credit"><Check size={15} strokeWidth={1.5} aria-hidden="true" /><span>100% toward your deposit</span></div>
+            <p className="reservation-pass-title">A place for<br /><em>your music.</em></p>
+            <div className="reservation-pass-contact"><MessageCircle size={15} strokeWidth={1.5} aria-hidden="true" /><span>@aicanfeel</span></div>
             <span className="reservation-pass-edge" aria-hidden="true" />
           </div>
         </div>
 
         <div className="reservation-action" data-reveal>
-          <div className="reservation-credit-copy">
-            <span className="reservation-credit-mark" aria-hidden="true"><Check size={17} strokeWidth={1.6} /></span>
-            <p><strong>Fully credited to your deposit.</strong><span>The full $99 goes toward your project deposit. You’re not paying anything extra.</span></p>
+          <div className="reservation-contact-copy">
+            <span className="reservation-contact-mark" aria-hidden="true"><MessageCircle size={17} strokeWidth={1.6} /></span>
+            <p><strong>Start with your song.</strong><span>Message us on Instagram. We’ll confirm availability and plan your music video.</span></p>
           </div>
-          {canBook && checkoutUrl ? (
-            <a className="reservation-book" href={checkoutUrl} target="_blank" rel="noopener noreferrer" data-press data-scan="contact" data-scan-id="reservation-checkout">
-              <span>Book my slot <span>— ${reservation.amountUsd}</span></span><ArrowUpRight size={21} strokeWidth={1.6} data-scan-port />
-            </a>
-          ) : (
-            <button className="reservation-book" disabled aria-describedby="reservation-checkout-note">
-              <span>{soldOut ? 'All slots reserved' : 'Book my slot'}{!soldOut && <span> — ${reservation.amountUsd}</span>}</span><LockKeyhole size={18} strokeWidth={1.5} aria-hidden="true" />
-            </button>
-          )}
-          <p id="reservation-checkout-note" className="reservation-checkout-note">
-            {soldOut ? 'Email us about the next intake.' : canBook ? 'Continue to payment to reserve your slot.' : 'Booking opens soon. Online checkout isn’t available yet.'}
+          <a className="reservation-book" href={studio.instagramMessageUrl} target="_blank" rel="noopener noreferrer" aria-describedby="reservation-contact-note" data-press data-scan="contact" data-scan-id="reservation-checkout">
+            <span>{soldOut ? 'Ask about the next slot' : 'Reserve slot'}</span><ArrowUpRight size={21} strokeWidth={1.6} aria-hidden="true" data-scan-port />
+          </a>
+          <p id="reservation-contact-note" className="reservation-contact-note">
+            Opens @aicanfeel on Instagram.
           </p>
         </div>
       </div>

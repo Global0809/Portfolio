@@ -1,3 +1,11 @@
+# Instagram reservations — 27 September 2026
+
+- Removed the slot price, currency, deposit claims, payment configuration, and disabled checkout. The pass now reads “A place for your music.” The active “Reserve slot” link opens the existing `https://ig.me/m/aicanfeel` conversation target; availability is confirmed in chat.
+- Browser checks at 320, 390, and 1440px confirm no price/deposit/checkout wording in visible copy or the pass accessibility label, no horizontal overflow, and a 62px CTA. Keyboard activation successfully opens Instagram (its login page with the AICANFEEL conversation return target when signed out). No messages were sent. Completed page flows have no page errors.
+- TypeScript, targeted lint and Node 22 static build pass. The existing Three.js chunk-size warning remains. Existing graphics, scan-button connection, videos and email contact are retained.
+
+---
+
 # Neural face scan — 27 September 2026
 
 Live: **https://aicanfeelweb.com/#face-scan**. Pages commit `4dad6bdae5be124f283e87bd12a79d9b8eaba8ce`, deployment run `36287543853`: successful. The public mobile browser loads the 468-vertex local mesh with HTTP 200, renders 3,200 particles without overflow, plays a full music video while the scan pauses, and resumes after closing. No page errors.

@@ -1,24 +1,16 @@
 # Studio reservations
 
-The user-supplied reservation amount is **$99 USD**, fully credited toward the project deposit. It is not an additional fee. Total project pricing and refund/rescheduling terms have not been supplied; the site does not invent them.
+“Reserve slot” opens the studio's Instagram conversation at [@aicanfeel](https://ig.me/m/aicanfeel). The studio confirms availability and plans the music video in chat. Pricing is hidden for now.
 
 ## Current state
 
-- The Instagram contact section is replaced by the reservation section at `#reserve`.
-- `app/reservation-config.ts` owns the amount, remaining capacity, and checkout URL.
-- `checkoutUrl: null` means checkout is not open. The displayed button is disabled and the reason is visible.
+- The reservation section is at `#reserve`; its active link uses `studio.instagramMessageUrl` from `app/studio-config.ts`.
+- The pass reads “A place for your music.” and shows `@aicanfeel`. Supporting copy explains that the studio will confirm availability on Instagram.
+- `app/reservation-config.ts` owns remaining capacity.
 - `remainingSlots: null` shows “Limited studio availability”. A real remaining count can be entered once confirmed. There is no time-based decrement or invented booking activity.
 - Email contact is a standard `mailto:aicanfeel@gmail.com` footer link.
 
-## When the payment link arrives
-
-1. Verify that the destination belongs to the studio and charges $99 USD for a reservation credited toward the project deposit.
-2. Add its public HTTPS URL to `checkoutUrl`, and set genuine remaining capacity if provided. Only HTTPS URLs are accepted.
-3. Configure real payment confirmation and booking fulfillment with that provider before promising a confirmed place. This static site does not process payments, receive webhooks, decrement stock, or send confirmations.
-4. For automatic availability, use verified paid orders and a backend/provider inventory limit. Do not infer a booking from clicking the payment link or from a payment success query parameter.
-5. Rebuild, test the checkout destination, and publish.
-
-The count is a maintained studio capacity display until connected to an authoritative booking service. The animated glints are decoration and never indicate new purchases.
+If a confirmed count reaches zero, the section says “This intake is full” and the active link reads “Ask about the next slot”. Opening Instagram does not confirm a reservation. The static site does not process payments, decrement capacity, or send confirmations. Animated glints are decorative.
 
 ## Graphics budget
 

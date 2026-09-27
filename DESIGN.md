@@ -95,11 +95,6 @@ components:
     rounded: "{rounded.action}"
     padding: "18px 23px"
     width: "100%"
-  reservation-button-disabled:
-    textColor: "#b4c4cf"
-    rounded: "{rounded.action}"
-    padding: "18px 23px"
-    width: "100%"
   screening-switch:
     textColor: "#e6f1f8"
     rounded: "{rounded.circle}"
@@ -153,7 +148,7 @@ This is an extraction of the implemented public site, with emphasis on the three
 
 ### Secondary
 
-**Champagne light** uses the warm-glint token for reflected warmth. The reservation paper token gives the reservation's serif phrase, currency mark, and deposit details a warmer focal color. These are material accents, not success or warning colors.
+**Champagne light** uses the warm-glint token for reflected warmth. The reservation paper token gives the reservation's serif phrase and Instagram icon a warmer focal color. These are material accents, not success or warning colors.
 
 ### Neutral
 
@@ -168,7 +163,7 @@ Alpha-bearing edge and highlight tokens remain translucent. The sidecar's genera
 **Display and interface font:** Manrope, with Arial and sans-serif fallbacks.
 **Expressive font:** Cormorant Garamond, with Georgia and serif fallbacks.
 
-The font pairing is pinned. Serif emphasis is used inside headlines and for selected film titles; navigation, controls, metadata, and supporting copy remain sans-serif. Runtime and price figures use tabular numerals.
+The font pairing is pinned. Serif emphasis is used inside headlines and for selected film titles; navigation, controls, metadata, and supporting copy remain sans-serif. Runtime figures use tabular numerals.
 
 The frontmatter records the base mobile-first roles, not a generated modular scale. The hero display has a larger desktop override from 1100px and a smaller setting at 360px or below. Section headings use their own fluid values. At 680px, the featured gallery title and screening title receive desktop values; the reservation heading changes at 761px; the feature interlude changes at 1000px.
 
@@ -182,7 +177,7 @@ The public archive is a continuous page with percentage gutters. The wider gutte
 - **Full-video gallery:** one large featured film followed by three compact rows on mobile. From 680px, the featured film occupies the left column and the three remaining films occupy the right. The column ratio grows from 1.4:1 to 1.62:1 at 1000px. All film covers remain 16:9.
 - **Full-video screening room:** a full-viewport dialog with safe-area padding, title, previous/next controls, a contained 16:9 picture, native playback controls, quality selection, and a four-film strip. Desktop sizing also responds to viewport height. A short landscape viewport moves metadata and thumbnails beside the picture.
 - **Reservation:** copy, pass, and action stack on mobile. From 761px, the copy and action occupy the left column while the pass spans the right; this composition caps at 1400px. The action area caps at 470px.
-- **Footer:** contact and studio information wrap naturally. The reservation section replaces the former Instagram-message invitation and floating booking dock.
+- **Footer:** contact and studio information wrap naturally. The reservation section provides the Instagram conversation link; the former floating booking dock is removed.
 
 Interactive player controls and the quality selector provide at least 44px targets. The reservation action is larger, with a 62px minimum height. Tiny visible play symbols inside covers are part of the complete clickable film card, not separate small targets.
 
@@ -190,7 +185,7 @@ Interactive player controls and the quality selector provide at least 44px targe
 
 Depth comes from translucent layers, narrow bright rims, inward highlights, soft dark shadows, and real-time optical material. The film gallery stays largely open and flat; the media frame and controls carry the glass detail. The selected film's blurred poster lights the screening-room background without covering the picture.
 
-The reservation pass has a beveled WebGL object behind live HTML text. The CSS fallback keeps a dark reflective plate when graphics are unavailable or data saving bypasses WebGL. Essential pricing and credit copy remain real text.
+The reservation pass has a beveled WebGL object behind live HTML text. The CSS fallback keeps a dark reflective plate when graphics are unavailable or data saving bypasses WebGL. The invitation and Instagram handle remain real text.
 
 The sidecar records exact shadow and motion values. Material animations pause where the implementation tracks visibility, page visibility, or paused effects. Reduced-motion rules remove optical sweeps and transition animations. The screening waveform is decorative playback feedback; it runs only while playback is active and unmuted.
 
@@ -206,9 +201,9 @@ Fine borders and inset edge highlights define the glass. The optical feature pan
 
 ### Reservation action
 
-A full-width silver-to-champagne action sits below the deposit-credit explanation. Its gradient, inset edges, and shadow are documented in the sidecar because they are not color primitives.
+A full-width silver-to-champagne action sits below “Start with your song.” and the invitation to discuss availability on Instagram. Its gradient, inset edges, and shadow are documented in the sidecar because they are not color primitives.
 
-The configured action brightens on hover. The current public configuration has no checkout URL, so the rendered control is disabled with a subdued dark fill, a lock icon, and an explicit checkout-unavailable note. A sold-out state uses its own label. Preserve these truthful states; the enabled specimen in the sidecar demonstrates existing configured styling, not a functioning payment flow.
+The active “Reserve slot” link opens `studio.instagramMessageUrl` (`https://ig.me/m/aicanfeel`) and brightens on hover. Its note reads “Opens @aicanfeel on Instagram.” The studio confirms availability in chat. When the confirmed capacity is zero, the link stays active with “Ask about the next slot”. Pricing is hidden.
 
 Capacity indicators render only when a confirmed positive count is configured. With the current null count, the section shows general limited availability and no numbered place lights.
 
@@ -236,7 +231,7 @@ On desktop the face occupies the right-hand negative space, opposite the title a
 
 ### Reservation pass
 
-The pass separates decorative material from readable brand, price, currency, and deposit-credit text. The CSS material fallback is included as a representative card specimen. It is a fallback view, not a replacement for the production WebGL object.
+The pass separates decorative material from the readable brand, “A place for / your music.” invitation, and Instagram icon with `@aicanfeel`. The CSS material fallback is included as a representative card specimen. It is a fallback view, not a replacement for the production WebGL object.
 
 ## Do's and Don'ts
 
@@ -245,7 +240,7 @@ The pass separates decorative material from readable brand, price, currency, and
 - **Do** keep Manrope and Cormorant Garamond in their established interface and expressive roles.
 - **Do** use the supplied footage and posters as the portfolio's primary imagery.
 - **Do** preserve visible keyboard focus, touch targets, reduced-motion behavior, and no-WebGL fallbacks.
-- **Do** keep price, currency, deposit credit, and checkout availability readable as real text.
+- **Do** keep the reservation invitation, Instagram handle, and availability readable as real text.
 - **Do** follow each component's responsive layout rather than forcing a single card grid everywhere.
 
 ### Don't:
@@ -253,5 +248,5 @@ The pass separates decorative material from readable brand, price, currency, and
 - **Don't** replace the dark shader, silver ice, champagne light, or liquid glass identity.
 - **Don't** introduce mascots or additional characters; the user-requested canonical face study is the deliberate exception.
 - **Don't** obscure the selected film with decorative overlays.
-- **Don't** display invented capacity, decrement availability on a timer, or imply that an unavailable checkout works.
+- **Don't** display invented capacity, decrement availability on a timer, or imply that opening Instagram confirms a reservation.
 - **Don't** promote unused legacy styles or synthesized tonal ramps into production tokens.

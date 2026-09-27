@@ -1,4 +1,4 @@
-/* A studio pass: one physical object, one clear reservation amount. */
+/* A studio pass that leads to a direct conversation with AICANFEEL. */
 .studio-reservation {
   --reserve-paper: #efe4d5;
   --reserve-ink: #f0f3f5;
@@ -58,20 +58,17 @@
 .reservation-pass { position: absolute; top: 26%; left: 16%; right: 16%; z-index: 2; color: #edf3f5; pointer-events: none; }
 .reservation-pass-brand { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: -.025em; }
 .reservation-pass-brand > span { font-size: 7px; font-weight: 400; letter-spacing: .11em; color: #b5c1cc; }
-.reservation-price { display: flex; gap: 3px; align-items: baseline; margin: 17px 0 0; font-size: 76px; font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.04em; }
-.reservation-price > span:first-child { align-self: flex-start; margin-top: 9px; font-size: .39em; color: var(--reserve-paper); }
-.reservation-price > span:last-child { margin-left: 7px; font-size: 10px; letter-spacing: .06em; color: #bac9d3; }
-.reservation-pass-note { margin: 10px 0 20px; font-size: 12px; color: #b2c3ce; }
-.reservation-pass-note em { font-family: var(--font-archive-serif), Georgia, serif; color: var(--reserve-paper); font-size: 1.5em; }
-.reservation-pass-credit { display: flex; align-items: center; gap: 7px; padding-top: 13px; border-top: 1px solid #cee4ef26; font-size: 10px; color: #c0d3df; }
-.reservation-pass-credit svg { color: var(--reserve-paper); }
+.reservation-pass-title { margin: 24px 0 25px; font-size: 30px; font-weight: 400; line-height: 1.12; letter-spacing: -.03em; }
+.reservation-pass-title em { font-family: var(--font-archive-serif), Georgia, serif; color: var(--reserve-paper); font-size: 1.4em; }
+.reservation-pass-contact { display: flex; align-items: center; gap: 7px; padding-top: 13px; border-top: 1px solid #cee4ef26; font-size: 11px; color: #c0d3df; }
+.reservation-pass-contact svg { color: var(--reserve-paper); }
 .reservation-pass-edge { position: absolute; right: -4%; top: 34%; width: 2px; height: 38px; background: linear-gradient(transparent,#ecdbc0b3,transparent); }
 .reservation-action { max-width: 470px; width: 100%; }
-.reservation-credit-copy { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 24px; }
-.reservation-credit-mark { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 50%; background: #dfc8a414; color: #e1cfb4; flex-shrink: 0; margin-top: 2px; }
-.reservation-credit-copy p { margin: 0; font-size: 12px; line-height: 1.8; color: var(--reserve-soft); max-width: 40ch; }
-.reservation-credit-copy strong { display: block; color: var(--reserve-ink); font-size: 14px; font-weight: 500; margin-bottom: 3px; }
-.reservation-credit-copy p > span { display: block; }
+.reservation-contact-copy { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 24px; }
+.reservation-contact-mark { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 50%; background: #dfc8a414; color: #e1cfb4; flex-shrink: 0; margin-top: 2px; }
+.reservation-contact-copy p { margin: 0; font-size: 12px; line-height: 1.8; color: var(--reserve-soft); max-width: 40ch; }
+.reservation-contact-copy strong { display: block; color: var(--reserve-ink); font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+.reservation-contact-copy p > span { display: block; }
 .reservation-book {
   display: flex;
   align-items: center;
@@ -91,10 +88,8 @@
   font-weight: 600;
   transition: filter .25s, box-shadow .25s;
 }
-.reservation-book > span > span { font-weight: 400; }
-.reservation-book:disabled { opacity: 1; color: #b4c4cf; background: linear-gradient(120deg, #24313b, #19222c 60%, #2b2c2b); box-shadow: inset 0 1px 1px #b8ccd954, inset 0 -1px 1px #c5d2dc18; }
-.reservation-book:not(:disabled):hover { filter: brightness(1.08); box-shadow: inset 0 1px 1px #fff, 0 9px 28px #7d9db52b; }
-.reservation-checkout-note { margin: 12px 0 0; color: #a2b3bf; font-size: 11px; line-height: 1.7; text-align: center; }
+.reservation-book:hover { filter: brightness(1.08); box-shadow: inset 0 1px 1px #fff, 0 9px 28px #7d9db52b; }
+.reservation-contact-note { margin: 12px 0 0; color: #a2b3bf; font-size: 11px; line-height: 1.7; text-align: center; }
 .studio-footer { border-top: 1px solid #c7d9e225; padding: 24px 0 20px; margin: 0; gap: 0; }
 .studio-footer .footer-baseline { display: flex; flex-wrap: wrap; align-items: center; flex-direction: row; justify-content: space-between; width: 100%; gap: 12px; }
 .footer-contact-email { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: #e5e3df; font-size: 14px; text-decoration: underline; text-decoration-color: #bfccda45; text-underline-offset: 6px; }
@@ -116,24 +111,21 @@ html[data-page-hidden='true'] .reservation-place-lights i { animation-play-state
   .reservation-pass { top: 29%; left: 18%; right: 18%; }
   .reservation-pass-brand { font-size: 14px; }
   .reservation-pass-brand > span { font-size: 8px; }
-  .reservation-price { font-size: clamp(90px, 8.2vw, 120px); margin-top: 30px; }
-  .reservation-price > span:last-child { font-size: 12px; }
-  .reservation-pass-note { font-size: 14px; margin: 14px 0 30px; }
-  .reservation-pass-credit { font-size: 12px; padding-top: 18px; }
+  .reservation-pass-title { font-size: clamp(36px, 3.3vw, 48px); margin: 35px 0 32px; }
+  .reservation-pass-contact { font-size: 12px; padding-top: 18px; }
   .reservation-action { grid-column: 1; grid-row: 2; align-self: start; margin-top: 36px; }
-  .reservation-credit-copy p { font-size: 13px; }
-  .reservation-credit-copy strong { font-size: 15px; }
-  .reservation-checkout-note { text-align: left; }
+  .reservation-contact-copy p { font-size: 13px; }
+  .reservation-contact-copy strong { font-size: 15px; }
+  .reservation-contact-note { text-align: left; }
 }
 @media (max-width: 360px) {
   .reservation-art { height: 300px; }
   .reservation-pass-brand { font-size: 9px; }
   .reservation-pass-brand > span { font-size: 6px; }
-  .reservation-price { font-size: 63px; }
-  .reservation-pass-note { margin-bottom: 14px; }
-  .reservation-pass-credit { font-size: 9px; padding-top: 9px; }
+  .reservation-pass-title { font-size: 25px; margin: 20px 0; }
+  .reservation-pass-contact { font-size: 10px; padding-top: 9px; }
   .reservation-intro h2 { font-size: 28px; }
-  .reservation-checkout-note { font-size: 10px; }
+  .reservation-contact-note { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .reservation-place-lights i { animation: none; opacity: .8; }

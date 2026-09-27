@@ -2,7 +2,7 @@
 
 **Live website: [aicanfeelweb.com](https://aicanfeelweb.com/)**
 
-A mobile-first CGI / VFX music video portfolio. Five portrait videos, four full music videos with mobile and HD playback, a real-time glass cover fan, shader background, control-linked scan effects, and a $99 studio reservation section with WebGL optics.
+A mobile-first CGI / VFX music video portfolio. Five portrait videos, four full music videos with mobile and HD playback, a real-time glass cover fan, shader background, control-linked scan effects, and a studio reservation section with WebGL optics and an Instagram conversation link.
 
 ## Local development
 
@@ -31,7 +31,7 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 
 - `app/page.tsx`: composition, navigation, and portfolio.
 - `app/studio-reservation.tsx`, `app/studio-reservation.css`, `components/ui/reservation-optics.tsx`: reservation composition and WebGL pass.
-- `app/reservation-config.ts`: reservation amount, genuine availability, and hosted payment URL (not yet supplied).
+- `app/reservation-config.ts`: genuine studio availability, when confirmed.
 - `app/studio-config.ts`: Instagram profile, message link, and supplied profile details.
 - `app/film-player.tsx`, `app/listening-room.css`: music video viewer and playback controls.
 - `app/films.ts`, `public/media`: video metadata, optimized media, covers, and audio envelopes.
@@ -41,7 +41,7 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 - `components/ui/neural-face.tsx`, `app/studio-signatures.tsx`: the face-scan interlude. The renderer samples a local canonical mesh, caps mobile cost, and pauses offscreen or during playback. Geometry provenance and the matching still are documented in `docs/NEURAL-FACE-ASSET.md`.
 - `app/studio-signatures.tsx`, `app/studio-signatures.css`: studio highlights; `app/signal-details.css`: entrance and glass-arrow styling.
 
-This version is fully static. The reservation is $99, credited in full to the project deposit. Checkout stays visibly unavailable until the studio supplies an HTTPS payment link. There is no fake countdown, simulated purchase, email sender, or automatic reservation confirmation. See [RESERVATIONS.md](RESERVATIONS.md) before enabling checkout. Email contact: aicanfeel@gmail.com.
+This version is fully static. “Reserve slot” opens [@aicanfeel on Instagram](https://ig.me/m/aicanfeel), where the studio confirms availability and plans the music video. Pricing is hidden for now. The site does not collect payments or automatically confirm reservations. See [RESERVATIONS.md](RESERVATIONS.md) for the contact flow. Email contact: aicanfeel@gmail.com.
 
 Sound is enabled by default but starts only after a trusted visitor gesture. Saved mute preferences and reduced-motion settings are respected. Original video audio is preserved; interface sounds stop during playback.
 
