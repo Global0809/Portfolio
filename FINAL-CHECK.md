@@ -1,5 +1,7 @@
 # Original feature strip restored — 27 September 2026
 
+Live: **https://aicanfeelweb.com/#face-scan**. Pages commit `90622ff7d76a24a4c4d5fe028a0a4bdffb5f4cc1`, deployment run `36330174788`: successful. The public 390px browser confirms all four restored labels, no face artwork or asset requests, no overflow, four full-video entries, and the correct Instagram reservation link. No page errors.
+
 - Restored `app/studio-signatures.tsx` from `6bd4378^` (the original `90c500b` design), using its unchanged styles in `app/signal-details.css`. The four compact icon/text items are Perfect Lipsync, 4K UHD, Perfect Face accuracy, and Your song, Our creativity. The only markup addition is the existing `face-scan` anchor, retained for bookmarked section links.
 - Removed the entire face renderer, head geometry/still/license, later optical diagrams and large headline, their stylesheet, and the now-unused About attribution. No head asset requests remain. The earlier face-scan entries below are historical and superseded by this restoration.
 - Production browser checks at 1440, 390, and 320px confirm four desktop columns, two mobile columns, all labels, and no horizontal overflow. Reduced motion disables the strip animation. Full-video playback/close works, the strip pauses during playback, all four full-video entries remain, and Reserve slot still targets `https://ig.me/m/aicanfeel`. No page errors in completed flows. Mobile checks use emulated viewports.
