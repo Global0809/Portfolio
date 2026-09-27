@@ -225,9 +225,9 @@ The masthead pairs the wordmark and verified mark with sound and Portfolio contr
 
 ### Optical feature interlude
 
-Three related instruments share one surface: paired waveforms for lipsync, layered frames for 4K, and a tracking mesh for face accuracy. Keep the supplied wording. A generic anatomical face made from neural points now occupies the background of this interlude. A narrow ice-colored acquisition band reveals the features, followed by a champagne afterglow; a restrained turn and scroll response communicate depth. Touch changes illumination without dragging the face across the page.
+Three related instruments share one surface: paired waveforms for lipsync, layered frames for 4K, and a tracking mesh for face accuracy. Keep the supplied wording. A volumetric head study occupies the background of this interlude: an oblique silhouette, dense neural points, and a dark blue-violet sculpted surface. A cool acquisition band reveals the facial relief with a restrained violet wake. Slow rotation and a slight scroll response communicate depth; touch changes illumination without dragging the head across the page. A quiet background zone keeps unrelated scan lines away from the portrait.
 
-On desktop the face occupies the right-hand negative space, opposite the title and proof strip. On phones it sits between the title and the strip. Use the licensed canonical geometry and its matching still rather than approximating a face with an oval. The visual is decorative and uses no camera input. Lazy loading, bounded pixel/frame budgets, offscreen/modal pausing, and a still fallback for reduced motion, Save-Data, or unavailable WebGL are part of the composition.
+On desktop the head occupies the right-hand negative space, opposite the title and proof strip. On phones it sits between the title and the strip. Use the licensed full-head geometry and its matching transparent still; preserve its source attribution in the About dialog. The visual is decorative and uses no camera input. Lazy loading, bounded pixel/frame budgets, offscreen/modal pausing, and a still fallback for reduced motion, Save-Data, or unavailable WebGL are part of the composition.
 
 ### Reservation pass
 
@@ -246,7 +246,7 @@ The pass separates decorative material from the readable brand, “A place for /
 ### Don't:
 
 - **Don't** replace the dark shader, silver ice, champagne light, or liquid glass identity.
-- **Don't** introduce mascots or additional characters; the user-requested canonical face study is the deliberate exception.
+- **Don't** introduce mascots or additional characters; the user-requested face study is the deliberate exception.
 - **Don't** obscure the selected film with decorative overlays.
 - **Don't** display invented capacity, decrement availability on a timer, or imply that opening Instagram confirms a reservation.
 - **Don't** promote unused legacy styles or synthesized tonal ramps into production tokens.

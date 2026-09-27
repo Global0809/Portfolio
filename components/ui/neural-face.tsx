@@ -10,96 +10,71 @@ type NeuralFaceProps = {
 
 type FaceSurface = {
   positions: number[];
+  normals?: number[];
   indices: number[];
 };
 
-// These are the original canonical face vertex indices, preserved in the local
-// geometry. Sampling these paths keeps eyelids and the lip line legible even
-// while the acquisition band is elsewhere on the face.
-const anatomicalPaths = [
-  [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109, 10],
-  [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246, 33],
-  [263, 249, 390, 373, 374, 380, 381, 382, 362, 398, 384, 385, 386, 387, 388, 466, 263],
-  [46, 53, 52, 65, 55],
-  [276, 283, 282, 295, 285],
-  [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291],
-  [61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 291],
-  [78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308],
-  [78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308],
-  [168, 6, 197, 195, 5, 4, 1],
-  [129, 98, 97, 2, 326, 327, 358],
-];
-
-const pointVertex = `
-  attribute float aFeature;
-  attribute float aSeed;
-  uniform float pixelRatio;
-  uniform float pointScale;
-  varying float vY;
-  varying float vFeature;
-  varying float vSeed;
-  varying float vLight;
+const surfaceVertex = `
+  varying vec3 vPosition; varying vec3 vNormal; varying vec3 vView;
   void main() {
-    vec3 faceNormal = normalize(normalMatrix * normal);
-    vY = position.y;
-    vFeature = aFeature;
-    vSeed = aSeed;
-    vLight = 0.28 + 0.72 * abs(dot(faceNormal, normalize(vec3(-0.45, 0.5, 1.0))));
-    vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
-    gl_Position = projectionMatrix * viewPosition;
-    gl_PointSize = (1.70 + aSeed * 0.95 + aFeature * 0.30) * pixelRatio * pointScale;
+    vPosition = position; vNormal = normalize(normalMatrix * normal);
+    vec4 p = modelViewMatrix * vec4(position, 1.0); vView = -p.xyz;
+    gl_Position = projectionMatrix * p;
   }
 `;
-
-const pointFragment = `
+const surfaceFragment = `
   precision highp float;
-  uniform float scanY;
-  uniform float impulse;
-  varying float vY;
-  varying float vFeature;
-  varying float vSeed;
-  varying float vLight;
+  uniform float scanY; uniform float impulse;
+  varying vec3 vPosition; varying vec3 vNormal; varying vec3 vView;
   void main() {
-    float radius = length(gl_PointCoord - vec2(0.5)) * 2.0;
-    if (radius > 1.0) discard;
-    float dotShape = 1.0 - smoothstep(0.25, 1.0, radius);
-    float distanceToScan = vY - scanY;
-    float scan = exp(-pow(distanceToScan / (0.12 + impulse * 0.025), 2.0));
-    float afterglow = step(0.0, distanceToScan) * exp(-distanceToScan * 2.2);
-    vec3 ice = vec3(0.62, 0.83, 0.94);
-    vec3 champagne = vec3(0.91, 0.72, 0.49);
-    vec3 color = mix(ice, champagne, afterglow * 0.84 * (1.0 - scan));
-    float baseline = 0.43 + vFeature * 0.22 + vSeed * 0.15;
-    float brightness = baseline * vLight + scan * 0.88 + afterglow * 0.40 + impulse * 0.10;
-    gl_FragColor = vec4(color, dotShape * min(brightness, 1.0));
+    float fade = smoothstep(-2.1, -1.25, vPosition.y);
+    if (fade < 0.015) discard;
+    vec3 n = normalize(vNormal);
+    float key = pow(max(dot(n, normalize(vec3(-0.65, 0.4, 0.9))), 0.0), 1.5);
+    float rim = pow(1.0 - max(dot(n, normalize(vView)), 0.0), 3.0);
+    float fill = max(dot(n, normalize(vec3(0.7, 0.15, 0.3))), 0.0);
+    float band = exp(-pow((vPosition.y - scanY) / 0.065, 2.0));
+    float wake = step(scanY, vPosition.y) * exp(-(vPosition.y - scanY) * 3.8);
+    vec3 color = vec3(0.0018, 0.0025, 0.006) + key * vec3(0.016, 0.024, 0.038);
+    color += fill * vec3(0.014, 0.006, 0.023) + rim * vec3(0.018, 0.033, 0.052);
+    color += band * vec3(0.1, 0.24, 0.34) * (0.3 + key * 0.7);
+    color += wake * vec3(0.018, 0.012, 0.027) + impulse * key * vec3(0.008, 0.014, 0.025);
+    gl_FragColor = vec4(color * 0.58, fade);
     #include <colorspace_fragment>
   }
 `;
-
-const lineVertex = `
-  attribute float aStrength;
-  varying float vY;
-  varying float vStrength;
+const pointVertex = `
+  attribute float aSeed;
+  uniform float pixelRatio; uniform float pointScale; uniform float scanY;
+  varying float vY; varying float vSeed; varying float vLight; varying float vRim;
   void main() {
-    vY = position.y;
-    vStrength = aStrength;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    vec3 n = normalize(normalMatrix * normal);
+    vec4 p = modelViewMatrix * vec4(position, 1.0);
+    vY = position.y; vSeed = aSeed;
+    vLight = max(dot(n, normalize(vec3(-0.65, 0.4, 0.9))), 0.0);
+    vRim = pow(1.0 - max(dot(n, normalize(-p.xyz)), 0.0), 2.0);
+    float band = exp(-pow((position.y - scanY) / 0.12, 2.0));
+    gl_Position = projectionMatrix * p;
+    gl_PointSize = (1.1 + aSeed * 0.95 + band * 0.55) * pixelRatio * pointScale;
   }
 `;
-
-const lineFragment = `
+const pointFragment = `
   precision highp float;
-  uniform float scanY;
-  uniform float impulse;
-  varying float vY;
-  varying float vStrength;
+  uniform float scanY; uniform float impulse;
+  varying float vY; varying float vSeed; varying float vLight; varying float vRim;
   void main() {
-    float distanceToScan = vY - scanY;
-    float scan = exp(-pow(distanceToScan / 0.12, 2.0));
-    float afterglow = step(0.0, distanceToScan) * exp(-distanceToScan * 3.0);
-    vec3 color = mix(vec3(0.48, 0.71, 0.82), vec3(0.83, 0.64, 0.44), afterglow * 0.55);
-    float alpha = (0.10 + scan * 0.54 + afterglow * 0.13 + impulse * 0.035) * vStrength;
-    gl_FragColor = vec4(color, alpha);
+    float r = length(gl_PointCoord - 0.5) * 2.0;
+    if (r > 1.0) discard;
+    float band = exp(-pow((vY - scanY) / 0.14, 2.0));
+    float wake = step(scanY, vY) * exp(-(vY - scanY) * 2.4);
+    float dots = 1.0 - smoothstep(0.12, 1.0, r);
+    float fade = smoothstep(-1.95, -1.45, vY);
+    if (fade < 0.02) discard;
+    float light = 0.035 + pow(vLight, 1.5) * 0.36 + vRim * 0.07;
+    light += band * (0.55 + vLight * 0.45) + wake * 0.16 + impulse * vLight * 0.12;
+    vec3 color = mix(vec3(0.38, 0.64, 0.85), vec3(0.85, 0.76, 0.98), wake * 0.55);
+    color = mix(color, vec3(0.83, 0.95, 1.0), band);
+    gl_FragColor = vec4(color, dots * light * fade * (0.62 + vSeed * 0.38));
     #include <colorspace_fragment>
   }
 `;
@@ -107,13 +82,14 @@ const lineFragment = `
 function readSurface(value: unknown): FaceSurface {
   const data = value as Partial<FaceSurface> | null;
   if (!data || !Array.isArray(data.positions) || !Array.isArray(data.indices)
-    || data.positions.length < 468 * 3 || data.positions.length % 3 !== 0
+    || data.positions.length < 9 || data.positions.length % 3 !== 0
     || data.indices.length < 3 || data.indices.length % 3 !== 0
     || !data.positions.every(Number.isFinite)
     || !data.indices.every((index) => Number.isInteger(index) && index >= 0 && index < data.positions!.length / 3)) {
-    throw new Error('Invalid canonical face surface');
+    throw new Error('Invalid head surface');
   }
-  return { positions: data.positions, indices: data.indices };
+  const normals = Array.isArray(data.normals) && data.normals.length === data.positions.length && data.normals.every(Number.isFinite) ? data.normals : undefined;
+  return { positions: data.positions, indices: data.indices, normals };
 }
 
 export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
@@ -149,7 +125,7 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
       try {
         const [THREE, surface] = await Promise.all([
           import('three'),
-          fetch('/media/neural-face.json', { signal: abortController.signal }).then(async (response) => {
+          fetch('/media/neural-head.json', { signal: abortController.signal }).then(async (response) => {
             if (!response.ok) throw new Error('Face surface unavailable');
             return readSurface(await response.json());
           }),
@@ -158,7 +134,7 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
-          antialias: false,
+          antialias: true,
           stencil: false,
           powerPreference: 'low-power',
           preserveDrawingBuffer: false,
@@ -182,8 +158,8 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
         let width = 0;
         let height = 0;
         let contextLost = false;
-        let elapsedTime = 1.15;
-        let scanTime = 1.15;
+        let elapsedTime = 2.5;
+        let scanTime = 2.5;
         let impulse = 0;
         let scrollTarget = 0;
         let scrollPosition = 0;
@@ -216,20 +192,20 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
         const surfaceGeometry = new THREE.BufferGeometry();
         surfaceGeometry.setAttribute('position', new THREE.Float32BufferAttribute(surface.positions, 3));
         surfaceGeometry.setIndex(surface.indices);
-        surfaceGeometry.computeVertexNormals();
+        if (surface.normals) surfaceGeometry.setAttribute('normal', new THREE.Float32BufferAttribute(surface.normals, 3));
+        else surfaceGeometry.computeVertexNormals();
         geometries.add(surfaceGeometry);
         const positions = surfaceGeometry.getAttribute('position');
         const normals = surfaceGeometry.getAttribute('normal');
-        const occlusionMaterial = new THREE.MeshBasicMaterial({
-          colorWrite: false,
-          depthWrite: true,
-          side: THREE.DoubleSide,
-          polygonOffset: true,
-          polygonOffsetFactor: 2,
-          polygonOffsetUnits: 2,
+        const common = { scanY: { value: 0.7 }, impulse: { value: 0 } };
+        const surfaceMaterial = new THREE.ShaderMaterial({
+          vertexShader: surfaceVertex, fragmentShader: surfaceFragment, uniforms: common,
+          transparent: true, depthWrite: true, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 2,
         });
-        materials.add(occlusionMaterial);
-        face.add(new THREE.Mesh(surfaceGeometry, occlusionMaterial));
+        materials.add(surfaceMaterial);
+        const sculptedSurface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        sculptedSurface.renderOrder = 0;
+        face.add(sculptedSurface);
 
         // Fixed random seed and area-weighted barycentric samples make a stable
         // surface instead of a point cloud that drifts or clumps at vertices.
@@ -249,16 +225,18 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
           a.fromBufferAttribute(positions, surface.indices[triangle]);
           b.fromBufferAttribute(positions, surface.indices[triangle + 1]);
           c.fromBufferAttribute(positions, surface.indices[triangle + 2]);
-          totalArea += ab.subVectors(b, a).cross(ac.subVectors(c, a)).length() * 0.5;
+          const centerY = (a.y + b.y + c.y) / 3;
+          const normalZ = (normals.getZ(surface.indices[triangle]) + normals.getZ(surface.indices[triangle + 1]) + normals.getZ(surface.indices[triangle + 2])) / 3;
+          const weight = centerY < -2.45 ? 0 : normalZ > -0.25 ? 1 : 0.12;
+          totalArea += ab.subVectors(b, a).cross(ac.subVectors(c, a)).length() * 0.5 * weight;
           areas.push(totalArea);
         }
         if (!totalArea) throw new Error('Empty face surface');
-        const pointCount = 5000;
+        const pointCount = 26000;
         const pointPositions = new Float32Array(pointCount * 3);
         const pointNormals = new Float32Array(pointCount * 3);
-        const pointFeatures = new Float32Array(pointCount);
         const pointSeeds = new Float32Array(pointCount);
-        function writePoint(index: number, vertices: number[], weights: number[], feature: number) {
+        function writePoint(index: number, vertices: number[], weights: number[]) {
           const offset = index * 3;
           for (let axis = 0; axis < 3; axis++) {
             let coordinate = 0;
@@ -270,52 +248,28 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
             pointPositions[offset + axis] = coordinate + normal * 0.002;
             pointNormals[offset + axis] = normal;
           }
-          pointFeatures[index] = feature;
           pointSeeds[index] = random();
         }
-        const anatomicalEdges: Array<{ from: number; to: number; strength: number; end: number }> = [];
-        let totalLength = 0;
-        anatomicalPaths.forEach((path, pathIndex) => {
-          for (let index = 0; index < path.length - 1; index++) {
-            const from = path[index];
-            const to = path[index + 1];
-            a.fromBufferAttribute(positions, from);
-            b.fromBufferAttribute(positions, to);
-            // Emphasize eyes/lips over the long outside contour.
-            totalLength += a.distanceTo(b) * (pathIndex === 0 ? 0.45 : 1.4);
-            anatomicalEdges.push({ from, to, strength: pathIndex === 0 ? 0.5 : 0.85, end: totalLength });
-          }
-        });
-        // Interleave anatomical samples so the smaller mobile draw range still
-        // includes eyes and lips when the viewport crosses a breakpoint.
         for (let index = 0; index < pointCount; index++) {
-          if (index % 7 === 0) {
-            const target = random() * totalLength;
-            const edge = anatomicalEdges.find((candidate) => candidate.end >= target)!;
-            const along = random();
-            writePoint(index, [edge.from, edge.to], [1 - along, along], edge.strength);
-          } else {
-            const target = random() * totalArea;
-            let low = 0;
-            let high = areas.length - 1;
-            while (low < high) {
-              const middle = (low + high) >>> 1;
-              if (areas[middle] < target) low = middle + 1;
-              else high = middle;
-            }
-            const triangle = low * 3;
-            const root = Math.sqrt(random());
-            const second = random();
-            writePoint(index, surface.indices.slice(triangle, triangle + 3), [1 - root, root * (1 - second), root * second], 0);
+          if (index && index % 4096 === 0) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+            if (disposed || failed) return;
           }
+          const target = random() * totalArea;
+          let low = 0, high = areas.length - 1;
+          while (low < high) {
+            const middle = (low + high) >>> 1;
+            if (areas[middle] < target) low = middle + 1; else high = middle;
+          }
+          const triangle = low * 3;
+          const root = Math.sqrt(random()), second = random();
+          writePoint(index, surface.indices.slice(triangle, triangle + 3), [1 - root, root * (1 - second), root * second]);
         }
 
-        const common = { scanY: { value: 2.35 - scanTime / 8 * 4.7 }, impulse: { value: 0 } };
         const pointUniforms = { ...common, pixelRatio: { value: 1 }, pointScale: { value: 1 } };
         const pointsGeometry = new THREE.BufferGeometry();
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(pointPositions, 3));
         pointsGeometry.setAttribute('normal', new THREE.BufferAttribute(pointNormals, 3));
-        pointsGeometry.setAttribute('aFeature', new THREE.BufferAttribute(pointFeatures, 1));
         pointsGeometry.setAttribute('aSeed', new THREE.BufferAttribute(pointSeeds, 1));
         geometries.add(pointsGeometry);
         const pointsMaterial = new THREE.ShaderMaterial({
@@ -327,112 +281,16 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
           blending: THREE.AdditiveBlending,
         });
         materials.add(pointsMaterial);
-        face.add(new THREE.Points(pointsGeometry, pointsMaterial));
-
-        const edges = new Map<string, { from: number; to: number; strength: number }>();
-        const edgeKey = (from: number, to: number) => from < to ? `${from}:${to}` : `${to}:${from}`;
-        for (let index = 0; index < surface.indices.length; index += 3) {
-          for (let side = 0; side < 3; side++) {
-            const from = surface.indices[index + side];
-            const to = surface.indices[index + (side + 1) % 3];
-            const key = edgeKey(from, to);
-            const hash = Math.imul(Math.min(from, to) + 1, 73856093) ^ Math.imul(Math.max(from, to) + 1, 19349663);
-            if ((hash >>> 0) % 100 < 29 && !edges.has(key)) edges.set(key, { from, to, strength: 0.36 });
-          }
-        }
-        anatomicalEdges.forEach((edge) => edges.set(edgeKey(edge.from, edge.to), edge));
-        const linePositions: number[] = [];
-        const lineStrengths: number[] = [];
-        edges.forEach(({ from, to, strength }) => {
-          for (const vertex of [from, to]) {
-            for (let axis = 0; axis < 3; axis++) {
-              linePositions.push(positions.array[vertex * 3 + axis] + normals.array[vertex * 3 + axis] * 0.003);
-            }
-            lineStrengths.push(strength);
-          }
-        });
-        const lineGeometry = new THREE.BufferGeometry();
-        lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-        lineGeometry.setAttribute('aStrength', new THREE.Float32BufferAttribute(lineStrengths, 1));
-        geometries.add(lineGeometry);
-        const lineMaterial = new THREE.ShaderMaterial({
-          uniforms: common,
-          vertexShader: lineVertex,
-          fragmentShader: lineFragment,
-          transparent: true,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-        });
-        materials.add(lineMaterial);
-        face.add(new THREE.LineSegments(lineGeometry, lineMaterial));
-
-        // A real horizontal cross-section of the surface: it bends through the
-        // nose in depth, and ends at the face rather than extending into a HUD.
-        const scanPositions = new Float32Array(surface.indices.length * 2 + 36);
-        const scanGeometry = new THREE.BufferGeometry();
-        const scanAttribute = new THREE.BufferAttribute(scanPositions, 3);
-        scanAttribute.setUsage(THREE.DynamicDrawUsage);
-        scanGeometry.setAttribute('position', scanAttribute);
-        scanGeometry.setDrawRange(0, 0);
-        geometries.add(scanGeometry);
-        const scanMaterial = new THREE.LineBasicMaterial({
-          color: 0xb9e4f6,
-          transparent: true,
-          opacity: 0.58,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-        });
-        materials.add(scanMaterial);
-        const scanLine = new THREE.LineSegments(scanGeometry, scanMaterial);
-        scanLine.frustumCulled = false;
-        face.add(scanLine);
-        const updateScanLine = (y: number) => {
-          let cursor = 0;
-          let left = Infinity;
-          let right = -Infinity;
-          let leftZ = 0;
-          let rightZ = 0;
-          for (let triangle = 0; triangle < surface.indices.length; triangle += 3) {
-            const start = cursor;
-            for (let side = 0; side < 3; side++) {
-              const from = surface.indices[triangle + side] * 3;
-              const to = surface.indices[triangle + (side + 1) % 3] * 3;
-              const fromY = surface.positions[from + 1];
-              const toY = surface.positions[to + 1];
-              if ((fromY <= y && toY > y) || (toY <= y && fromY > y)) {
-                const along = (y - fromY) / (toY - fromY);
-                const x = surface.positions[from] + (surface.positions[to] - surface.positions[from]) * along;
-                const z = surface.positions[from + 2] + (surface.positions[to + 2] - surface.positions[from + 2]) * along + 0.009;
-                scanPositions[cursor++] = x;
-                scanPositions[cursor++] = y;
-                scanPositions[cursor++] = z;
-                if (x < left) { left = x; leftZ = z; }
-                if (x > right) { right = x; rightZ = z; }
-              }
-            }
-            if (cursor - start !== 6) cursor = start;
-          }
-          if (Number.isFinite(left)) {
-            for (const [x, z, direction] of [[left - 0.07, leftZ, 1], [right + 0.07, rightZ, -1]]) {
-              scanPositions.set([
-                x, y - 0.055, z, x, y + 0.055, z,
-                x, y - 0.055, z, x + direction * 0.045, y - 0.055, z,
-                x, y + 0.055, z, x + direction * 0.045, y + 0.055, z,
-              ], cursor);
-              cursor += 18;
-            }
-          }
-          scanMaterial.opacity = (0.58 + impulse * 0.15) * Math.max(0, Math.min(1, (2 - Math.abs(y)) / 0.25));
-          scanGeometry.setDrawRange(0, cursor / 3);
-          scanAttribute.needsUpdate = true;
-        };
+        const cloud = new THREE.Points(pointsGeometry, pointsMaterial);
+        cloud.renderOrder = 1;
+        face.add(cloud);
 
         const updateFace = () => {
-          common.scanY.value = 2.35 - (scanTime % 8) / 8 * 4.7;
+          common.scanY.value = 2.25 - (scanTime % 9) / 9 * 4.65;
           common.impulse.value = impulse;
-          face.rotation.y = -0.24 - Math.sin(elapsedTime * 0.19 + 0.45) * 0.10 + scrollPosition * 0.035;
+          face.rotation.y = -0.56 + Math.sin(elapsedTime * 0.12) * 0.065 + scrollPosition * 0.035;
           face.rotation.x = 0.018 + scrollPosition * 0.025;
-          updateScanLine(common.scanY.value);
+          face.rotation.z = -0.025;
         };
         const render = () => {
           if (disposed || failed || contextLost || !width || !height || staticMode()) return;
@@ -484,13 +342,13 @@ export function NeuralFace({ paused, reducedMotion = false }: NeuralFaceProps) {
             const dpr = Math.min(devicePixelRatio || 1, 1.25, Math.sqrt(550000 / (width * height)));
             renderer.setPixelRatio(dpr);
             renderer.setSize(width, height, false);
-            const drawCount = mobileQuery.matches ? 3200 : 5000;
+            const drawCount = mobileQuery.matches ? 16000 : 26000;
             pointsGeometry.setDrawRange(0, drawCount);
             container.dataset.particles = String(drawCount);
             pointUniforms.pixelRatio.value = dpr;
             pointUniforms.pointScale.value = mobileQuery.matches ? 0.95 : 1;
-            const halfHeight = 2.5;
-            const halfWidth = Math.max(2.05, halfHeight * width / height);
+            const halfHeight = 2.6;
+            const halfWidth = Math.max(1.9, halfHeight * width / height);
             camera.left = -halfWidth;
             camera.right = halfWidth;
             camera.top = halfWidth * height / width;

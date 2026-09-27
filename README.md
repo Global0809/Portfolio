@@ -38,7 +38,7 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 - `app/full-music-videos.tsx`, `app/full-music-videos.css`, `app/full-music-video-catalog.ts`: full-length collection and screening room above the reservation section; see [FULL-MUSIC-VIDEOS.md](FULL-MUSIC-VIDEOS.md) for the included 720p/1080p web copies and hosting limits.
 - `app/interface-sound.ts`: gesture-armed interaction sounds and mute preference.
 - `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: reactive visual effects.
-- `components/ui/neural-face.tsx`, `app/studio-signatures.tsx`: the face-scan interlude. The renderer samples a local canonical mesh, caps mobile cost, and pauses offscreen or during playback. Geometry provenance and the matching still are documented in `docs/NEURAL-FACE-ASSET.md`.
+- `components/ui/neural-face.tsx`, `app/studio-signatures.tsx`: the face-scan interlude. The renderer samples a licensed volumetric head mesh, caps mobile cost, and pauses offscreen or during playback. Geometry provenance, attribution, and the matching still are documented in `docs/NEURAL-FACE-ASSET.md`.
 - `app/studio-signatures.tsx`, `app/studio-signatures.css`: studio highlights; `app/signal-details.css`: entrance and glass-arrow styling.
 
 This version is fully static. “Reserve slot” opens [@aicanfeel on Instagram](https://ig.me/m/aicanfeel), where the studio confirms availability and plans the music video. Pricing is hidden for now. The site does not collect payments or automatically confirm reservations. See [RESERVATIONS.md](RESERVATIONS.md) for the contact flow. Email contact: aicanfeel@gmail.com.

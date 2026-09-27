@@ -1,6 +1,6 @@
 'use client';
 
-/* oxlint-disable next/no-img-element -- This lazy decorative fallback is already a 26 KB WebP with explicit dimensions. */
+/* oxlint-disable next/no-img-element -- This lazy decorative fallback is a compressed WebP with explicit dimensions. */
 import { useEffect, useRef } from 'react';
 import { NeuralFace } from '@/components/ui/neural-face';
 import { assetPath } from './site-path';
@@ -35,10 +35,10 @@ export function StudioSignatures({ paused, reducedMotion = false }: { paused: bo
       <div className="craft-face-stage" aria-hidden="true">
         <img
           className="craft-face-fallback"
-          src={assetPath('media/neural-face.webp')}
+          src={assetPath('media/neural-head.webp')}
           alt=""
-          width={420}
-          height={480}
+          width={520}
+          height={620}
           loading="lazy"
           decoding="async"
         />

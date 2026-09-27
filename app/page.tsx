@@ -317,6 +317,9 @@ export default function Home() {
           <button className="studio-back" onClick={() => setAbout(false)}>
             <ArrowLeft size={17} /> Back to music videos
           </button>
+          <a className="studio-scan-credit" href="/media/neural-head-LICENSE.txt" target="_blank" rel="noopener noreferrer">
+            3D study adapted from “Infinite, 3D Head Scan” by Lee Perry-Smith · CC BY 3.0
+          </a>
         </DialogContent>
       </Dialog>
     </main>

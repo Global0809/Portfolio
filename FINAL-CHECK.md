@@ -1,3 +1,13 @@
+# Volumetric scan revision — 27 September 2026
+
+- Replaced the rejected shallow face mask with a licensed full-head study: an oblique view, skull/ear/jaw depth, dark blue-violet relief, dense neural particles, and a moving cool scan light. Removed the drawn feature outlines and sparse mesh overlay. A quiet background zone separates the portrait from the global scan lines; the neck fades into the page.
+- The head uses 26,000 desktop / 16,000 mobile points and two draw calls, with the scan computed in shaders. Rendering remains capped at 24 fps on mobile / 30 fps on desktop, DPR 1.25, and 550,000 canvas pixels; these are ceilings, not guaranteed device frame rates. No additional graphics library or post-processing. The local geometry is 236 KB gzip; its matching transparent fallback is 37 KB. Both load lazily. Attribution is visible in About AICANFEEL and ships beside the assets under CC BY 3.0; see `docs/NEURAL-FACE-ASSET.md`.
+- Desktop and 390/320px visual checks found no overlap or horizontal overflow. Independent review confirmed the structural visual improvement and found no remaining material blocker after the neck fade correction. Tests use emulated browser viewports, not physical phones.
+- Browser checks pass for lazy loading, offscreen/hidden/modal pausing, context loss/recovery, failed geometry, unavailable WebGL, Save-Data, and reduced-motion stills. Production checks pass at 768px and 844px landscape, live preference changes stop actual draws, portrait and full-video playback pause the scan, closing resumes it, and keyboard focus returns. Attribution is visible and keyboard-focusable; its license URL returns HTTP 200. No page errors in completed flows.
+- TypeScript, targeted lint, and Node 22 static build pass. The existing Three.js chunk-size warning remains. One design scan returned advisory palette/type findings, largely in the established feature strip; the deliberate violet portrait atmosphere and existing typography are retained. The Instagram reservation flow and hidden pricing remain unchanged.
+
+---
+
 # Instagram reservations — 27 September 2026
 
 Live: **https://aicanfeelweb.com/#reserve**. Pages commit `0feb9477a9854b1b26c1fbb60242ed92e4b1c208`, deployment run `36287983775`: successful. Public 320px browser check confirms the revealed CTA is visible and opens Instagram, with no pricing, horizontal overflow or page errors.
