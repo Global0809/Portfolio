@@ -1,5 +1,7 @@
 # Neural face scan — 27 September 2026
 
+Live: **https://aicanfeelweb.com/#face-scan**. Pages commit `4dad6bdae5be124f283e87bd12a79d9b8eaba8ce`, deployment run `36287543853`: successful. The public mobile browser loads the 468-vertex local mesh with HTTP 200, renders 3,200 particles without overflow, plays a full music video while the scan pauses, and resumes after closing. No page errors.
+
 - Added a generic anatomical point-cloud face behind the existing feature interlude at `#face-scan`. A moving cross-section follows the actual face surface, with cool acquisition light, warm afterglow, restrained rotation, and touch/scroll response. It uses no camera or face capture.
 - Desktop and 390/320px browser renders show the complete face, readable copy, and no horizontal overflow. Independent finish review returned “Ship.” The decorative canvas stays out of the accessibility tree and does not intercept touch or keyboard input.
 - Browser checks pass for lazy geometry loading (no face mesh or video requests at the top of the mobile page), 3,200 mobile particles, offscreen and hidden-page pausing, full-video playback pausing the face, close/resume, WebGL context loss/recovery, reduced motion, Save-Data, unavailable WebGL, and a failed geometry request. Static fallbacks load successfully; completed flows have zero page errors. Mobile verification used emulated Chrome viewports, not physical devices.
