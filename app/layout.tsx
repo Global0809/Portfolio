@@ -7,7 +7,6 @@ import './refinements.css';
 import './listening-room.css';
 import './release-polish.css';
 import './signal-details.css';
-import './studio-signatures.css';
 import './studio-reservation.css';
 import './full-music-videos.css';
 import { assetPath } from './site-path';

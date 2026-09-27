@@ -1,4 +1,13 @@
-# Volumetric scan revision — 27 September 2026
+# Original feature strip restored — 27 September 2026
+
+- Restored `app/studio-signatures.tsx` from `6bd4378^` (the original `90c500b` design), using its unchanged styles in `app/signal-details.css`. The four compact icon/text items are Perfect Lipsync, 4K UHD, Perfect Face accuracy, and Your song, Our creativity. The only markup addition is the existing `face-scan` anchor, retained for bookmarked section links.
+- Removed the entire face renderer, head geometry/still/license, later optical diagrams and large headline, their stylesheet, and the now-unused About attribution. No head asset requests remain. The earlier face-scan entries below are historical and superseded by this restoration.
+- Production browser checks at 1440, 390, and 320px confirm four desktop columns, two mobile columns, all labels, and no horizontal overflow. Reduced motion disables the strip animation. Full-video playback/close works, the strip pauses during playback, all four full-video entries remain, and Reserve slot still targets `https://ig.me/m/aicanfeel`. No page errors in completed flows. Mobile checks use emulated viewports.
+- TypeScript, targeted lint, Node 22 production build, and the one changed-component design scan pass. The pre-existing large Three.js chunk warning remains. Other website sections are unchanged.
+
+---
+
+# Volumetric scan revision — 27 September 2026 (superseded)
 
 Live: **https://aicanfeelweb.com/#face-scan**. Pages commit `f1f4a78e7e13e0fa7570597ebce0132f76b84f0e`, deployment run `36289037517`: successful. Public mobile verification confirms the 9,279-vertex asset and license return HTTP 200, 16,000 points render without overflow, video playback pauses the face, and closing resumes it. The Instagram reservation URL remains correct and pricing stays hidden. No page errors. One cold asset request took 34 seconds on the test connection, so the initial 30-second automation wait timed out; the matching still remained available and the scan initialized when the asset arrived. This is not a measured real-device loading benchmark.
 
