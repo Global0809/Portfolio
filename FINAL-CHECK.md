@@ -1,3 +1,14 @@
+# Neural face scan — 27 September 2026
+
+- Added a generic anatomical point-cloud face behind the existing feature interlude at `#face-scan`. A moving cross-section follows the actual face surface, with cool acquisition light, warm afterglow, restrained rotation, and touch/scroll response. It uses no camera or face capture.
+- Desktop and 390/320px browser renders show the complete face, readable copy, and no horizontal overflow. Independent finish review returned “Ship.” The decorative canvas stays out of the accessibility tree and does not intercept touch or keyboard input.
+- Browser checks pass for lazy geometry loading (no face mesh or video requests at the top of the mobile page), 3,200 mobile particles, offscreen and hidden-page pausing, full-video playback pausing the face, close/resume, WebGL context loss/recovery, reduced motion, Save-Data, unavailable WebGL, and a failed geometry request. Static fallbacks load successfully; completed flows have zero page errors. Mobile verification used emulated Chrome viewports, not physical devices.
+- The existing Three.js dependency is reused. The renderer caps at 24 fps on phones / 30 fps on desktop, DPR 1.25 and 550,000 canvas pixels; no post-processing or additional graphics library. Mesh JSON is 22 KB and the matching still is 26 KB. Source and Apache 2.0 attribution are documented in `docs/NEURAL-FACE-ASSET.md` and shipped beside the assets.
+- TypeScript, targeted lint, and Node 22 production build pass. The one design scan reported advisory palette/type entries in the existing feature stylesheet; the established colors/type are intentionally retained, with lower-opacity glass for the new desktop overlap. The existing Three.js chunk-size warning remains.
+- Production browser checks also pass at 768px and 844px landscape with no overflow. Changing reduced-motion preference stops actual draw calls and restores the still; portrait video playback pauses the scan, and Escape returns focus correctly.
+
+---
+
 # Screening and reservation redesign — 27 September 2026
 
 Live: **https://aicanfeelweb.com/#reserve**. Pages commit `3fb3cdc9fdab65c98ae4c4eaa8226a86c6713117`, deployment run `36276018665`: successful. Public browser check confirms new highlights, no Instagram invitation, $99 reservation/disabled checkout, footer email, working WebGL, and mobile video playback/seek/filmstrip/close with zero page errors.

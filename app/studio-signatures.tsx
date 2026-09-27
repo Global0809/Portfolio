@@ -1,9 +1,12 @@
 'use client';
 
+/* oxlint-disable next/no-img-element -- This lazy decorative fallback is already a 26 KB WebP with explicit dimensions. */
 import { useEffect, useRef } from 'react';
+import { NeuralFace } from '@/components/ui/neural-face';
+import { assetPath } from './site-path';
 
 /** A single optical composition, rather than four unrelated feature cards. */
-export function StudioSignatures({ paused }: { paused: boolean }) {
+export function StudioSignatures({ paused, reducedMotion = false }: { paused: boolean; reducedMotion?: boolean }) {
   const surface = useRef<HTMLElement>(null);
   useEffect(() => {
     const element = surface.current;
@@ -24,10 +27,23 @@ export function StudioSignatures({ paused }: { paused: boolean }) {
   return (
     <section
       ref={surface}
+      id="face-scan"
       className="craft-signatures"
       aria-labelledby="craft-signatures-title"
       data-paused={paused}
     >
+      <div className="craft-face-stage" aria-hidden="true">
+        <img
+          className="craft-face-fallback"
+          src={assetPath('media/neural-face.webp')}
+          alt=""
+          width={420}
+          height={480}
+          loading="lazy"
+          decoding="async"
+        />
+        <NeuralFace paused={paused} reducedMotion={reducedMotion} />
+      </div>
       <h2 id="craft-signatures-title" className="craft-signatures-title">
         <span>Your song.</span>
         <em>Our creativity.</em>

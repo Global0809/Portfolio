@@ -251,7 +251,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <StudioSignatures paused={cinemaOpen || about} />
+      <StudioSignatures paused={cinemaOpen || about} reducedMotion={reduced} />
       <FullMusicVideos onViewingChange={setFullVideoViewing} />
       <StudioReservation paused={cinemaOpen || about} reducedMotion={reduced} />
       <footer className="studio-footer">

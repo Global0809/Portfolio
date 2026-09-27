@@ -1,14 +1,59 @@
-/* One piece of optical glass carries three different expressions of craft. */
+/* A dimensional face study occupies the negative space behind the studio craft. */
 .craft-signatures {
   position: relative;
   isolation: isolate;
   margin: clamp(54px, 7vw, 104px) 0 clamp(34px, 5vw, 72px);
   padding: 0;
-  display: grid;
-  gap: 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 614px;
+  padding-block: 20px 0;
+  scroll-margin-top: 90px;
+}
+
+.craft-signatures::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -30px -6vw;
+  background: radial-gradient(ellipse at 60% 50%, #060a0ff5 12%, #06090cdc 52%, transparent 76%);
+  pointer-events: none;
+}
+
+.craft-face-stage {
+  position: absolute;
+  z-index: -1;
+  inset: 79px -16px auto;
+  height: 400px;
+  pointer-events: none;
+}
+
+.neural-face,
+.neural-face canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.craft-face-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.85;
+  mix-blend-mode: screen;
+}
+
+.craft-face-stage:has(.neural-face[data-graphics='webgl']) .craft-face-fallback {
+  opacity: 0;
 }
 
 .craft-signatures-title {
+  position: relative;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -272,7 +317,12 @@ html[data-page-hidden='true'] .craft-signatures .craft-optics::after {
 
 @media (min-width: 600px) {
   .craft-signatures {
-    gap: 42px;
+    min-height: 700px;
+  }
+
+  .craft-face-stage {
+    top: 68px;
+    height: 480px;
   }
 
   .craft-optics {
@@ -294,9 +344,16 @@ html[data-page-hidden='true'] .craft-signatures .craft-optics::after {
 
 @media (min-width: 1000px) {
   .craft-signatures {
-    grid-template-columns: 0.82fr 1.18fr;
-    align-items: center;
-    gap: 6%;
+    min-height: 620px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 42px;
+    padding-block: 70px;
+  }
+
+  .craft-face-stage {
+    inset: 0 -2% 0 39%;
+    height: auto;
   }
 
   .craft-signatures-title {
@@ -309,7 +366,9 @@ html[data-page-hidden='true'] .craft-signatures .craft-optics::after {
   }
 
   .craft-optics {
+    width: 45%;
     padding-inline: 14px;
+    background: radial-gradient(ellipse at 52% 0%, #c0d8e50d, transparent 68%), linear-gradient(125deg, #091219b8, #0d161b70 48%, #11141430);
   }
 }
 

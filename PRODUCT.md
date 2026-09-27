@@ -14,7 +14,7 @@ Musicians and clients exploring the studio's CGI/VFX music videos and starting t
 
 - Keep the AICANFEEL identity, supplied media, Manrope/Cormorant typography, shader background, liquid glass language, and original audio.
 - Five portrait examples and four full music videos must be discoverable and playable. Load full video files only after selection. Offer 720p/1080p copies without modifying 4K originals.
-- Keyboard, touch, reduced-motion, and no-WebGL fallbacks are required. No mascots or generated characters.
+- Keyboard, touch, reduced-motion, and no-WebGL fallbacks are required. No mascots. The user's 27 September request explicitly adds a generic human face formed from neural particles as a decorative 3D scan study; it is not a client identity or a camera-capture tool.
 - Reservation amount: $99 USD. The entire amount counts toward the full project deposit, with no extra fee.
 - The studio has not supplied a payment link yet. Checkout must not claim to work or confirm a reservation until a real payment/booking flow exists.
 - Remaining capacity needs confirmation. Show general limited availability until a genuine count is supplied; never reduce the count based on elapsed time.

@@ -140,7 +140,7 @@ Preserve the established shader background and liquid glass identity. The featur
 - Dark continuous space with fine optical edges.
 - Cool silver light balanced by warm champagne highlights.
 - Clear sans-serif controls paired with expressive serif emphasis.
-- Supplied films lead; supporting graphics stay abstract.
+- Supplied films lead; the user-requested neural face study connects the feature interlude to facial detail.
 - Motion supports the experience and has a static fallback.
 
 This is an extraction of the implemented public site, with emphasis on the three redesigned surfaces. The normative values above come from the active stylesheet cascade in `app/layout.tsx`, especially `globals.css`, `midnight.css`, `release-polish.css`, `studio-signatures.css`, `studio-reservation.css`, and `full-music-videos.css`. Earlier light-theme declarations and unused booking-form styles are not design authority. Product and commercial truth remains in `PRODUCT.md` and the configuration files.
@@ -230,7 +230,9 @@ The masthead pairs the wordmark and verified mark with sound and Portfolio contr
 
 ### Optical feature interlude
 
-Three related instruments share one surface: paired waveforms for lipsync, layered frames for 4K, and an abstract tracking mesh for face accuracy. Keep the supplied wording. One slow light sweep crosses the whole panel; it is hidden for reduced motion.
+Three related instruments share one surface: paired waveforms for lipsync, layered frames for 4K, and a tracking mesh for face accuracy. Keep the supplied wording. A generic anatomical face made from neural points now occupies the background of this interlude. A narrow ice-colored acquisition band reveals the features, followed by a champagne afterglow; a restrained turn and scroll response communicate depth. Touch changes illumination without dragging the face across the page.
+
+On desktop the face occupies the right-hand negative space, opposite the title and proof strip. On phones it sits between the title and the strip. Use the licensed canonical geometry and its matching still rather than approximating a face with an oval. The visual is decorative and uses no camera input. Lazy loading, bounded pixel/frame budgets, offscreen/modal pausing, and a still fallback for reduced motion, Save-Data, or unavailable WebGL are part of the composition.
 
 ### Reservation pass
 
@@ -249,7 +251,7 @@ The pass separates decorative material from readable brand, price, currency, and
 ### Don't:
 
 - **Don't** replace the dark shader, silver ice, champagne light, or liquid glass identity.
-- **Don't** introduce mascots or generated characters.
+- **Don't** introduce mascots or additional characters; the user-requested canonical face study is the deliberate exception.
 - **Don't** obscure the selected film with decorative overlays.
 - **Don't** display invented capacity, decrement availability on a timer, or imply that an unavailable checkout works.
 - **Don't** promote unused legacy styles or synthesized tonal ramps into production tokens.
