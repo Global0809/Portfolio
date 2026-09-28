@@ -1,3 +1,13 @@
+# Slim studio features — 28 September 2026
+
+- Refined the feature strip to 66px on desktop and 122px on mobile (previously about 105px and 216px). It keeps all four phrases, with 16px icons, fine dividers, smaller balanced type, and one subtle eight-second edge sweep instead of four light accents and an icon pulse. No new library, media asset, or WebGL renderer.
+- The 3D head remains completely removed. Replaced the ScanFace icon with an abstract Focus icon and renamed the section to `#studio-features`, removing the final scan-related anchor. The current source, built site, and browser load no head assets or scan attribution.
+- Pricing remains absent from the website. Any future $99 price belongs only on an actual final checkout page after its URL is supplied. The current Reserve slot link still opens `https://ig.me/m/aicanfeel`; no checkout or payment flow is claimed.
+- Production browser checks at 1440, 768, 390, and 320px confirm all labels, no text overflow, no horizontal overflow, and no visible price. Reduced motion disables the edge sweep; opening About pauses it. The corrected final desktop divider computes to 1px. No page errors; the existing Three.js precision warning remains. Mobile testing uses emulated browser viewports.
+- TypeScript, targeted lint, and Node 22 production build pass. The single design scan returned advisory color/type entries, including existing styles and intentional compact feature sizes. The existing Three.js chunk-size warning remains.
+
+---
+
 # Original feature strip restored — 27 September 2026
 
 Live: **https://aicanfeelweb.com/#face-scan**. Pages commit `90622ff7d76a24a4c4d5fe028a0a4bdffb5f4cc1`, deployment run `36330174788`: successful. The public 390px browser confirms all four restored labels, no face artwork or asset requests, no overflow, four full-video entries, and the correct Instagram reservation link. No page errors.

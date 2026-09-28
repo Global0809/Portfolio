@@ -38,9 +38,9 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 - `app/full-music-videos.tsx`, `app/full-music-videos.css`, `app/full-music-video-catalog.ts`: full-length collection and screening room above the reservation section; see [FULL-MUSIC-VIDEOS.md](FULL-MUSIC-VIDEOS.md) for the included 720p/1080p web copies and hosting limits.
 - `app/interface-sound.ts`: gesture-armed interaction sounds and mute preference.
 - `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: reactive visual effects.
-- `app/studio-signatures.tsx`, `app/signal-details.css`: the compact four-feature strip, with two columns on mobile and four from 761px. The stylesheet also provides entrance and glass-arrow styling.
+- `app/studio-signatures.tsx`, `app/signal-details.css`: the slim four-feature strip at `#studio-features`, with 16px line icons, two columns on mobile, four from 761px, and one restrained light sweep along the top edge. The stylesheet also provides entrance and glass-arrow styling.
 
-This version is fully static. “Reserve slot” opens [@aicanfeel on Instagram](https://ig.me/m/aicanfeel), where the studio confirms availability and plans the music video. Pricing is hidden for now. The site does not collect payments or automatically confirm reservations. See [RESERVATIONS.md](RESERVATIONS.md) for the contact flow. Email contact: aicanfeel@gmail.com.
+This version is fully static. “Reserve slot” opens [@aicanfeel on Instagram](https://ig.me/m/aicanfeel), where the studio confirms availability and plans the music video. Pricing stays off the marketing page. Any future $99 price belongs only at the actual final checkout after the studio supplies a real checkout URL; no checkout exists yet. The site does not collect payments or automatically confirm reservations. See [RESERVATIONS.md](RESERVATIONS.md) for the contact flow. Email contact: aicanfeel@gmail.com.
 
 Sound is enabled by default but starts only after a trusted visitor gesture. Saved mute preferences and reduced-motion settings are respected. Original video audio is preserved; interface sounds stop during playback.
 

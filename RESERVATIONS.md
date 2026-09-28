@@ -1,6 +1,6 @@
 # Studio reservations
 
-“Reserve slot” opens the studio's Instagram conversation at [@aicanfeel](https://ig.me/m/aicanfeel). The studio confirms availability and plans the music video in chat. Pricing is hidden for now.
+“Reserve slot” opens the studio's Instagram conversation at [@aicanfeel](https://ig.me/m/aicanfeel). The studio confirms availability and plans the music video in chat. Pricing stays off the marketing page.
 
 ## Current state
 
@@ -11,6 +11,10 @@
 - Email contact is a standard `mailto:aicanfeel@gmail.com` footer link.
 
 If a confirmed count reaches zero, the section says “This intake is full” and the active link reads “Ask about the next slot”. Opening Instagram does not confirm a reservation. The static site does not process payments, decrement capacity, or send confirmations. Animated glints are decorative.
+
+## Future checkout
+
+No checkout exists yet. After the studio supplies a real checkout URL, any future $99 price belongs only at the actual final checkout. Keep it out of the marketing page, reservation pass, and Instagram action. Until checkout is implemented, “Reserve slot” continues to open Instagram.
 
 ## Graphics budget
 
