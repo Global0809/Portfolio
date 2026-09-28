@@ -1,3 +1,13 @@
+# Instagram footer — 28 September 2026
+
+Live: **https://aicanfeelweb.com/#instagram**. Pages commit `7ce31230916cf1d031c0f8617350dd7fba94710b`, deployment run `36387567615`: successful. Public mobile verification confirms the handle, blue badge, studio-supplied 260,000+ follower count, and working profile link. Clicking opens `https://www.instagram.com/aicanfeel/` in a new tab. No page errors or horizontal overflow.
+
+- Added a prominent footer profile link using the shared studio configuration and verified-mark component. Email and About remain available. The footer stacks on mobile and pairs profile/contact information on desktop, with no added dependencies, media, or animation loops.
+- Production browser checks at 1440, 390, and 320px confirm all text and badge are visible, with no link/page overflow. Keyboard focus has a visible 2px outline; About opens and closes correctly. Mobile checks use emulated browser viewports.
+- TypeScript, targeted lint, and Node 22 static build pass. The single design scan returned advisory findings in the existing stylesheet palette/type system; the reused footer design is intentional. The existing Three.js chunk-size/precision warnings remain.
+
+---
+
 # Equal full-music-video gallery — 28 September 2026
 
 Live: **https://aicanfeelweb.com/#full-music-videos**. Pages commit `71f8e31764f6086087d95af261f20e924aee18ae`, deployment run `36380938424`: successful. The public mobile page shows all four covers at identical dimensions in two columns, with no featured entry, overflow, visible price, or video requests before selection. No page errors.
