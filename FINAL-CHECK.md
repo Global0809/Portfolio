@@ -1,5 +1,7 @@
 # Slim studio features — 28 September 2026
 
+Live: **https://aicanfeelweb.com/#studio-features**. Pages commit `b7d889accc9c38bc11ed5b955d49958da780f83c`, deployment run `36380445244`: successful. Public mobile verification confirms the 122px strip, all four phrases, no displayed price, no face artwork/requests, no horizontal overflow, and the active Instagram reservation URL. No page errors.
+
 - Refined the feature strip to 66px on desktop and 122px on mobile (previously about 105px and 216px). It keeps all four phrases, with 16px icons, fine dividers, smaller balanced type, and one subtle eight-second edge sweep instead of four light accents and an icon pulse. No new library, media asset, or WebGL renderer.
 - The 3D head remains completely removed. Replaced the ScanFace icon with an abstract Focus icon and renamed the section to `#studio-features`, removing the final scan-related anchor. The current source, built site, and browser load no head assets or scan attribution.
 - Pricing remains absent from the website. Any future $99 price belongs only on an actual final checkout page after its URL is supplied. The current Reserve slot link still opens `https://ig.me/m/aicanfeel`; no checkout or payment flow is claimed.
