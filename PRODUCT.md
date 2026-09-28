@@ -19,7 +19,7 @@ Musicians and clients exploring the studio's CGI/VFX music videos and starting t
 - Keep reservation pricing off the marketing page. Any future $99 price belongs only at the actual final checkout after the studio supplies a real checkout URL. No checkout exists yet. “Reserve slot” opens the studio's Instagram conversation at `https://ig.me/m/aicanfeel`; the studio confirms availability and plans the project in chat.
 - The pass reads “A place for your music.” and shows `@aicanfeel`. The site does not collect payments or automatically confirm a reservation.
 - Remaining capacity needs confirmation. Show general limited availability until a genuine count is supplied; never reduce the count based on elapsed time.
-- Footer email: aicanfeel@gmail.com. The reservation section provides the Instagram conversation link. Existing Instagram profile/verified badge and studio-provided 260,000+ follower claim elsewhere can remain.
+- Footer: a prominent @aicanfeel profile link with the blue verified mark and studio-provided 260,000+ Instagram followers, plus aicanfeel@gmail.com and About AICANFEEL. The reservation section separately provides the Instagram conversation link.
 - Supplied feature wording: Perfect Lipsync; 4K UHD; Perfect Face accuracy; Your song, Our creativity. Do not invent additional production guarantees or clients.
 - Keep the four-feature strip thin and restrained, with 16px line icons, compact text, and one light sweep along the top edge. A two-by-two mobile grid uses 60px minimum-height cells; four columns from 761px use 64px minimum-height cells. The Face accuracy feature uses an abstract Focus icon.
 

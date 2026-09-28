@@ -254,7 +254,23 @@ export default function Home() {
       <StudioSignatures paused={cinemaOpen || about} />
       <FullMusicVideos onViewingChange={setFullVideoViewing} />
       <StudioReservation paused={cinemaOpen || about} reducedMotion={reduced} />
-      <footer className="studio-footer">
+      <footer className="studio-footer" id="instagram">
+        <a
+          className="instagram-signature"
+          href={studio.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className="instagram-name">
+            @aicanfeel
+            {studio.instagramVerified && <VerifiedMark />}
+            <ArrowUpRight size={22} aria-hidden="true" />
+          </span>
+          <span className="instagram-followers">
+            Instagram <span aria-hidden="true">·</span>{' '}
+            <strong>{studio.instagramFollowers}</strong> followers
+          </span>
+        </a>
         <div className="footer-baseline">
           <a className="footer-contact-email" href="mailto:aicanfeel@gmail.com">aicanfeel@gmail.com <ArrowUpRight size={16} aria-hidden="true" /></a>
           <span>AICANFEEL © {new Date().getFullYear()}</span>

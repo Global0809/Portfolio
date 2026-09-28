@@ -170,7 +170,7 @@ The public archive is a continuous page with percentage gutters. The wider gutte
 - **Full-video gallery:** four equal cards form a two-by-two grid at every viewport width. All covers remain 16:9, with matching serif titles and play treatment. Row/column gaps are 24px/14px on mobile, 32px/24px from 680px, and 40px/32px from 1000px.
 - **Full-video screening room:** a full-viewport dialog with safe-area padding, title, previous/next controls, a contained 16:9 picture, native playback controls, quality selection, and a four-film strip. Desktop sizing also responds to viewport height. A short landscape viewport moves metadata and thumbnails beside the picture.
 - **Reservation:** copy, pass, and action stack on mobile. From 761px, the copy and action occupy the left column while the pass spans the right; this composition caps at 1400px. The action area caps at 470px.
-- **Footer:** contact and studio information wrap naturally. The reservation section provides the Instagram conversation link; the former floating booking dock is removed.
+- **Footer:** @aicanfeel, its blue verified mark, and “Instagram · 260,000+ followers” form one prominent profile link. It sits above email and studio information on mobile, beside them on desktop. The reservation section provides the separate Instagram conversation link; the former floating booking dock is removed.
 
 Interactive player controls and the quality selector provide at least 44px targets. The reservation action is larger, with a 62px minimum height. Tiny visible play symbols inside covers are part of the complete clickable film card, not separate small targets.
 
@@ -214,7 +214,7 @@ Loading, blocked playback, slow loading, and failure states have visible copy an
 
 ### Navigation
 
-The masthead pairs the wordmark and verified mark with sound and Portfolio controls. Sound state is exposed with its pressed state; the Portfolio link targets the portrait film index. The screening toolbar provides a Back control and the studio wordmark. The footer contact is a visible email link.
+The masthead pairs the wordmark and verified mark with sound and Portfolio controls. Sound state is exposed with its pressed state; the Portfolio link targets the portrait film index. The screening toolbar provides a Back control and the studio wordmark. The footer includes the Instagram profile, studio-supplied follower count, and a visible email link.
 
 ### Studio feature strip
 

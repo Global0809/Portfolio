@@ -152,7 +152,7 @@ html[data-page-hidden='true'] .intake-marks i::after {
   gap: 9px;
   color: #e9eff2;
   font-size: clamp(29px, 6vw, 45px);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
 }
 .instagram-name .verified-mark {
   width: 24px;
@@ -167,7 +167,8 @@ html[data-page-hidden='true'] .intake-marks i::after {
   transform: translate(3px, -3px);
 }
 .instagram-followers {
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.6;
   color: #b5c1ca;
 }
 .instagram-followers strong {
