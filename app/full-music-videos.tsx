@@ -250,11 +250,10 @@ export function FullMusicVideos({
         </div>
 
         <div className="full-video-grid">
-          {available.map((video, index) => (
+          {available.map((video) => (
             <button
               key={video.id}
               className="full-video-card"
-              data-featured={index === 0}
               data-reveal
               data-press
               data-scan="watch"
@@ -279,7 +278,6 @@ export function FullMusicVideos({
               <span className="full-video-caption">
                 <span className="full-video-title-wrap">
                   <span className="full-video-title">{video.title}</span>
-                  <span className="full-video-caption-note">Full music video</span>
                 </span>
                 <span className="full-video-watch">
                   <span>Play</span>

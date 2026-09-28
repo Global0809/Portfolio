@@ -1,6 +1,6 @@
 # Full music videos
 
-The four-video collection sits immediately above the studio reservation section. Its featured image and three compact entries open a full-screen screening room with a thumbnail filmstrip. It uses the site's existing typography, glass materials, and actual footage posters.
+The four-video collection sits immediately above the studio reservation section. All four videos have equal cards in a two-by-two grid at every viewport width, with matching 16:9 covers, serif titles, runtime labels, and overlay play controls. Compact captions omit the redundant “Full music video” label; the secondary Play pill appears from 680px. Each complete card opens the same full-screen screening room with a thumbnail filmstrip. It uses the site's existing typography, glass materials, and actual footage posters.
 
 ## Hosting and playback
 

@@ -1,3 +1,11 @@
+# Equal full-music-video gallery — 28 September 2026
+
+- Replaced the one-featured/three-small arrangement with a uniform 2×2 grid at every supported width. All four entries share equal 16:9 covers, title typography, runtime labels, and glass play overlays. Mobile omits the redundant caption label and secondary Play pill; the entire cover/title remains one accessible button. The screening room and playback implementation are unchanged.
+- Production browser checks at 1440, 768, 390, and 320px measure matching cover dimensions and title sizes across all four entries, with no horizontal or caption overflow. All four videos play at the mobile 720p default, Escape removes the player and returns focus to the correct card, and keyboard Enter opens the selected video. No full-video requests occur before selection. No page errors; testing uses emulated browser viewports.
+- TypeScript, targeted lint, and Node 22 static build pass. The single design scan returned only advisory palette/type findings, largely in unchanged screening styles; the consistent gallery title sizing is intentional. Existing Three.js chunk-size and precision warnings remain. Hidden pricing, removed face artwork, slim features, and Instagram reservation flow are retained.
+
+---
+
 # Slim studio features — 28 September 2026
 
 Live: **https://aicanfeelweb.com/#studio-features**. Pages commit `b7d889accc9c38bc11ed5b955d49958da780f83c`, deployment run `36380445244`: successful. Public mobile verification confirms the 122px strip, all four phrases, no displayed price, no face artwork/requests, no horizontal overflow, and the active Instagram reservation URL. No page errors.

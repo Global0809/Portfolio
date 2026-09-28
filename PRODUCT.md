@@ -14,6 +14,7 @@ Musicians and clients exploring the studio's CGI/VFX music videos and starting t
 
 - Keep the AICANFEEL identity, supplied media, Manrope/Cormorant typography, shader background, liquid glass language, and original audio.
 - Five portrait examples and four full music videos must be discoverable and playable. Load full video files only after selection. Offer 720p/1080p copies without modifying 4K originals.
+- Present all four full music videos equally in a two-by-two gallery on mobile and desktop, with matching 16:9 covers, title styling, and play treatment. Keep the existing screening room and player behavior.
 - Keyboard, touch, reduced-motion, and no-WebGL fallbacks are required. No mascots or decorative human-face artwork.
 - Keep reservation pricing off the marketing page. Any future $99 price belongs only at the actual final checkout after the studio supplies a real checkout URL. No checkout exists yet. “Reserve slot” opens the studio's Instagram conversation at `https://ig.me/m/aicanfeel`; the studio confirms availability and plans the project in chat.
 - The pass reads “A place for your music.” and shows `@aicanfeel`. The site does not collect payments or automatically confirm a reservation.
@@ -24,7 +25,7 @@ Musicians and clients exploring the studio's CGI/VFX music videos and starting t
 
 ## Delegated decisions
 
-The full-video experience and reservation section retain the delegated redesign. The feature section follows the user's latest request for a thinner, sleeker, futuristic strip with the 3D face artwork fully removed. Product truth is captured from those explicit requests and the existing working implementation.
+The full-video gallery follows the user's request for four equal cards. Compact captions omit the redundant “Full music video” label and hide the secondary Play pill; overlay play controls and complete-card buttons remain. The screening room and reservation section retain the delegated redesign. The feature section follows the user's request for a thinner, sleeker, futuristic strip with the 3D face artwork fully removed. Product truth is captured from those explicit requests and the existing working implementation.
 
 ## Open inputs
 

@@ -43,16 +43,10 @@ typography:
     lineHeight: 1.16
     letterSpacing: "-0.04em"
   title:
-    fontFamily: "Manrope, Arial, sans-serif"
-    fontSize: "clamp(15px, 3.8vw, 18px)"
-    fontWeight: 500
-    lineHeight: 1.25
-    letterSpacing: "-0.025em"
-  featured-title:
     fontFamily: "Cormorant Garamond, Georgia, serif"
-    fontSize: "clamp(31px, 8vw, 42px)"
+    fontSize: "clamp(21px, 5.5vw, 28px)"
     fontWeight: 400
-    lineHeight: 1
+    lineHeight: 1.12
     letterSpacing: "-0.025em"
   screening-title:
     fontFamily: "Cormorant Garamond, Georgia, serif"
@@ -80,7 +74,6 @@ rounded:
   cover: "8px"
   screen: "10px"
   action: "12px"
-  featured-cover: "14px"
   pass-fallback: "16px"
   pill: "30px"
   circle: "50%"
@@ -165,7 +158,7 @@ Alpha-bearing edge and highlight tokens remain translucent. The sidecar's genera
 
 The font pairing is pinned. Serif emphasis is used inside headlines and for selected film titles; navigation, controls, metadata, and supporting copy remain sans-serif. Runtime figures use tabular numerals.
 
-The frontmatter records the base mobile-first roles, not a generated modular scale. The hero display has a larger desktop override from 1100px and a smaller setting at 360px or below. Section headings use their own fluid values. At 680px, the featured gallery title and screening title receive desktop values; the reservation heading changes at 761px. The feature strip uses 11px labels and 13px emphasis, with 14px emphasis from 761px.
+The frontmatter records the base mobile-first roles, not a generated modular scale. The hero display has a larger desktop override from 1100px and a smaller setting at 360px or below. Section headings use their own fluid values. All four gallery titles share the same serif style, changing to clamp(28px, 3vw, 40px) from 680px; the screening title also receives desktop values at 680px. The reservation heading changes at 761px. The feature strip uses 11px labels and 13px emphasis, with 14px emphasis from 761px.
 
 The feature strip's “Our creativity” phrase uses italic Cormorant at 18px and 19px from 761px. “4K UHD” uses 18px Manrope. The reservation's italic serif phrase uses 1.34em. Do not apply the small, tracked eyebrow style to body copy.
 
@@ -174,7 +167,7 @@ The feature strip's “Our creativity” phrase uses italic Cormorant at 18px an
 The public archive is a continuous page with percentage gutters. The wider gutter token applies below 761px; the wide-screen gutter token applies from that breakpoint. There is no single max-width or spacing scale governing every section.
 
 - **Feature strip:** four icon-and-text cells form a two-by-two grid on mobile and one row of four equal columns from 761px. Cells have a 60px minimum height and 12px padding; from 761px, they use a 64px minimum height and 12px vertical/18px horizontal padding. At 360px or below, horizontal padding drops to 9px and icon gaps to 7px. The strip has a 28px top margin, increasing to 38px from 761px, with fine dividers between cells.
-- **Full-video gallery:** one large featured film followed by three compact rows on mobile. From 680px, the featured film occupies the left column and the three remaining films occupy the right. The column ratio grows from 1.4:1 to 1.62:1 at 1000px. All film covers remain 16:9.
+- **Full-video gallery:** four equal cards form a two-by-two grid at every viewport width. All covers remain 16:9, with matching serif titles and play treatment. Row/column gaps are 24px/14px on mobile, 32px/24px from 680px, and 40px/32px from 1000px.
 - **Full-video screening room:** a full-viewport dialog with safe-area padding, title, previous/next controls, a contained 16:9 picture, native playback controls, quality selection, and a four-film strip. Desktop sizing also responds to viewport height. A short landscape viewport moves metadata and thumbnails beside the picture.
 - **Reservation:** copy, pass, and action stack on mobile. From 761px, the copy and action occupy the left column while the pass spans the right; this composition caps at 1400px. The action area caps at 470px.
 - **Footer:** contact and studio information wrap naturally. The reservation section provides the Instagram conversation link; the former floating booking dock is removed.
@@ -193,7 +186,7 @@ The sidecar records exact shadow and motion values. Material animations pause wh
 
 ## Shapes
 
-Small-radius rectangular media frames establish the gallery; the featured cover is slightly softer than compact covers. Circular transport controls read as physical controls. The reservation action is a rounded rectangle, and secondary watch affordances use pill outlines.
+Matching rectangular media frames establish the gallery, with 8px corner radii on mobile and 12px from 680px. Circular transport controls read as physical controls. The reservation action is a rounded rectangle, and secondary watch affordances use pill outlines.
 
 Fine borders and inset edge highlights define the glass. The feature strip is a compact surface with square outer corners, top and bottom borders, and thin cell dividers. Each cell pairs a small line icon with the supplied wording.
 
@@ -209,7 +202,7 @@ Capacity indicators render only when a confirmed positive count is configured. W
 
 ### Film cards and watch affordances
 
-A featured landscape cover leads the collection with a serif title and a small Watch pill. Subsequent films use compact cover-and-title rows. All entries open the same screening room; desktop hover gently enlarges the cover, brightens its rim, and advances the arrow.
+All four landscape covers receive equal space, a serif title, a runtime label, and an overlay play control. The complete card is the clickable button. Captions omit the redundant “Full music video” label, and the secondary Play pill appears only from 680px to leave room for mobile titles. All entries open the same screening room; desktop hover gently enlarges the cover, brightens its rim, and advances the arrow.
 
 Use supplied posters and the actual film title and duration. Full video files load after selection. Preserve the original sound and the existing 720p/1080p choice.
 

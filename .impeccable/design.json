@@ -233,12 +233,8 @@
         "purpose": "Sans-serif half of the studio reservation heading."
       },
       "title": {
-        "displayName": "Compact film title",
-        "purpose": "Titles in the three supporting full-video rows."
-      },
-      "featured-title": {
-        "displayName": "Featured film title",
-        "purpose": "Cormorant title beneath the leading full-video cover."
+        "displayName": "Film title",
+        "purpose": "Shared Cormorant title beneath each of four equal 16:9 covers in the two-by-two full-video gallery at every viewport width."
       },
       "screening-title": {
         "displayName": "Screening title",
@@ -395,12 +391,12 @@
       "css": ".ds-screening-nav{display:flex;align-items:center;justify-content:space-between;min-height:62px;gap:14px;width:100%;border-bottom:1px solid #c9dce51a;font-family:var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-back{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0;border:0;background:none;font:11px var(--font-archive-sans, Manrope), Arial, sans-serif;color:#dce6ed;cursor:pointer}.ds-back>span{display:grid;place-items:center;width:35px;height:35px;border:1px solid #d3e6f247;border-radius:50%;background:linear-gradient(145deg,#f0f7ff21,#f0f7ff00 58%,#f0f7ff10);box-shadow:inset 0 1px 0 #ddecf44a}.ds-back:focus-visible{outline:2px solid var(--ember, #b5d6ed);outline-offset:5px}.ds-room-brand{color:#edf3f7;font-size:12px;line-height:1;font-weight:700;letter-spacing:-.035em}"
     },
     {
-      "name": "Featured Film Watch Affordance",
+      "name": "Film Play Affordance",
       "kind": "chip",
       "refersTo": "watch-affordance",
-      "description": "Pill-shaped visual affordance inside the complete clickable featured card; it is not a separate production control.",
-      "html": "<span class=\"ds-watch\">Watch <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></span>",
-      "css": ".ds-watch{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:74px;min-height:44px;padding:0 13px;border:1px solid #d8e7f447;border-radius:30px;background:linear-gradient(140deg,#deedfa1e,#aac6db05 58%,#f4e2c415);box-shadow:inset 0 1px 0 #eef6ff33;color:#cfdee8;font:11px var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-watch>svg{width:18px;height:18px}"
+      "description": "Uniform secondary Play pill inside every complete clickable film card from 680px; it is not a separate production control. Mobile captions omit the redundant Full music video label and hide this pill while retaining overlay play controls and complete-card buttons. The screening room and player behavior are unchanged.",
+      "html": "<span class=\"ds-watch\">Play <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></span>",
+      "css": ".ds-watch{display:none;align-items:center;justify-content:center;flex-shrink:0;gap:8px;margin-left:auto;min-width:74px;min-height:44px;padding:0 13px;border:1px solid #d8e7f447;border-radius:30px;background:linear-gradient(140deg,#deedfa1e,#aac6db05 58%,#f4e2c415);box-shadow:inset 0 1px 0 #eef6ff33;color:#cfdee8;font:11px var(--font-archive-sans, Manrope), Arial, sans-serif}.ds-watch>svg{width:18px;height:18px}@media(min-width:680px){.ds-watch{display:inline-flex}}"
     },
     {
       "name": "Reservation Pass — CSS Fallback",
