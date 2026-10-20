@@ -34,7 +34,7 @@ Windows with Node 24 can hit an upstream build-shutdown error. Use Node 22, or r
 - `app/reservation-config.ts`: genuine studio availability, when confirmed.
 - `app/studio-config.ts`: Instagram profile, message link, and supplied profile details.
 - `app/film-player.tsx`, `app/listening-room.css`: music video viewer and playback controls.
-- `app/films.ts`, `public/media`: video metadata, optimized media, covers, and audio envelopes.
+- `app/portrait-media.json`: the shared portrait-video order, titles, durations, and asset names used by the app and build checks. `app/films.ts` resolves public URLs; `public/media` contains optimized videos, covers, and audio envelopes. Run `node scripts/prepare-waveforms.mjs` after replacing a video.
 - `app/full-music-videos.tsx`, `app/full-music-videos.css`, `app/full-music-video-catalog.ts`: full-length collection and screening room above the reservation section; see [FULL-MUSIC-VIDEOS.md](FULL-MUSIC-VIDEOS.md) for the included 720p/1080p web copies and hosting limits.
 - `app/interface-sound.ts`: gesture-armed interaction sounds and mute preference.
 - `app/neural-links.tsx`, `components/ui/shader-lines.tsx`, `app/sculpture.tsx`: reactive visual effects.

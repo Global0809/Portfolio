@@ -1,8 +1,10 @@
 /* A glass listening room: one live portrait, four quiet frames, one transport. */
 .listening-room.screening {
   --picture-width: min(68vw, calc((100dvh - 312px) * 0.5625), 350px);
-  --picture-height: calc(var(--picture-width) * 16 / 9);
-  --card-height: calc(var(--picture-height) + 58px);
+  /* Match the inner width after the two 1px glass edges, without letterboxing. */
+  --picture-height: calc((var(--picture-width) - 2px) * 16 / 9);
+  --caption-height: 58px;
+  --card-height: calc(var(--picture-height) + var(--caption-height) + 2px);
   padding: 0 max(16px, env(safe-area-inset-right))
     max(14px, env(safe-area-inset-bottom));
   background: #090b0f;
@@ -99,7 +101,7 @@
   left: 50%;
   margin-left: calc(var(--picture-width) / -2);
   margin-top: calc(var(--card-height) / -2);
-  padding: 4px;
+  padding: 0;
   border: 1px solid #e0ecff47;
   border-radius: 19px;
   background: linear-gradient(
@@ -189,9 +191,9 @@
 .reel-picture {
   position: relative;
   width: 100%;
-  height: calc(var(--picture-height) - 8px);
+  height: var(--picture-height);
   overflow: hidden;
-  border-radius: 14px 14px 7px 7px;
+  border-radius: 18px 18px 0 0;
   background: #050607;
 }
 .reel-picture video {
@@ -202,14 +204,14 @@
   cursor: pointer;
 }
 .reel-caption {
-  height: 58px;
+  height: var(--caption-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding: 8px 10px;
   background: linear-gradient(125deg, #bacbda20, #111820ed 65%);
-  border-radius: 0 0 14px 14px;
+  border-radius: 0 0 18px 18px;
 }
 .reel-caption > div {
   min-width: 0;
@@ -234,22 +236,22 @@
   flex-direction: column;
   text-align: left;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 18px;
   padding: 0;
 }
 .reel-cover img {
   display: block;
   width: 100%;
-  height: calc(var(--picture-height) - 8px);
-  object-fit: contain;
-  background: #08090b;
+  height: var(--picture-height);
+  object-fit: cover;
   flex-shrink: 0;
 }
 .reel-cover-caption {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 58px;
+  height: var(--caption-height);
+  flex-shrink: 0;
   padding: 8px 12px;
 }
 .reel-cover-caption strong {
@@ -931,7 +933,7 @@
 @media (max-height: 550px) and (min-width: 600px) {
   .listening-room.screening {
     --picture-width: min(29vw, calc((100dvh - 128px) * 0.5625));
-    --card-height: calc(var(--picture-height) + 46px);
+    --caption-height: 46px;
     padding: 0 24px 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -948,7 +950,6 @@
     min-height: var(--card-height);
   }
   .reel-caption {
-    height: 46px;
     padding: 5px 8px;
   }
   .reel-title {

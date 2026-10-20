@@ -178,6 +178,8 @@ Interactive player controls and the quality selector provide at least 44px targe
 
 Depth comes from translucent layers, narrow bright rims, inward highlights, soft dark shadows, and real-time optical material. The film gallery stays largely open and flat; the media frame and controls carry the glass detail. The selected film's blurred poster lights the screening-room background without covering the picture.
 
+Portrait player pictures meet the one-pixel glass rim directly. Calculate the 9:16 picture height from the inner card width, use a shared caption height (58px, or 46px in short landscape), and keep the picture-to-caption seam square. Covers fill their frame; playing videos retain their full portrait composition with `object-fit: contain` in the matching-ratio viewport.
+
 The reservation pass has a beveled WebGL object behind live HTML text. The CSS fallback keeps a dark reflective plate when graphics are unavailable or data saving bypasses WebGL. The invitation and Instagram handle remain real text.
 
 The sidecar records exact shadow and motion values. Material animations pause where the implementation tracks visibility, page visibility, or paused effects. Reduced-motion rules remove light accents and transition animations. The screening waveform is decorative playback feedback; it runs only while playback is active and unmuted.

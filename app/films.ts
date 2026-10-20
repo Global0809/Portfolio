@@ -1,43 +1,8 @@
 import { assetPath } from './site-path';
-export const films = [
-  {
-    id: 1,
-    title: 'Future vision',
-    subtitle: 'Beyond the ordinary',
-    duration: 39.102,
-    cover: assetPath('/media/cover-1.webp'),
-    src: assetPath('/media/film-1.mp4'),
-  },
-  {
-    id: 2,
-    title: 'Another world',
-    subtitle: 'Through the impossible',
-    duration: 33.483,
-    cover: assetPath('/media/cover-2.webp'),
-    src: assetPath('/media/film-2.mp4'),
-  },
-  {
-    id: 3,
-    title: 'Love in motion',
-    subtitle: 'Lyrics into cinema',
-    duration: 30.07,
-    cover: assetPath('/media/cover-3.webp'),
-    src: assetPath('/media/film-3.mp4'),
-  },
-  {
-    id: 4,
-    title: 'After hours',
-    subtitle: 'Light meets rhythm',
-    duration: 33.553,
-    cover: assetPath('/media/cover-4.webp'),
-    src: assetPath('/media/film-4.mp4'),
-  },
-  {
-    id: 5,
-    title: 'Seeing red',
-    subtitle: 'Your song as a movie',
-    duration: 30.07,
-    cover: assetPath('/media/cover-5.webp'),
-    src: assetPath('/media/film-5.mp4'),
-  },
-];
+import portraitMedia from './portrait-media.json';
+
+export const films = portraitMedia.map((film) => ({
+  ...film,
+  cover: assetPath(`/media/${film.cover}`),
+  src: assetPath(`/media/${film.src}`),
+}));

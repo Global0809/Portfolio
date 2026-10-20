@@ -1,0 +1,42 @@
+[
+  {
+    "id": 7,
+    "title": "AICANFEEL 2.0",
+    "subtitle": "Your song as a movie",
+    "duration": 27.833333,
+    "cover": "aicanfeel-2.webp",
+    "src": "aicanfeel-2.mp4"
+  },
+  {
+    "id": 1,
+    "title": "Future vision",
+    "subtitle": "Beyond the ordinary",
+    "duration": 39.102,
+    "cover": "cover-1.webp",
+    "src": "film-1.mp4"
+  },
+  {
+    "id": 2,
+    "title": "Another world",
+    "subtitle": "Through the impossible",
+    "duration": 33.483,
+    "cover": "cover-2.webp",
+    "src": "film-2.mp4"
+  },
+  {
+    "id": 3,
+    "title": "Love in motion",
+    "subtitle": "Lyrics into cinema",
+    "duration": 30.07,
+    "cover": "cover-3.webp",
+    "src": "film-3.mp4"
+  },
+  {
+    "id": 6,
+    "title": "Brand vision",
+    "subtitle": "CGI + VFX brand video",
+    "duration": 39.083333,
+    "cover": "brand-vision.webp",
+    "src": "brand-vision.mp4"
+  }
+]

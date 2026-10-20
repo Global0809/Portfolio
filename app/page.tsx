@@ -38,7 +38,7 @@ const time = (seconds: number) =>
 
 export default function Home() {
   useExperienceMotion();
-  const [active, setActive] = useState(4);
+  const [active, setActive] = useState(0);
   const [viewing, setViewing] = useState<number | null>(null);
   const [fullVideoViewing, setFullVideoViewing] = useState(false);
   const [about, setAbout] = useState(false);

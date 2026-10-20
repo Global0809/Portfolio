@@ -4,9 +4,10 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-for (let id = 1; id <= 5; id++) {
+const films = JSON.parse(readFileSync(new URL('../app/portrait-media.json', import.meta.url), 'utf8'));
+for (const { id, src } of films) {
   const source = fileURLToPath(
-    new URL(`../public/media/film-${id}.mp4`, import.meta.url),
+    new URL(`../public/media/${src}`, import.meta.url),
   );
   const result = spawnSync(
     'ffmpeg',

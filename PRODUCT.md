@@ -14,6 +14,7 @@ Musicians and clients exploring the studio's CGI/VFX music videos and starting t
 
 - Keep the AICANFEEL identity, supplied media, Manrope/Cormorant typography, shader background, liquid glass language, and original audio.
 - Five portrait examples and four full music videos must be discoverable and playable. Load full video files only after selection. Offer 720p/1080p copies without modifying 4K originals.
+- Portrait order: AICANFEEL 2.0 (initial hero selection), Future vision, Another world, Love in motion, Brand vision. The October 2026 update replaces Seeing red and After hours with Aicanfeel 2.0.MOV and Website Ad 6.mp4, using the supplied scene-matched covers. Keep cover edges flush with the player frame, without internal black gutters.
 - Present all four full music videos equally in a two-by-two gallery on mobile and desktop, with matching 16:9 covers, title styling, and play treatment. Keep the existing screening room and player behavior.
 - Keyboard, touch, reduced-motion, and no-WebGL fallbacks are required. No mascots or decorative human-face artwork.
 - Keep reservation pricing off the marketing page. Any future $99 price belongs only at the actual final checkout after the studio supplies a real checkout URL. No checkout exists yet. “Reserve slot” opens the studio's Instagram conversation at `https://ig.me/m/aicanfeel`; the studio confirms availability and plans the project in chat.

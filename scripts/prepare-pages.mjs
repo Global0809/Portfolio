@@ -15,8 +15,9 @@ writeFileSync(resolve(target, '.nojekyll'), '');
 const html = readFileSync(resolve(target, 'index.html'), 'utf8');
 if (!html.includes('/_next/') || html.includes('/Portfolio/')) throw new Error('Expected custom-domain root asset paths');
 if (readFileSync(resolve(target, 'CNAME'), 'utf8').trim() !== 'aicanfeelweb.com') throw new Error('Missing custom-domain CNAME');
-for (let i = 1; i <= 5; i++) {
-  for (const name of [`film-${i}.mp4`, `cover-${i}.webp`, `wave-${i}.json`]) {
+const films = JSON.parse(readFileSync(new URL('../app/portrait-media.json', import.meta.url), 'utf8'));
+for (const film of films) {
+  for (const name of [film.src, film.cover, `wave-${film.id}.json`]) {
     if (!existsSync(resolve(target, 'media', name))) throw new Error(`Missing ${name}`);
   }
 }

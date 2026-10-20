@@ -1,9 +1,9 @@
-import { existsSync, mkdirSync, copyFileSync } from 'node:fs';
+import { existsSync, mkdirSync, copyFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+const films = JSON.parse(readFileSync(new URL('../app/portrait-media.json', import.meta.url), 'utf8'));
 const target = join(process.cwd(), 'public', 'media');
 mkdirSync(target, { recursive: true });
-for (let i = 1; i <= 5; i++) {
-  const name = `film-${i}.mp4`;
+for (const { src: name } of films) {
   const path = join(target, name);
   if (existsSync(path)) continue;
   const supplied = process.env.AICANFEEL_MEDIA_DIR && join(process.env.AICANFEEL_MEDIA_DIR, name);
