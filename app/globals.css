@@ -329,6 +329,8 @@ h1 em {
 }
 .is-ready .sculpture-fallback {
   opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s, visibility 0s 0.4s;
 }
 .sculpture-fallback img {
   position: absolute;

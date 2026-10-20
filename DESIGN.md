@@ -184,6 +184,8 @@ The reservation pass has a beveled WebGL object behind live HTML text. The CSS f
 
 The sidecar records exact shadow and motion values. Material animations pause where the implementation tracks visibility, page visibility, or paused effects. Reduced-motion rules remove light accents and transition animations. The screening waveform is decorative playback feedback; it runs only while playback is active and unmuted.
 
+Visible WebGL motion uses phase-preserving 60 Hz scheduling and elapsed-time interpolation. The hero keeps reflective beveled frames without a hidden full-scene refraction pass. Cap hero buffers at 300k pixels on mobile / 620k on desktop, and the full-screen shader at 320k / 450k. Cache scan-target inventories and finish geometry reads before highlight writes. Prepare the silent sound context during startup idle time; only a trusted gesture activates audio.
+
 **The Optional Motion Rule.** Keep content and controls usable when animation or WebGL is unavailable.
 
 ## Shapes

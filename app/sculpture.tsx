@@ -1,4 +1,6 @@
 'use client';
+/* oxlint-disable next/no-img-element -- Pre-optimized WebP covers are shared with the WebGL renderer. */
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- The canvas host implements keyboard, raycast, and swipe interactions. */
 import { useEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 import { films } from './films';
@@ -19,7 +21,6 @@ export function FilmSculpture({
 }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const current = useRef({ active, paused, reduced, onSelect });
-  current.current = { active, paused, reduced, onSelect };
   const [ready, setReady] = useState(false);
   const wakeRef = useRef<(() => void) | null>(null);
   const hitRef = useRef<((x: number, y: number) => number) | null>(null);
@@ -27,6 +28,9 @@ export function FilmSculpture({
     null,
   );
   const ignoreClickUntil = useRef(0);
+  useEffect(() => {
+    current.current = { active, paused, reduced, onSelect };
+  }, [active, paused, reduced, onSelect]);
   useEffect(() => {
     wakeRef.current?.();
   }, [active, paused, reduced]);
@@ -70,9 +74,6 @@ export function FilmSculpture({
       } catch {
         return;
       }
-      renderer.setPixelRatio(
-        Math.min(devicePixelRatio, innerWidth < 700 ? 1.25 : 1.75),
-      );
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.25;
@@ -101,7 +102,7 @@ export function FilmSculpture({
         w + 0.14,
         h + 0.14,
         0.22,
-        5,
+        3,
         0.1,
       );
       function roundedShape(width: number, height: number, r: number) {
@@ -141,33 +142,34 @@ export function FilmSculpture({
           .getPoints(48)
           .map((p) => new THREE.Vector3(p.x, p.y, -0.1)),
       );
-      const glass = new THREE.MeshPhysicalMaterial({
+      // The opaque poster hides the backing. Reflected bevels preserve its
+      // glass silhouette without a full-scene transmission pass per frame.
+      const glass = new THREE.MeshStandardMaterial({
         color: 0xaab7c0,
-        metalness: 0.08,
-        roughness: 0.08,
-        transmission: 0.75,
-        thickness: 0.8,
-        ior: 1.5,
+        metalness: 0.42,
+        roughness: 0.16,
         transparent: true,
         opacity: 0.66,
         envMapIntensity: 1.5,
-        clearcoat: 1,
-        iridescence: 0.12,
-        iridescenceIOR: 1.3,
-        iridescenceThicknessRange: [100, 220],
       });
       const loader = new THREE.TextureLoader();
       const photos: InstanceType<typeof THREE.Mesh>[] = [];
       const textures: InstanceType<typeof THREE.Texture>[] = [];
       const edges: InstanceType<typeof THREE.ShaderMaterial>[] = [];
+      let pendingTextures = films.length;
+      const textureReady = (texture?: InstanceType<typeof THREE.Texture>) => {
+        if (stopped) return;
+        // Upload every cover before revealing the interactive WebGL fan.
+        if (texture) renderer.initTexture(texture);
+        pendingTextures--;
+        dirty = true;
+        wake();
+      };
       const groups = films.map((film, index) => {
         const group = new THREE.Group();
         const backing = new THREE.Mesh(bodyGeometry, glass);
         group.add(backing);
-        const tex = loader.load(film.cover, () => {
-          dirty = true;
-          wake();
-        });
+        const tex = loader.load(film.cover, textureReady, undefined, () => textureReady());
         tex.colorSpace = THREE.SRGBColorSpace;
         tex.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
         textures.push(tex);
@@ -212,6 +214,7 @@ export function FilmSculpture({
       let dirty = true,
         lastActive = -1,
         lastTime = 0,
+        nextDraw = 0,
         raf = 0,
         rendered = false,
         inView = true,
@@ -234,10 +237,20 @@ export function FilmSculpture({
         cancelAnimationFrame(raf);
         raf = 0;
         dirty = true;
+        lastTime = 0;
+        nextDraw = 0;
         wake();
       };
       const resize = () => {
         const rect = mount.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        renderer.setPixelRatio(
+          Math.min(
+            devicePixelRatio,
+            innerWidth < 700 ? 1.25 : 1.5,
+            Math.sqrt((innerWidth < 700 ? 300_000 : 620_000) / (rect.width * rect.height)),
+          ),
+        );
         renderer.setSize(rect.width, rect.height);
         camera.aspect = rect.width / rect.height;
         camera.position.z =
@@ -324,14 +337,18 @@ export function FilmSculpture({
       wakeRef.current = sync;
       function render(now: number) {
         raf = 0;
-        if (!eligible()) return;
+        if (!eligible() || pendingTextures) return;
         const state = current.current;
-        if (now - lastTime < (innerWidth < 700 ? 50 : 32)) {
+        // Keep a phase-preserving 60 Hz deadline. Resetting to `now` after
+        // each draw loses frames on 60/90/120/180 Hz displays through rounding.
+        const interval = 1000 / 60;
+        if (now + 0.5 < nextDraw) {
           wake();
           return;
         }
-        const delta = Math.min((now - lastTime) / 1000, 0.1);
+        const delta = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 1 / 60;
         lastTime = now;
+        nextDraw += Math.max(1, Math.floor((now - nextDraw + 0.5) / interval) + 1) * interval;
         if (lastActive !== state.active) {
           lastActive = state.active;
           edgeStarted = now;
@@ -358,7 +375,7 @@ export function FilmSculpture({
             ? Math.sin(progress * Math.PI) * (i === state.active ? 1 : 0.72)
             : 0;
         });
-        const lerp = state.reduced ? 1 : 1 - Math.exp(-delta * 5);
+        const lerp = state.reduced || !rendered ? 1 : 1 - Math.exp(-delta * 7);
         let unsettled = false;
         groups.forEach((group, i) => {
           const d = ((i - state.active + 7) % 5) - 2;
@@ -370,7 +387,9 @@ export function FilmSculpture({
           if (
             Math.abs(group.position.x - x) +
               Math.abs(group.position.z - z) +
-              Math.abs(group.rotation.z - rz) >
+              Math.abs(group.position.y - y) +
+              Math.abs(group.rotation.z - rz) +
+              Math.abs(group.rotation.y - ry) >
             0.002
           )
             unsettled = true;

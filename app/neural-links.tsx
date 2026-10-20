@@ -25,7 +25,10 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
   const settings = useRef({ paused, reduced, signal });
   const syncRef = useRef<(() => void) | null>(null);
   const signalRef = useRef<(() => void) | null>(null);
-  settings.current = { paused, reduced, signal };
+
+  useEffect(() => {
+    settings.current = { paused, reduced, signal };
+  }, [paused, reduced, signal]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -44,12 +47,14 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
     let disposed = false,
       frame = 0,
       hold = 0,
-      layoutFrame = 0;
+      layoutFrame = 0,
+      interactionFrame = 0;
+    let pendingFocus = false;
     let width = 0,
       height = 0,
       mobile = true;
     let started = 0,
-      previousDraw = 0,
+      nextDraw = 0,
       cycle = 0;
     let tracks: Track[] = [],
       links: Link[] = [];
@@ -57,14 +62,12 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
     let controls: Control[] = [],
       focused: HTMLElement | null = null,
       scrollY = window.scrollY;
-    let buttons = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-scan]'),
-    );
-    const anchors = Array.from(
-      document.querySelectorAll<HTMLElement>(
-        '.editorial h1, .sculpture-wrap, .film-index, .full-music-videos, .studio-reservation',
-      ),
-    );
+    const anchorSelector = '.editorial h1, .sculpture-wrap, .film-index, .full-music-videos, .studio-reservation';
+    const inventorySelector = `[data-scan], [data-scan-port], ${anchorSelector}`;
+    let buttons: HTMLElement[] = [],
+      anchors: HTMLElement[] = [],
+      inventoryDirty = true;
+    let contentObserver: ResizeObserver | null = null;
     const staticMode = () =>
       preference.matches || settings.current.reduced || !!connection?.saveData;
     const visible = () => !document.hidden && !settings.current.paused;
@@ -72,13 +75,29 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       cancelAnimationFrame(frame);
       clearTimeout(hold);
       cancelAnimationFrame(layoutFrame);
-      frame = hold = layoutFrame = 0;
+      cancelAnimationFrame(interactionFrame);
+      frame = hold = layoutFrame = interactionFrame = 0;
+      pendingFocus = false;
       canvas.dataset.running = 'false';
     };
     function measure() {
       scrollY = window.scrollY;
-      // Include controls in sections revealed after hydration, such as local previews.
-      buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-scan]'));
+      // The DOM inventory changes only when controls mount/unmount. Scroll still
+      // measures their current geometry, so every connection lands on its button.
+      if (inventoryDirty) {
+        const previousButtons = new Set(buttons);
+        buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-scan]'));
+        for (const button of buttons) {
+          if (!previousButtons.delete(button)) contentObserver?.observe(button);
+        }
+        for (const button of previousButtons) contentObserver?.unobserve(button);
+        anchors = Array.from(document.querySelectorAll<HTMLElement>(anchorSelector))
+          .sort((a, b) =>
+            Number(b.classList.contains('sculpture-wrap')) -
+            Number(a.classList.contains('sculpture-wrap')),
+          );
+        inventoryDirty = false;
+      }
       controls = buttons
         .flatMap((element) => {
           const port = element
@@ -121,20 +140,8 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
           return rank(b) - rank(a);
         })
         .slice(0, mobile ? 4 : 6);
-      const lock = controls.find((c) => c.element === focused) || controls[0];
-      buttons.forEach((element) => {
-        if (element === lock?.element && visible())
-          element.dataset.scanActive = 'true';
-        else element.removeAttribute('data-scan-active');
-      });
-      canvas!.dataset.targets = controls.map((c) => c.id).join(',');
-      const rects = [...anchors]
-        .sort(
-          (a, b) =>
-            Number(b.classList.contains('sculpture-wrap')) -
-            Number(a.classList.contains('sculpture-wrap')),
-        )
-        .map((element) => element.getBoundingClientRect());
+      // Finish all layout reads before changing any highlight attributes.
+      const rects = anchors.map((element) => element.getBoundingClientRect());
       const region = rects.find(
         (r) =>
           r.width && r.top > -r.height / 2 && r.bottom < height + r.height / 2,
@@ -142,6 +149,17 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       focusArea = region
         ? { x: region.left, y: region.top, w: region.width, h: region.height }
         : null;
+      const lock = controls.find((c) => c.element === focused) || controls[0];
+      buttons.forEach((element) => {
+        if (element === lock?.element && visible()) {
+          if (element.dataset.scanActive !== 'true')
+            element.dataset.scanActive = 'true';
+        } else if (element.hasAttribute('data-scan-active')) {
+          element.removeAttribute('data-scan-active');
+        }
+      });
+      const targetIds = controls.map((c) => c.id).join(',');
+      if (canvas!.dataset.targets !== targetIds) canvas!.dataset.targets = targetIds;
     }
     function destination(index: number): Box {
       const w = 8 + Math.random() * (mobile ? 14 : 22);
@@ -343,8 +361,12 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       frame = 0;
       if (disposed || !visible() || staticMode()) return;
       const progress = Math.min(1, (now - started) / TRANSITION_MS);
-      if (now - previousDraw >= (mobile ? 50 : 40) || progress === 1) {
-        previousDraw = now;
+      // Only animate during acquisition, at a phase-stable 60Hz budget.
+      if (now + 0.5 >= nextDraw || progress === 1) {
+        const interval = 1000 / 60;
+        nextDraw += interval;
+        if (nextDraw <= now)
+          nextDraw += (Math.floor((now - nextDraw) / interval) + 1) * interval;
         draw(progress);
       }
       if (progress < 1) frame = requestAnimationFrame(animate);
@@ -369,7 +391,7 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       });
       connect();
       started = performance.now();
-      previousDraw = 0;
+      nextDraw = started;
       canvas!.dataset.running = 'true';
       canvas!.dataset.cause = cause;
       frame = requestAnimationFrame(animate);
@@ -454,6 +476,27 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
         );
       });
     };
+    // Pointer, focus, and React selection can all fire in one interaction.
+    // Measure once before the next paint, outside the input/React commit path.
+    function queueInteraction(focus = false) {
+      if (!visible() || disposed) return;
+      pendingFocus ||= focus;
+      clearTimeout(hold);
+      hold = 0;
+      if (interactionFrame) return;
+      interactionFrame = requestAnimationFrame(() => {
+        interactionFrame = 0;
+        const restart = pendingFocus;
+        pendingFocus = false;
+        if (!visible() || disposed) return;
+        if (!staticMode() && (restart || performance.now() - started > 250 / SWITCH_SPEED)) {
+          burst(restart ? 'focus' : 'idle');
+        } else {
+          measure();
+          draw();
+        }
+      });
+    }
     const acquire = (event: Event) => {
       if (!visible() || !(event.target instanceof Element)) return;
       if (
@@ -470,16 +513,32 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
       )
         return;
       focused = control;
-      measure();
-      if (staticMode()) draw();
-      else burst('focus');
+      queueInteraction(true);
     };
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);
-    const contentObserver = new ResizeObserver(scrollChanged);
+    contentObserver = new ResizeObserver(scrollChanged);
     const main = canvas.closest('main');
     if (main) contentObserver.observe(main);
-    buttons.forEach((button) => contentObserver.observe(button));
+    const inventoryObserver = new MutationObserver((records) => {
+      const changed = records.some((record) =>
+        record.type === 'attributes' ||
+        [...record.addedNodes, ...record.removedNodes].some((node) =>
+          node instanceof Element &&
+          (node.matches(inventorySelector) || node.querySelector(inventorySelector)),
+        ),
+      );
+      if (changed) {
+        inventoryDirty = true;
+        scrollChanged();
+      }
+    });
+    inventoryObserver.observe(main ?? document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-scan', 'data-scan-port'],
+    });
     window.addEventListener('scroll', scrollChanged, { passive: true });
     window.addEventListener('pointerdown', acquire, { passive: true });
     window.addEventListener('pointerover', acquire, { passive: true });
@@ -488,25 +547,14 @@ export function NeuralLinks({ paused, reduced, signal }: Props) {
     preference.addEventListener('change', sync);
     connection?.addEventListener?.('change', sync);
     syncRef.current = sync;
-    signalRef.current = () => {
-      if (!visible()) return;
-      if (staticMode()) {
-        measure();
-        draw();
-        return;
-      }
-      if (performance.now() - started > 250 / SWITCH_SPEED) burst();
-      else {
-        measure();
-        draw();
-      }
-    };
+    signalRef.current = () => queueInteraction();
     resize();
     return () => {
       disposed = true;
       stop();
       observer.disconnect();
-      contentObserver.disconnect();
+      contentObserver?.disconnect();
+      inventoryObserver.disconnect();
       window.removeEventListener('scroll', scrollChanged);
       window.removeEventListener('pointerdown', acquire);
       window.removeEventListener('pointerover', acquire);

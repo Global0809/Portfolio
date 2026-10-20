@@ -9,7 +9,9 @@ export function useInterfaceSound(filmOpen: boolean, ambientPaused = false) {
   const [available, setAvailable] = useState(true);
   const context = useRef<AudioContext | null>(null);
   const settings = useRef({ enabled, filmOpen, ambientPaused });
-  settings.current = { enabled, filmOpen, ambientPaused };
+  useEffect(() => {
+    settings.current = { enabled, filmOpen, ambientPaused };
+  }, [enabled, filmOpen, ambientPaused]);
   const last = useRef(0);
   const voices = useRef(new Set<OscillatorNode>());
   const lastGesture = useRef(-20000);
@@ -141,11 +143,13 @@ export function useInterfaceSound(filmOpen: boolean, ambientPaused = false) {
     try {
       if (localStorage.getItem('aicanfeel-sound') === 'off') {
         settings.current.enabled = false;
+        // oxlint-disable-next-line react/react-compiler -- Read the browser preference after hydration to preserve the server markup.
         setEnabled(false);
       }
     } catch {
       /* storage optional */
     }
+    // oxlint-disable-next-line react/react-compiler -- Audio API support can only be determined after hydration.
     setAvailable(
       !!(
         window.AudioContext ||
@@ -153,6 +157,28 @@ export function useInterfaceSound(filmOpen: boolean, ambientPaused = false) {
           .webkitAudioContext
       ),
     );
+    // Opening the audio device can block the main thread on some phones.
+    // Prepare it silently during startup idle time, before the first arrow tap.
+    // Activation/resume still happens directly inside a trusted user gesture.
+    const prepareAudio = () => {
+      if (
+        context.current || document.hidden || !settings.current.enabled ||
+        settings.current.filmOpen
+      ) return;
+      const Constructor = window.AudioContext ||
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!Constructor) return;
+      try {
+        context.current = new Constructor();
+        void context.current.suspend().catch(() => {});
+      } catch {
+        // Gesture-time creation remains available if idle preparation fails.
+      }
+    };
+    const idle = typeof window.requestIdleCallback === 'function'
+      ? window.requestIdleCallback(prepareAudio, { timeout: 1000 })
+      : null;
+    const prepareTimer = idle === null ? window.setTimeout(prepareAudio, 150) : null;
     const click = (event: MouseEvent) => {
       if (
         !event.isTrusted ||
@@ -309,6 +335,8 @@ export function useInterfaceSound(filmOpen: boolean, ambientPaused = false) {
     document.addEventListener('click', click);
     document.addEventListener('visibilitychange', visibility);
     return () => {
+      if (idle !== null) window.cancelIdleCallback(idle);
+      if (prepareTimer !== null) clearTimeout(prepareTimer);
       document.removeEventListener('pointerdown', arm, true);
       document.removeEventListener('pointerup', arm, true);
       document.removeEventListener('keydown', arm, true);

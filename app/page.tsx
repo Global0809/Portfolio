@@ -2,7 +2,7 @@
 
 /* oxlint-disable next/no-img-element -- Source-matched posters are optimized WebP files with explicit dimensions. */
 
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -32,6 +32,15 @@ import { ScrollSignal } from './scroll-signal';
 import { Entrance } from './entrance';
 import { StudioSignatures } from './studio-signatures';
 import { FullMusicVideos } from './full-music-videos';
+
+// Hero selection changes only the fan and its scan signal. Keep the rest of
+// the experience out of that render path until its own props or state change.
+const MemoEntrance = memo(Entrance);
+const MemoScrollSignal = memo(ScrollSignal);
+const MemoShaderAnimation = memo(ShaderAnimation);
+const MemoStudioSignatures = memo(StudioSignatures);
+const MemoFullMusicVideos = memo(FullMusicVideos);
+const MemoStudioReservation = memo(StudioReservation);
 
 const time = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
@@ -85,10 +94,10 @@ export default function Home() {
   }
   return (
     <main id="top" className="archive" data-effects-paused={reduced}>
-      <Entrance />
-      <ScrollSignal paused={cinemaOpen || about} />
+      <MemoEntrance />
+      <MemoScrollSignal paused={cinemaOpen || about} />
       <div className="shader-background" aria-hidden="true">
-        <ShaderAnimation
+        <MemoShaderAnimation
           reducedMotion={reduced}
           paused={cinemaOpen || about}
         />
@@ -187,7 +196,7 @@ export default function Home() {
                 data-scan="previous"
                 data-scan-id="previous-film"
                 aria-label="Preview previous music video"
-                onClick={() => setActive((active + 4) % 5)}
+                onClick={() => setActive((index) => (index + films.length - 1) % films.length)}
               >
                 <ArrowLeft size={20} strokeWidth={1.6} />
               </button>
@@ -196,7 +205,7 @@ export default function Home() {
                 data-scan="next"
                 data-scan-id="next-film"
                 aria-label="Preview next music video"
-                onClick={() => setActive((active + 1) % 5)}
+                onClick={() => setActive((index) => (index + 1) % films.length)}
               >
                 <ArrowRight size={20} strokeWidth={1.6} />
               </button>
@@ -251,9 +260,9 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <StudioSignatures paused={cinemaOpen || about} />
-      <FullMusicVideos onViewingChange={setFullVideoViewing} />
-      <StudioReservation paused={cinemaOpen || about} reducedMotion={reduced} />
+      <MemoStudioSignatures paused={cinemaOpen || about} />
+      <MemoFullMusicVideos onViewingChange={setFullVideoViewing} />
+      <MemoStudioReservation paused={cinemaOpen || about} reducedMotion={reduced} />
       <footer className="studio-footer" id="instagram">
         <a
           className="instagram-signature"

@@ -94,13 +94,82 @@ export function ReservationOptics({
     let inView = false;
     let destroyGraphics: (() => void) | null = null;
     const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+    let lastScroll = performance.now();
+    let prepareTimer = 0;
+    let prepareIdle = 0;
+    let finishPreparation: ((ready: boolean) => void) | null = null;
+    const preparationCancelled = new Error('Reservation setup deferred');
+    const canPrepare = () =>
+      !disposed && inView && !document.hidden && !settingsRef.current.paused;
+
+    function cancelPreparation() {
+      clearTimeout(prepareTimer);
+      if (prepareIdle) window.cancelIdleCallback(prepareIdle);
+      prepareTimer = prepareIdle = 0;
+      finishPreparation?.(false);
+      finishPreparation = null;
+    }
+
+    // Leave the CSS ticket visible during scrolling. Each preparation stage
+    // gets a fresh idle slot; a new scroll delays the next stage automatically.
+    function preparationWindow() {
+      return new Promise<boolean>((resolve) => {
+        const finish = (ready: boolean) => {
+          finishPreparation = null;
+          resolve(ready);
+        };
+        finishPreparation = finish;
+        const attempt = () => {
+          prepareTimer = prepareIdle = 0;
+          if (!canPrepare()) {
+            finish(false);
+            return;
+          }
+          const quietRemaining = 180 - (performance.now() - lastScroll);
+          if (quietRemaining > 0) {
+            prepareTimer = window.setTimeout(scheduleIdle, quietRemaining);
+            return;
+          }
+          finish(true);
+        };
+        const scheduleIdle = () => {
+          prepareTimer = 0;
+          if (typeof window.requestIdleCallback === 'function') {
+            prepareIdle = window.requestIdleCallback(attempt, { timeout: 160 });
+          } else {
+            prepareTimer = window.setTimeout(attempt, 16);
+          }
+        };
+        scheduleIdle();
+      });
+    }
+
+    async function checkpoint() {
+      if (!canPrepare() || !(await preparationWindow()))
+        throw preparationCancelled;
+    }
+
+    function requestInitialize() {
+      if (canPrepare() && !initializing) void initialize();
+    }
+    syncRef.current = requestInitialize;
+    const onScroll = () => {
+      lastScroll = performance.now();
+    };
+    const onVisibility = () => {
+      if (document.hidden) cancelPreparation();
+      else requestInitialize();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('visibilitychange', onVisibility);
 
     async function initialize() {
       if (initializing || disposed) return;
       initializing = true;
       try {
+        await checkpoint();
         const THREE = await import('three');
-        if (disposed) return;
+        await checkpoint();
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
           antialias: true,
@@ -136,6 +205,7 @@ export function ReservationOptics({
           renderer.forceContextLoss();
           canvas.remove();
         };
+        await checkpoint();
         const common = {
           time: { value: 2.6 },
           light: { value: new THREE.Vector2(-0.2, 0.25) },
@@ -196,9 +266,11 @@ export function ReservationOptics({
         const shell = new THREE.Mesh(extrude(ticketShape(4.5, 4.1, 0.28, 0.10), 0.065, 0.025), silver);
         shell.position.z = -0.10;
         pass.add(shell);
+        await checkpoint();
         const smokedFace = new THREE.Mesh(extrude(ticketShape(4.43, 4.03, 0.25, 0.115), 0.007, 0.008), face);
         smokedFace.position.z = 0.025;
         pass.add(smokedFace);
+        await checkpoint();
 
         // The inner rim is a genuine beveled extrusion with an open center.
         const rimShape = ticketShape(4.5, 4.1, 0.28, 0.10);
@@ -208,6 +280,7 @@ export function ReservationOptics({
         const rim = new THREE.Mesh(extrude(rimShape, 0.010, 0.009), silver);
         rim.position.z = 0.045;
         pass.add(rim);
+        await checkpoint();
 
         // Reflective ribbons curve through depth, above and beneath the pass.
         function ribbon(points: number[][], width: number, material: Material) {
@@ -255,6 +328,7 @@ export function ReservationOptics({
           [-2.4, 0.95, -0.65], [-1.75, 2.03, -0.65], [-0.2, 2.41, -0.3],
           [1.8, 2.0, -0.1], [2.4, 0.8, 0.05],
         ], 0.012, gold);
+        await checkpoint();
 
         // Machined corner details are physical cuts, not a decorative HUD.
         const etchingMaterial = new THREE.MeshBasicMaterial({ color: 0x829496, transparent: true, opacity: 0.32 });
@@ -266,11 +340,16 @@ export function ReservationOptics({
           etching.position.set(1.49 + index * 0.046, -1.73, 0.082);
           pass.add(etching);
         }
+        await checkpoint();
+        // Shader readiness is awaited before revealing WebGL, avoiding a
+        // synchronous first-render compile while the visitor is scrolling.
+        await renderer.compileAsync(scene, camera);
+        await checkpoint();
 
         const pointerTarget = new THREE.Vector2(-0.2, 0.25);
-        const mobileQuery = matchMedia('(max-width: 767px)');
         let frame = 0;
         let lastDraw = 0;
+        let nextDraw = 0;
         let width = 0;
         let height = 0;
         let contextLost = false;
@@ -281,20 +360,26 @@ export function ReservationOptics({
           cancelAnimationFrame(frame);
           frame = 0;
           lastDraw = 0;
+          nextDraw = 0;
           container.dataset.running = 'false';
         };
         const render = () => {
           if (contextLost || disposed || !width || !height) return;
           renderer.render(scene, camera);
-          container.dataset.graphics = 'webgl';
+          if (container.dataset.graphics !== 'webgl')
+            container.dataset.graphics = 'webgl';
         };
         const animate = (timestamp: number) => {
           frame = 0;
           if (disposed || contextLost || !visible() || reduced()) return;
-          const elapsed = timestamp - lastDraw;
-          if (elapsed >= 1000 / (mobileQuery.matches ? 24 : 30)) {
-            const delta = lastDraw ? Math.min(elapsed / 1000, 0.08) : 0;
+          const interval = 1000 / 60;
+          if (!nextDraw) nextDraw = timestamp;
+          if (timestamp + 0.5 >= nextDraw) {
+            const delta = lastDraw ? Math.min((timestamp - lastDraw) / 1000, 0.05) : 0;
             lastDraw = timestamp;
+            nextDraw += interval;
+            if (nextDraw <= timestamp)
+              nextDraw += (Math.floor((timestamp - nextDraw) / interval) + 1) * interval;
             common.time.value += delta;
             common.light.value.lerp(pointerTarget, 1 - Math.exp(-delta * 4));
             upper.rotation.z = Math.sin(common.time.value * 0.19) * 0.012;
@@ -385,24 +470,35 @@ export function ReservationOptics({
           canvas.remove();
         };
         resize();
-      } catch {
+      } catch (error) {
         destroyGraphics?.();
         destroyGraphics = null;
-        container.dataset.graphics = 'fallback';
-        container.dataset.running = 'false';
+        if (!disposed) {
+          container.dataset.graphics = 'fallback';
+          container.dataset.running = 'false';
+          if (error === preparationCancelled) {
+            initializing = false;
+            syncRef.current = requestInitialize;
+            requestInitialize();
+          }
+        }
       }
     }
 
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
-      if (inView && !initializing) void initialize();
+      if (!inView) cancelPreparation();
       syncRef.current?.();
     }, { threshold: 0.02 });
     observer.observe(container);
     return () => {
       disposed = true;
+      cancelPreparation();
       observer.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('visibilitychange', onVisibility);
       destroyGraphics?.();
+      destroyGraphics = null;
       syncRef.current = null;
     };
   }, []);

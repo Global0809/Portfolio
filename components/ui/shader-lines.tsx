@@ -61,7 +61,6 @@ export function ShaderAnimation({
   const containerRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef({ paused, reducedMotion });
   const syncRef = useRef<(() => void) | null>(null);
-  settingsRef.current = { paused, reducedMotion };
 
   useEffect(() => {
     const container = containerRef.current;
@@ -117,6 +116,7 @@ export function ShaderAnimation({
       let impulse = 0;
       let frame = 0;
       let previousDraw = 0;
+      let nextDraw = 0;
       let width = 0;
       let height = 0;
       let left = 0;
@@ -132,16 +132,21 @@ export function ShaderAnimation({
       };
       const render = () => {
         renderer.render(scene, camera);
-        container.dataset.graphics = 'webgl';
+        if (container.dataset.graphics !== 'webgl')
+          container.dataset.graphics = 'webgl';
       };
       const animate = (timestamp: number) => {
         frame = 0;
         if (disposed || contextLost || !visible() || reduced()) return;
-        const elapsed = timestamp - previousDraw;
-        if (elapsed >= (width < 761 ? 1000 / 24 : 1000 / 30)) {
-          const delta = Math.min(elapsed / 1000, 0.1);
+        const interval = 1000 / 60;
+        // Keep the deadline phase, so slight RAF jitter does not drop a whole
+        // display frame. High-refresh displays still spend only a 60Hz budget.
+        if (timestamp + 0.5 >= nextDraw) {
+          const delta = Math.min((timestamp - previousDraw) / 1000, 0.05);
           previousDraw = timestamp;
-          // The supplied 0.05-per-frame increment at 60Hz equals 3 per second.
+          nextDraw += interval;
+          if (nextDraw <= timestamp)
+            nextDraw += (Math.floor((timestamp - nextDraw) / interval) + 1) * interval;
           uniforms.time.value += delta * 3;
           uniforms.pointer.value.lerp(target, 1 - Math.exp(-delta * 4));
           uniforms.interaction.value +=
@@ -162,6 +167,7 @@ export function ShaderAnimation({
         render();
         if (!reduced()) {
           previousDraw = performance.now();
+          nextDraw = previousDraw + 1000 / 60;
           frame = requestAnimationFrame(animate);
           container.dataset.running = 'true';
         }
@@ -181,7 +187,7 @@ export function ShaderAnimation({
           Math.min(
             devicePixelRatio,
             width < 761 ? 1 : 1.25,
-            Math.sqrt(1_100_000 / (width * height)),
+            Math.sqrt((width < 761 ? 320_000 : 450_000) / (width * height)),
           ),
         );
         renderer.setSize(width, height, false);
@@ -265,6 +271,7 @@ export function ShaderAnimation({
   }, []);
 
   useEffect(() => {
+    settingsRef.current = { paused, reducedMotion };
     syncRef.current?.();
   }, [paused, reducedMotion]);
 
