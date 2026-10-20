@@ -1,3 +1,14 @@
+# Smooth interface motion — 21 October 2026
+
+Live: **https://aicanfeelweb.com/?v=smooth-182faa3**. Source commit `182faa3`; Pages commit `2abfd03f30ba953f268f04c67e8881329e8b4314`; deployment run `39516973033`: successful. Public desktop and 390px browser checks confirmed the new `page-B7FdoO-m.js` bundle, working next/previous selection, approximately 60 fps hero/background rendering, median 16.7 ms / p95 16.8 ms frame intervals, no intervals over 34 ms, no Long Tasks during the measured interactions, and no page errors.
+
+- Removed the hero's 20/30 fps caps and hidden transmission pass, reduced background pixel cost, and kept the reflective fan appearance. Visible effects use phase-preserving 60 Hz scheduling; hidden and reduced-motion states stop recurring work.
+- Prepared the silent audio context outside the first input handler, memoized unrelated page sections, and coalesced neural measurements outside React's input commit. A 4× CPU / DPR 3 mobile stress test reached 59.4 fps for the hero with no Long Tasks. These are emulated-browser measurements, not guarantees for every physical device.
+- Deferred reservation WebGL setup until scrolling settles, split geometry preparation across idle opportunities, and compiled shaders asynchronously. The final scroll sample had no Long Tasks; the reservation and shader each measured approximately 60 Hz when visible.
+- Desktop/mobile production checks passed for rapid arrows, keyboard, swipes, film playback, mute, reduced motion, modal/offscreen pause, and no-WebGL fallback. No pre-selection MP4 requests or horizontal overflow. TypeScript, focused lint, independent lifecycle review, and Node 22 build pass. Existing Three.js precision/chunk-size and hosted Pages runtime warnings remain. Full measurement notes: `docs/PERFORMANCE.md`.
+
+---
+
 # Portrait portfolio refresh — 20 October 2026
 
 Live: **https://aicanfeelweb.com/?v=portrait-a1f7d19**. Pages commit `e712f91e258a3d1be0535fbcc64a1a96324e0e8b`, deployment run `39471466778`: successful. Public 390px browser verification confirms both new videos actually play from the custom domain, AICANFEEL 2.0 is initially selected and first in the list, removed titles are absent, and all four full-video entries remain. No video requests before selection, horizontal overflow, or page errors.
