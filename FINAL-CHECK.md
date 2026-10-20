@@ -1,3 +1,15 @@
+# Portrait portfolio refresh — 20 October 2026
+
+Live: **https://aicanfeelweb.com/?v=portrait-a1f7d19**. Pages commit `e712f91e258a3d1be0535fbcc64a1a96324e0e8b`, deployment run `39471466778`: successful. Public 390px browser verification confirms both new videos actually play from the custom domain, AICANFEEL 2.0 is initially selected and first in the list, removed titles are absent, and all four full-video entries remain. No video requests before selection, horizontal overflow, or page errors.
+
+- Replaced Seeing red with AICANFEEL 2.0, first in both the portfolio list and initial hero selection. Replaced After hours with Website Ad 6, displayed as Brand vision. Used the two supplied scene-matched promotional covers; originals are untouched. The four full music videos remain unchanged.
+- New web copies are H.264 720×1280/30fps with faststart. AICANFEEL 2.0 is 14.56 MB (76.5% smaller); Website Ad 6 is 16.40 MB (93.3% smaller). Original AAC stereo audio is copied bit for bit, verified with matching hashes. Both complete streams decode successfully. See `docs/PORTRAIT-MEDIA.md` for the mapping.
+- Removed the player card's internal padding and corrected picture height to its actual inner 9:16 width. Covers fill the glass frame, picture/caption seams meet without a gap, and video remains contained without cropping. Short landscape uses the same 46px caption height for active and neighboring cards.
+- Production browser checks at 1440×1000, 390×844, 320×568, and 844×390 confirm the new order, flush frames, and no horizontal overflow. All five portrait videos play with audio available. Pause/play, mute/unmute, keyboard seeking, replay, next-video switching, and Escape cleanup/focus return work. New waveforms return real, nonzero samples. No MP4 requests before selection, media failures, or page errors. Checks use emulated browser viewports.
+- TypeScript, targeted lint, independent source review, and Node 22 static build pass. The single design scan returned existing palette/type advisories and the unchanged spring-button easing warning; that interaction remains within the user's requested motion design. The existing Three.js chunk-size/precision warnings remain.
+
+---
+
 # Instagram footer — 28 September 2026
 
 Live: **https://aicanfeelweb.com/#instagram**. Pages commit `7ce31230916cf1d031c0f8617350dd7fba94710b`, deployment run `36387567615`: successful. Public mobile verification confirms the handle, blue badge, studio-supplied 260,000+ follower count, and working profile link. Clicking opens `https://www.instagram.com/aicanfeel/` in a new tab. No page errors or horizontal overflow.
